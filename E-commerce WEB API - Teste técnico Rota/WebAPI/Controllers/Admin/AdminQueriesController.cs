@@ -44,7 +44,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
         }
 
         [HttpGet("products/price/{value}")]
-        public IActionResult GetProductsByValue(decimal value)//produtos de 0 até value
+        public IActionResult GetProductsByPrice(decimal price)//produtos de 0 até value
         {
             return Ok();
         }
@@ -67,7 +67,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
         }
 
         [HttpGet("transactions/sales/{productId}")]
-        public IActionResult GetSales(int productId)
+        public IActionResult GetSalesById(int productId)
         {
             return Ok();
         }

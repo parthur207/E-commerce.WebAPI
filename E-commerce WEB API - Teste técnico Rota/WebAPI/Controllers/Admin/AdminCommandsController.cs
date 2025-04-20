@@ -10,13 +10,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
     {
     
         [HttpPut("user/status")]
-        public IActionResult UpdateUserStatus()
-        {
-            return Ok();
-        }
-
-        [HttpDelete("user")]
-        public IActionResult DeleteUser()
+        public IActionResult PutUserStatus()
         {
             return Ok();
         }
@@ -28,13 +22,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
         }
 
         [HttpPut("product/{idproduct}/{status}")]
-        public IActionResult UpdateProductStatus(int idproduct, string status)
+        public IActionResult PutProductStatus(int idproduct, string status)
         {
             return Ok();
         }
 
         [HttpPut("product/Change")]
-        public IActionResult UpdateProduct(UpdateProductModel model)//Valor, nome, quantidade no estoque
+        public IActionResult PutProduct(UpdateProductModel model)//Valor, nome, quantidade no estoque
         {
             return Ok();
         }
