@@ -29,7 +29,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();

@@ -1,17 +1,20 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
+using System;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 {
     public class ProductEntity : BaseEntity
     {
-        public ProductEntity(string productName, string description, decimal price, int quantity, string category)
+        public ProductEntity(string productName, string description, decimal price, int quantity, string category, string? imageUrl)
         {
             ProductName = productName;
             Description = description;
             Price = price;
             Quantity = quantity;
             Category = category;
+            ImageUrl = imageUrl;
             ProductStatus = ProductStatusEnum.Active;
+            
         }
 
         public string ProductName { get; set; }
@@ -19,8 +22,17 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string Category { get; set; }
+        public string? ImageUrl { get; set; } 
         public ProductStatusEnum ProductStatus { get; set; }
+       
 
+        public void SetImageUrl(string imageUrl)
+        {
+            if (imageUrl.Count()>0)
+            {
+                ImageUrl = imageUrl.Trim();
+            }
+        }
 
         public void SetProductStatusInactive()
         {
