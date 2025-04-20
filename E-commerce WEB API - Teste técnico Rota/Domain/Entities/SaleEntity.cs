@@ -1,4 +1,5 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 {
@@ -13,6 +14,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             SaleDate = DateTime.Now;
             Quantity = quantity;
             TotalValue = totalValue;
+            SaleStatus = SaleStatusEnum.Pending;
         }
 
         public int ProductId { get; set; }
@@ -22,8 +24,35 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public DateTime SaleDate { get; private set; }
         public int Quantity { get; set; }
         public decimal TotalValue { get; private set; }
+        public SaleStatusEnum SaleStatus { get; set; }
 
+   
+        public void SetSaleStatusToPaid()//Para torna-lo usual, é de necessidade o implemento de um serviço externo que reconheceria o valor e faria o apontamento para esse método
+        {
+            if(SaleStatus== SaleStatusEnum.Paid || SaleStatus== SaleStatusEnum.InProcessing)
+            {
+                SaleStatus = SaleStatusEnum.Paid;
+            }
+        }
 
- 
+        public void SetSaleStatusToInProcessing()//Em teória, chamaria esse método cair o pagamento e de forma manual, pelo admin/vendedor após o envio do produto...
+        {
+            if (SaleStatus == SaleStatusEnum.Pending || SaleStatus == SaleStatusEnum.Paid)
+            {
+                SaleStatus = SaleStatusEnum.InProcessing;
+            }
+
+            //Método para debitar {quantity} do estoque do produto específico
+        }
+
+        public void SetSaleStatusToCanceled()//Caso o cliente solicite o cancelamento
+        {
+            if (SaleStatus == SaleStatusEnum.Pending || SaleStatus == SaleStatusEnum.Paid || SaleStatus == SaleStatusEnum.InProcessing)
+            {
+                SaleStatus = SaleStatusEnum.Canceled;
+            }
+
+            //Método para incrementar {quantity} ao estoque do produto específico
+        }
     }
 }
