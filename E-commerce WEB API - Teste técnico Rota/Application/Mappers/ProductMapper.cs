@@ -16,14 +16,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
                 product.ProductName,
                 product.Description,
                 product.Price,
-                null,
                 product.Category
             );
         }
 
-        public ProductDTO ToProductDTOWithQuantity(ProductEntity product)//Outro pra exibir ao Admin
+        public ProductAdminDTO ToProductAdminDTO(ProductEntity product)//Outro pra exibir ao Admin
         {
-            return new ProductDTO
+            return new ProductAdminDTO
             (
                 product.ProductName,
                 product.Description,
@@ -35,7 +34,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
 
         public ProductEntity FromProductModel(ProductModel productModel)//Criação de um produto
         {
-            return new ProductEntity(productModel.ProductName, productModel.Description, productModel.Price, productModel.Quantity, productModel.Category);
+            return new ProductEntity(productModel.ProductName, 
+                productModel.Description, 
+                productModel.Price, 
+                productModel.Quantity, 
+                productModel.Category);
         }
     }
 }
