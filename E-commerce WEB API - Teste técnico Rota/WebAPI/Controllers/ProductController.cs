@@ -10,7 +10,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
     {
 
         private readonly IProductInterface _productService;
-         
+
         public ProductController(IProductInterface productService)
         {
             _productService = productService;
@@ -44,7 +44,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             return Ok("Produto específico");
         }
 
-        [HttpGet]
+        [HttpGet("{Category}")]
         public IActionResult GetProductsByCategory(string Category)
         {
 

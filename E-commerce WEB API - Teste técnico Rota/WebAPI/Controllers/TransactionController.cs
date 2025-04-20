@@ -6,9 +6,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
     [Route("api/sale")]
     public class TransactionController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+     
     }
 }
