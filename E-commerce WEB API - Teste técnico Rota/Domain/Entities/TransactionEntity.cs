@@ -18,11 +18,12 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public decimal TotalValue { get; private set; }
         public DateTime TransactionDate { get; private set; }
         public TransactionStatusEnum TransactionStatus { get; private set; }
-        public List<TransactionProductEntity> Products { get; private set; }
+        public List<TransactionProductEntity> ShoppingList { get; private set; }
+
 
         public void CalculateTotalValue()
         {
-            TotalValue = Products.Sum(p => p.Quantity * p.Product.Price);
+            TotalValue = ShoppingList.Sum(x => x.Quantity * x.Product.Price);
         }
 
         public void SetTransactionStatusToPaid()//Para torna-lo usual, é de necessidade o implemento de um serviço externo que reconheceria o valor e faria o apontamento para esse método

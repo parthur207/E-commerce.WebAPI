@@ -39,7 +39,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
                 productModel.Description, 
                 productModel.Price, 
                 productModel.Quantity, 
-                productModel.Category);
+                productModel.Category,
+                productModel.ImageUrl);
         }
     }
 }
