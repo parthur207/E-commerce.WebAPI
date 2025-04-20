@@ -27,10 +27,7 @@
     <Folder Include="Application\DTOs\" />
     <Folder Include="Application\Interfaces\" />
     <Folder Include="Application\Services\" />
-    <Folder Include="Domain\Models\" />
     <Folder Include="Domain\Enuns\" />
-    <Folder Include="Domain\Entities\" />
-    <Folder Include="Infrastructure\AuthenticationService\" />
     <Folder Include="WebAPI\ExceptionHandler\" />
   </ItemGroup>
 
