@@ -8,6 +8,5 @@
         Shoes = 4,//sapato Ok (2)
         Short = 5,//bermuda Ok (3)
         TankTop = 6,//regata Ok (1)
-
     }
 }
