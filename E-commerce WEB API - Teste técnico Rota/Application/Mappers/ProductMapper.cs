@@ -1,4 +1,5 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
@@ -20,9 +21,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
             );
         }
 
-        public ProductAdminDTO ToProductAdminDTO(ProductEntity product)//Outro pra exibir ao Admin
+        public AdminProductDTO ToProductAdminDTO(ProductEntity product)//Outro pra exibir ao Admin
         {
-            return new ProductAdminDTO
+            return new AdminProductDTO
             (
                 product.ProductName,
                 product.Description,

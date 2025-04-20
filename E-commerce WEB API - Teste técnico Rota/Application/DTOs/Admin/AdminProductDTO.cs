@@ -1,8 +1,8 @@
-﻿namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs
+﻿namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin
 {
-    public class ProductAdminDTO
+    public class AdminProductDTO
     {
-        public ProductAdminDTO(string productName, string description, decimal price, int quantity, string category)
+        public AdminProductDTO(string productName, string description, decimal price, int quantity, string category)
         {
             ProductName = productName;
             Description = description;
