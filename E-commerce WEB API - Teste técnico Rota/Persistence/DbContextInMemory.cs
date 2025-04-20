@@ -4,10 +4,12 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
 {
     public class DbContextInMemory : DbContext
     {
-        //dbsets
+        public DbContextInMemory(DbContextOptions<DbContextInMemory> options) : base(options)
+        {
+        }
 
-        //OnConfiguring
-
-        //OnModelCreating
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+        }
     }
 }

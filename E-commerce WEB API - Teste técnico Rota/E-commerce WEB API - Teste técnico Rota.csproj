@@ -24,8 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\DTOs\" />
-    <Folder Include="Domain\Models\ViewModel\" />
+    <Folder Include="Application\DTOs\Mappers\" />
     <Folder Include="WebAPI\ExceptionHandler\" />
   </ItemGroup>
 
