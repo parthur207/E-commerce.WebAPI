@@ -1,0 +1,6 @@
+@E_commerce_WEB_API___Teste_técnico_Rota_HostAddress = http://localhost:5068
+
+GET {{E_commerce_WEB_API___Teste_técnico_Rota_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
