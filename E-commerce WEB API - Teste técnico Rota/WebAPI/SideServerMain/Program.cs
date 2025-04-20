@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System;
 
-namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI
+namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.SideServerMain
 {
     public class Program
     {

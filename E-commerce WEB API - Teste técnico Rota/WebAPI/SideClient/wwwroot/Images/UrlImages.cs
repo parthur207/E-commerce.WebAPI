@@ -1,6 +1,6 @@
 ﻿using static System.Net.WebRequestMethods;
 
-namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.ImagesExemple
+namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.SideClient.wwwroot.Images
 {
     public class UrlsImages
     {
