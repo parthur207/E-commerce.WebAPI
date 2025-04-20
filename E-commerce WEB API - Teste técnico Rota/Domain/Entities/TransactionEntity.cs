@@ -18,14 +18,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             TransactionStatus = TransactionStatusEnum.Pending;
         }
 
-        public int ProductId { get; set; }
+        public int ProductId { get; private set; }
         public ProductEntity Product { get; private set; }
         public int UserId { get; private set; }
         public UserEntity User { get; private set; }
         public DateTime TransactionDate { get; private set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; private set; }
         public decimal TotalValue { get; private set; }
-        public TransactionStatusEnum TransactionStatus { get; set; }
+        public TransactionStatusEnum TransactionStatus { get; private set; }
 
    
         public void SetPurchaseStatusToPaid()//Para torna-lo usual, é de necessidade o implemento de um serviço externo que reconheceria o valor e faria o apontamento para esse método

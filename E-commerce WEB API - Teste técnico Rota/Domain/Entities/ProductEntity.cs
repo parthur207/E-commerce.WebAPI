@@ -16,14 +16,19 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             ProductStatus = ProductStatusEnum.Active;
         }
 
-        public string ProductName { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public int Quantity { get; set; } 
-        public ProductCategoryEnum Category { get; set; }
-        public string? ImageUrl { get; set; } 
-        public ProductStatusEnum ProductStatus { get; set; }
+        public string ProductName { get; private set; }
+        public string Description { get; private set; }
+        public decimal Price { get; private set; }
+        public int Quantity { get; private set; } 
+        public ProductCategoryEnum Category { get; private set; }
+        public string? ImageUrl { get; private set; } 
+        public ProductStatusEnum ProductStatus { get; private set; }
        
+
+        public void SetProductCategory(ProductCategoryEnum category)
+        {
+            this.Category = category;
+        }
 
         public void SetImageUrl(string imageUrl)
         {
