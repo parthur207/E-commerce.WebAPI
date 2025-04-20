@@ -1,4 +1,6 @@
-﻿namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
+
+namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models
 {
     public class SaleModel
     {
@@ -6,7 +8,7 @@
         public int UserId { get; set; }
         public DateTime SaleDate { get; set; }
         public decimal TotalValue { get; set; }
-        public string Status { get; set; } = string.Empty;
+        public SaleStatusEnum Status { get; set; }
 
         /*public string PaymentMethod { get; set; } = string.Empty;
         public string DeliveryAddress { get; set; } = string.Empty;
