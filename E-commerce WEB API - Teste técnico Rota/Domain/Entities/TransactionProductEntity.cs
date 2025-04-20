@@ -16,6 +16,5 @@
 
         public int Quantity { get; private set; }
 
-       
     }
 }

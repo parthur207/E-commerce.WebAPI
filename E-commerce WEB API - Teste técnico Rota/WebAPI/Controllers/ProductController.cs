@@ -1,5 +1,6 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.Services;
+using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
@@ -16,13 +17,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             _productService = productService;
         }
 
-        [HttpPost]
-        public IActionResult PostProduct()
-        {
-            return Created();
-        }
-
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAllProducts()
         {
             //chama o service de get que retorna com a lista de todos os produtos
@@ -44,12 +39,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             return Ok("Produto específico");
         }
 
-        [HttpGet("{Category}")]
-        public IActionResult GetProductsByCategory(string Category)
+        [HttpGet("{category}")]
+        public IActionResult GetProductsByCategory(string category)
         {
 
             return Ok();
         }
+
+        
 
 
 

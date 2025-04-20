@@ -20,10 +20,19 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public string Description { get; private set; }
         public decimal Price { get; private set; }
         public int Quantity { get; private set; } 
+        public int Sales { get; private set; }
         public ProductCategoryEnum Category { get; private set; }
-        public string? ImageUrl { get; private set; } 
+
+        public string? ImageUrl { get; private set; }
         public ProductStatusEnum ProductStatus { get; private set; }
        
+        public void SetSalesProduct(int n)
+        {
+            if (n > 0)
+            {
+                Sales += n;
+            }
+        }
         public void SetStockProduct(int quantity)
         {
             Quantity += quantity;

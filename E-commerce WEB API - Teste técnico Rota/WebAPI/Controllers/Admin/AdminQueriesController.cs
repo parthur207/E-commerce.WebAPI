@@ -49,7 +49,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
             return Ok();
         }
         [HttpGet("products/NoStock")]
-        public IActionResult GetProductsByStock()
+        public IActionResult GetProductsNoStock()
         {
             return Ok();
         }
@@ -59,6 +59,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
         {
             return Ok();
         }
+
+        [HttpGet("transactions/")]
 
 
         /*
