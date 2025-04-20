@@ -1,6 +1,19 @@
 ﻿namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
+        public BaseEntity()
+        {
+            CreatedAt = DateTime.Now;
+            IsDeleted = false;
+        }
+        public int Id { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+        public bool IsDeleted { get; private set; }
+
+        public void SetAsDeleted()
+        {
+            IsDeleted = true;
+        }
     }
 }
