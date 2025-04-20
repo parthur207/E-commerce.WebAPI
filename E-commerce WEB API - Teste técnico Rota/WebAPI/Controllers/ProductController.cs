@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
 {
@@ -7,18 +9,18 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
     public class ProductController : ControllerBase
     {
 
-        //injeção de dependência do service:
-        /*private readonly _productService;
+        private readonly IProductInterface _productService;
          
-        public ProductController(ProductService productService)
+        public ProductController(IProductInterface productService)
         {
             _productService = productService;
         }
-         */
-
 
         [HttpPost]
-        public IActionResult Post
+        public IActionResult PostProduct()
+        {
+            return Created();
+        }
 
         [HttpGet]
         public IActionResult GetAllProducts()

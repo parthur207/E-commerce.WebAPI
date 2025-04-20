@@ -1,3 +1,6 @@
+using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI
 {
     public class Program
@@ -14,6 +17,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            //uTilização de um banco de dados em memoria para simular o gerenciamento de dados
+            builder.Services.AddDbContext<DbContextInMemory>(options =>
+    options.UseInMemoryDatabase("DevFreelaInMemory"));
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
