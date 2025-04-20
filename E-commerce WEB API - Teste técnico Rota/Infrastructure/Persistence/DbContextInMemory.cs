@@ -12,7 +12,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
         public DbSet<ProductEntity> Product { get; set; }
         public DbSet<UserEntity> User { get; set; }
         public DbSet<TransactionEntity> Transaction { get; set; }
-
+        public DbSet<TransactionProductEntity> TransactionProduct { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,10 +42,17 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
             modelBuilder.Entity<TransactionProductEntity>(x =>
             {
                 x.HasKey(x => x.Id);
+                x.HasOne(x => x.Product)
+                .WithMany(x => x.TransactionProduct)
+                    .HasForeignKey(x => x.ProductId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+
+
                 x.HasOne(x => x.Transaction)
-                  .WithMany(x => x.Products)
-                  .HasForeignKey(x => x.TransactionId)
-                  .OnDelete(DeleteBehavior.Restrict);
+                    .WithMany(x => x.ShoppingList)
+                    .HasForeignKey(x => x.ProductId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

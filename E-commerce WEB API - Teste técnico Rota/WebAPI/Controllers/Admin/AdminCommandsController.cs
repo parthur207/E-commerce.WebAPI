@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 using static System.Net.WebRequestMethods;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
@@ -32,12 +33,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
             return Ok();
         }
 
-
-
-        /*HTTP PUT: Modificar atributo do produto (Valor, nome, quantidade no estoque).
-
-        HTTP DELETE: Deletar produto
-
-       */
+        [HttpPut("product/Change")]
+        public IActionResult UpdateProduct(UpdateProductModel model)//Valor, nome, quantidade no estoque
+        {
+            return Ok();
+        }
     }
 }

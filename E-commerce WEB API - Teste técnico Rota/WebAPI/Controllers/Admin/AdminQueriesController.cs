@@ -60,13 +60,28 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
             return Ok();
         }
 
-        [HttpGet("transactions/")]
+        [HttpGet("transactions/sales")]
+        public IActionResult GetSales()
+        {
+            return Ok();
+        }
 
+        [HttpGet("transactions/sales/{productId}")]
+        public IActionResult GetSales(int productId)
+        {
+            return Ok();
+        }
 
-        /*
-        HTTP GET: Vendas totais (Número de vendas e o rendimento pelas vendas).
-        HTTP GET{id}: Venda de determinado produto (Número de vendas e o rendimento pelas vendas).
-        HTTP GET{periodo}: Vendas filtradas por periodos
-        HTTP GET: Produto com maior venda*/
+        [HttpGet("transactions/sales/period")]
+        public IActionResult GetSalesByPeriod(DateOnly from, DateOnly to)
+        {
+            return Ok();
+        }
+
+        [HttpGet("product/biggestSale")]
+        public IActionResult GetBiggestSale()
+        {
+            return Ok();
+        }
     }
 }

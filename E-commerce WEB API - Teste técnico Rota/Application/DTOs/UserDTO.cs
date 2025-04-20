@@ -22,6 +22,5 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs
         public bool IsDeleted { get; private set; }
         public string? Phone { get; private set; }
         public UserStatusEnum Status { get; private set; }
-
     }
 }

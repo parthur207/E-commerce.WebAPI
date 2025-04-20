@@ -22,14 +22,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
         }
 
         [HttpPut("changePassword/{id}")]
-        public IActionResult PutChangePassword(int id, UserUpdatePasswordModel model)//Pensar como estruturar esse 'put', tendo os 3 parametros email/senhaAtual e senhaNova, ou um model so pra update da senha
+        public IActionResult PutChangePassword(int id, UpdateUserPasswordModel model)//Pensar como estruturar esse 'put', tendo os 3 parametros email/senhaAtual e senhaNova, ou um model so pra update da senha
         {
             return Ok();
         }
 
 
         [HttpPut("changeData")]
-        public IActionResult PutChangeData(UserUpdateDataModel model)
+        public IActionResult PutChangeData(UpdateUserDataModel model)
         {
             return Ok();
         }

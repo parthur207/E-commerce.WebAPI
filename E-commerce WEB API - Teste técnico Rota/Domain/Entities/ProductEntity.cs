@@ -22,7 +22,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public int Quantity { get; private set; } 
         public int Sales { get; private set; }
         public ProductCategoryEnum Category { get; private set; }
-
         public string? ImageUrl { get; private set; }
         public ProductStatusEnum ProductStatus { get; private set; }
        
