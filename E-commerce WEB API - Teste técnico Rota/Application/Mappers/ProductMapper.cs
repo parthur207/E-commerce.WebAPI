@@ -33,7 +33,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
             );
         }
 
-        public ProductEntity FromProductModel(ProductModel productModel)//Criação de um NOVO produto
+        public ProductEntity FromProductModel(CreateProductModel productModel)//Criação de um NOVO produto
         {
             return new ProductEntity(productModel.ProductName, 
                 productModel.Description, 

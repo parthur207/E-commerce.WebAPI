@@ -3,7 +3,7 @@ using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models
 {
-    public class TransactionModel
+    public class CreateTransactionModel
     {
         public int UserId { get; set; }
         public List<TransactionProductEntity> ShoppingList { get; set; }

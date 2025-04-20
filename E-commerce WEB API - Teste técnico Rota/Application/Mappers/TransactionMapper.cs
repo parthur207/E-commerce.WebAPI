@@ -10,7 +10,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
 
         //Model => entity
 
-        public void TransactionEntity (TransactionModel model)
+        public void TransactionEntity (CreateTransactionModel model)
         {
             return new TransactionEntity
             {

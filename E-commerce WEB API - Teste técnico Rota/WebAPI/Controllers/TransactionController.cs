@@ -8,7 +8,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
     public class TransactionController : Controller
     {
         [HttpPost("newTransaction")]
-        public IActionResult PostTransaction(TransactionModel model)
+        public IActionResult PostTransaction(CreateTransactionModel model)
         {
 
             return Created();
