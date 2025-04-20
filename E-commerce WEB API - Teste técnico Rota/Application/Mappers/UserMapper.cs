@@ -1,6 +1,8 @@
-﻿namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+
+namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
 {
-    public class UserMapper
+    public class UserMapper : IAdminUserInterface
     {
     }
 }
