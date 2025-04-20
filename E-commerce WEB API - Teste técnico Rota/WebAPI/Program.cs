@@ -1,5 +1,4 @@
-
-namespace E_commerce_WEB_API___Teste_técnico_Rota
+namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI
 {
     public class Program
     {
