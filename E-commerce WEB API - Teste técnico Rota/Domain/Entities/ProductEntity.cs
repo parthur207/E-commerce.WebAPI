@@ -24,7 +24,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public string? ImageUrl { get; private set; } 
         public ProductStatusEnum ProductStatus { get; private set; }
        
-
+        public void SetStockProduct(int quantity)
+        {
+            Quantity += quantity;
+        }
         public void SetProductCategory(ProductCategoryEnum category)
         {
             this.Category = category;

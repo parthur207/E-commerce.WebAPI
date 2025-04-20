@@ -11,8 +11,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             Email = email;
             Password = password;
             Phone = phone;
-            Status = status;
             Status = UserStatusEnum.Active;
+            Transactions=new List<TransactionEntity>();
         }
 
         public string Name { get; private set; }
@@ -21,7 +21,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public string Password { get; private set; }
         public string? Phone { get; private set; }
         public UserStatusEnum Status { get; private set; }
-
+        public List<TransactionEntity> Transactions { get; private set; } // Lista de transações do usuário
 
         public void SetUserStatusÌnative()
         {

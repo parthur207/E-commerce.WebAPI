@@ -16,6 +16,37 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<ProductEntity>(x =>
+            {
+                x.HasKey(x => x.Id);
+            });
+
+            modelBuilder.Entity<UserEntity>(x =>
+            {
+                x.HasKey(x => x.Id);
+                x.HasMany(x=>x.Transactions)
+                .WithOne(x => x.User)
+                    .HasForeignKey(x => x.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+            modelBuilder.Entity<TransactionEntity>(x =>
+            {
+                x.HasKey(x => x.Id);
+                x.HasOne(x => x.User)
+                  .WithMany(t => t.Transactions)
+                .HasForeignKey(x => x.UserId)
+                  .OnDelete(DeleteBehavior.Restrict);    
+            });
+
+            modelBuilder.Entity<TransactionProductEntity>(x =>
+            {
+                x.HasKey(x => x.Id);
+                x.HasOne(x => x.Transaction)
+                  .WithMany(x => x.Products)
+                  .HasForeignKey(x => x.TransactionId)
+                  .OnDelete(DeleteBehavior.Restrict);
+            });
         }
     }
 }
