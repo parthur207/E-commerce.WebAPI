@@ -18,9 +18,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "E-Commerce API", Version = "v1" });
             });
 
-            // iMPLEMento do banco em memoria para realizar testes
+            //iMPLEMento do banco em memoria para realizar testes
             builder.Services.AddDbContext<DbContextInMemory>(options =>
                 options.UseInMemoryDatabase("DbContextInMemory"));
+
+
+            //Banco de dados SQL
+            //builder.Services.AddDbContext<DbContextInMemory>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
