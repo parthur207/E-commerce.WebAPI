@@ -1,6 +1,6 @@
 ﻿namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns
 {
-    public enum SaleStatusEnum
+    public enum TransactionStatusEnum
     {
         Pending = 1,
         Paid = 2,

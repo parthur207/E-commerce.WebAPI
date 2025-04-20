@@ -6,6 +6,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
     [Route("api/admin")]
     public class AdminController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
