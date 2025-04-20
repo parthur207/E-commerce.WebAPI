@@ -2,7 +2,7 @@
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.ImagesExemple
 {
-    public class UrlImages
+    public class UrlsImages
     {
         public List<string> PathImages { get; set; } = new List<string> {
 
