@@ -24,8 +24,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             return Ok("Lista de produtos");
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetProductById(int id)
+        [HttpGet("search")]
+        public IActionResult GetProductById(string search)
         {
             //chama o service de get que retorna com o produto específico
 
@@ -46,7 +46,20 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             return Ok();
         }
 
-        
+
+        [HttpGet("price")]
+        public IActionResult GetProductsByPrice(decimal price)//Pegar todos os produtos de 0 a {price}
+        {
+          //chama o service
+            /*if(productentity is null)
+             {
+                return NotFound("Produto não encontrado");
+             }
+             */
+            //chamar o mappeamento do produto para model e retorna-lo
+            return Ok("Produto específico");
+        }
+
 
 
 

@@ -8,7 +8,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
     public class UserController : Controller
     {
         [HttpPost("register")]
-        public IActionResult PostRegister(UserModel model)
+        public IActionResult PostRegister(CreateUserModel model)
         {
             //chama o service de login que retorna com o usuário específico
             //chamar o mappeamento do produto para model e retorna-lo
