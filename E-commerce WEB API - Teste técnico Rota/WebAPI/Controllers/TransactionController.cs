@@ -5,7 +5,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/transaction")]
-    public class TransactionController : Controller
+    public class TransactionController : ControllerBase
     {
         [HttpPost("newTransaction")]
         public IActionResult PostTransaction(CreateTransactionModel model)

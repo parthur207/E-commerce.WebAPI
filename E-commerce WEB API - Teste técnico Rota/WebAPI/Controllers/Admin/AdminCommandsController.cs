@@ -6,7 +6,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 {
     [ApiController]
     [Route("api/admin")]
-    public class AdminCommandsController : Controller
+    public class AdminCommandsController : ControllerBase
     {
     
         [HttpPut("user/status")]

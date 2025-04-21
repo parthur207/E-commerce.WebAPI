@@ -7,12 +7,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 {
     public class TransactionEntity : BaseEntity
     {
-        public TransactionEntity(int userId)
+        public TransactionEntity(int userId, List<TransactionProductEntity> shoppingList, decimal totalValue)
         {
             UserId = userId;
+            TotalValue = totalValue;
             TransactionDate = DateTime.Now;
             TransactionStatus = TransactionStatusEnum.Pending;
-            ShoppingList = new List<TransactionProductEntity>();
+            ShoppingList = shoppingList;
         }
 
         public int UserId { get; private set; }

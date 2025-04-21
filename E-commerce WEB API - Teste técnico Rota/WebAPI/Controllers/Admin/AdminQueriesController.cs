@@ -5,7 +5,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 {
     [ApiController]
     [Route("api/admin")]
-    public class AdminQueriesController : Controller
+    public class AdminQueriesController : ControllerBase
     {
         [HttpGet("users")]
         public IActionResult GetAllUsers()

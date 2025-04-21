@@ -1,5 +1,6 @@
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.InMemory;
 using Microsoft.OpenApi.Models;
 using System;
 
@@ -11,30 +12,30 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.SideServerMain
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "E-Commerce API", Version = "v1" });
-            });
+            // Adiciona serviços ao contêiner antes de Build()
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddSwaggerGen(); // Registra o Swagger
 
-            //iMPLEMento do banco em memoria para realizar testes
+
             builder.Services.AddDbContext<DbContextInMemory>(options =>
-                options.UseInMemoryDatabase("DbContextInMemory"));
-
-
-            //Banco de dados SQL
-            //builder.Services.AddDbContext<DbContextInMemory>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+          options.UseInMemoryDatabase("DbContextInMemory"));
 
             var app = builder.Build();
 
+
+            // Configura o middleware do pipeline de requisições
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "E-Commerce API v1");
+
+                    c.RoutePrefix = string.Empty; // Acessa diretamente na raiz "/"
+                });
             }
-            app.UseStaticFiles();
-            app.UseHttpsRedirection();
+
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
