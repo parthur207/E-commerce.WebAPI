@@ -1,4 +1,5 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.WebRequestMethods;
@@ -12,7 +13,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
         //Injeção
         private readonly IAdminProductInterface _adminProductInterface;
         private readonly IAdminTransactionInterface _adminTransactionInterface;
-
         private readonly IAdminUserInterface _adminUserInterface;
 
         public AdminCommandsController(IAdminProductInterface adminProductInterface, IAdminTransactionInterface adminTransactionInterface,
@@ -23,8 +23,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
             _adminUserInterface = adminUserInterface;
         }
 
-        [HttpPut("user/status")]
-        public IActionResult PutUserStatus()
+        [HttpPut("user/status/{id}")]
+        public IActionResult PutUserStatus(int id, UserStatusEnum status)
         {
             return Ok();
         }
@@ -35,8 +35,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
             return Created();
         }
 
-        [HttpPut("product/{idproduct}/{status}")]
-        public IActionResult PutProductStatus(int idproduct, string status)
+        [HttpPut("product/{idproduct}/{status}")] 
+        public IActionResult PutProductStatus(int idproduct, ProductStatusEnum status)
         {
             return Ok();
         }
