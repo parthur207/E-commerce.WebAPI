@@ -6,7 +6,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
     public class UserEntity : BaseEntity
     {
 
-        //Construtor para atualizar dados do user
+        // para atualizar dados do user
         public UserEntity(string name, string? phone, string address)
         {
             Name = name;
@@ -14,7 +14,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             Address = address;
         }
 
-        //Construtor para criar um novo user
+        //para criar um novo user
         public UserEntity(string name, DateTime birthDate, string email, string password, string? phone, string address)
         {
             Name = name;
