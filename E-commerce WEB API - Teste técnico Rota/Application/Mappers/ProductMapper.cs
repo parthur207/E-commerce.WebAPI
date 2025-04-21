@@ -28,8 +28,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
                 product.ProductName,
                 product.Description,
                 product.Price,
+                product.Sales,
                 product.Quantity,
-                product.Category
+                product.Category,
+                product.ImageUrl,
+                product.ProductStatus
             );
         }
 
