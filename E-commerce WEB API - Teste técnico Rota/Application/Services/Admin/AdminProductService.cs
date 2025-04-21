@@ -20,10 +20,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         {
             _dbContextInMemory = dbContextInMemory;
         }
+
+        /*Em métodos de consulta. Os dados não serão convertidos para DTO por serem métodos Admin*/
+
         public async Task<List<ProductEntity>> GetAllProducts()
         {
             var products = await _dbContextInMemory.Product.ToListAsync();
-
+ 
             return products;
         }
 

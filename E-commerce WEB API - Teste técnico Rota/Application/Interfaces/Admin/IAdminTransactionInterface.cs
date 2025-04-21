@@ -12,6 +12,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
         Task<List<TransactionEntity>> GetTransactionsByUserId(int idUser);
 
         //Commads
-        Task<TransactionEntity> PutTransactionStatus(TransactionStatusEnum status);
+        Task<(bool, string)> PutTransactionStatus(int idTransction, TransactionStatusEnum status);
     }
 }

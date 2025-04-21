@@ -2,6 +2,7 @@
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
 {
@@ -14,24 +15,48 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             _dbContextInMemory = dbContextInMemory;
         }
 
-        public async Task<TransactionEntity> GetAllTransactions()
+        public async Task<List<TransactionEntity>> GetAllTransactions()
         {
-            throw new NotImplementedException();
+            var transactions = _dbContextInMemory.Transaction.ToList();
+
+            return transactions;
         }
 
         public async Task<TransactionEntity> GetTransactionById(int idTransaction)
         {
-            throw new NotImplementedException();
+            var TransactionId = _dbContextInMemory.Transaction.FirstOrDefault(x => x.Id == idTransaction);
+            return TransactionId;
         }
 
-        public async Task<TransactionEntity> GetTransactionByUserId(int idUser)
+        public async Task<List<TransactionEntity>> GetTransactionsByUserId(int idUser)
         {
-            throw new NotImplementedException();
+            var TransactionsUser = _dbContextInMemory.Transaction.Where(x => x.UserId == idUser).ToList();
+
+            return TransactionsUser;
         }
 
-        public async Task<TransactionEntity> PutTransactionStatus(TransactionStatusEnum status)
+        public async Task<(bool, string)> PutTransactionStatus(int idTransction, TransactionStatusEnum status)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var TransactionEntity = await _dbContextInMemory.Transaction
+                 .Where(x => x.Id == idTransction)
+                 .FirstOrDefaultAsync();
+
+                if(TransactionEntity is null)
+                {
+                    return (false, "Transação não encontrada.");
+                }
+
+                await _dbContextInMemory.Transaction.Where(x => x.Id == idTransction)
+                    .ExecuteUpdateAsync(x => x.SetProperty(y => y.TransactionStatus, status));
+
+                return (true, "O status da transação foi atualzado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Erro ao alterar o status da transação: {ex.Message}");
+            }
         }
     }
 }
