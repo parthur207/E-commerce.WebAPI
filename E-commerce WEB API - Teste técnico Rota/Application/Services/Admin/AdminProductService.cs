@@ -26,7 +26,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         public async Task<List<ProductEntity>> GetAllProducts()
         {
             var products = await _dbContextInMemory.Product.ToListAsync();
- 
+
             return products;
         }
 
@@ -57,8 +57,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
 
         public async Task<List<ProductEntity>> GetProductsByCategory(ProductCategoryEnum category)
         {
-            var ProductsCategory= await _dbContextInMemory.Product.Where(x => x.Category == category)
-                .ToListAsync(); 
+            var ProductsCategory = await _dbContextInMemory.Product.Where(x => x.Category == category)
+                .ToListAsync();
 
             return ProductsCategory;
         }
@@ -74,15 +74,15 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
 
         public async Task<List<ProductEntity>> GetProductsInactive()
         {
-            var ProductsInactive=await _dbContextInMemory.Product.Where(x => x.ProductStatus == ProductStatusEnum.Inactive)
-                .ToListAsync(); 
+            var ProductsInactive = await _dbContextInMemory.Product.Where(x => x.ProductStatus == ProductStatusEnum.Inactive)
+                .ToListAsync();
 
             return ProductsInactive;
         }
 
         public async Task<List<ProductEntity>> GetProductsNoStock()
         {
-            var ProductsNoStock= await _dbContextInMemory.Product.Where(x=>x.Quantity==0)
+            var ProductsNoStock = await _dbContextInMemory.Product.Where(x => x.Quantity == 0)
                 .ToListAsync();
 
             return ProductsNoStock;
@@ -92,7 +92,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         {
             var Sales = await _dbContextInMemory.Product
                 .Where(x => x.Sales > 0)
-                .ToListAsync(); 
+                .ToListAsync();
 
             return Sales;
         }
@@ -109,15 +109,15 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         public async Task<List<TransactionProductEntity>> GetSalesByPeriod(DateTime from, DateTime To)
         {
             var SalesPeriod = await _dbContextInMemory.TransactionProduct
-                .Include(x=>x.Product)
+                .Include(x => x.Product)
                 .Where(x => x.Transaction.TransactionDate >= from && x.Transaction.TransactionDate <= To).ToListAsync();
 
-                return SalesPeriod;
+            return SalesPeriod;
         }
 
         public async Task<List<TransactionProductEntity>> GetBiggestSaleForDate(DateTime Date)
         {
-            var BiggerSaleForDate= await _dbContextInMemory.TransactionProduct
+            var BiggerSaleForDate = await _dbContextInMemory.TransactionProduct
                 .Include(x => x.Product)
                 .ThenInclude(x => x.Sales)
                 .Where(x => x.Transaction.TransactionDate == Date)
@@ -190,32 +190,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                 }
 
                 produtoEntity.SetProductStatus(status);
-
-                _dbContextInMemory.Product.Update(produtoEntity);
-                await _dbContextInMemory.SaveChangesAsync();
-
-                return (true, "O status do produto foi atualizado com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Erro ao atualizar o status do produto: {ex.Message}");
-            }
-        }
-
-        public async Task<(bool, string)> PutProductStatusAtive(int idProduct)
-        {
-            try
-            {
-                var produtoEntity = await _dbContextInMemory.Product
-                    .Where(x => x.Id == idProduct)
-                    .FirstOrDefaultAsync();
-
-                if (produtoEntity is null)
-                {
-                    return (false, "Produto não encontrado.");
-                }
-
-                produtoEntity.SetProductStatusActive();
 
                 _dbContextInMemory.Product.Update(produtoEntity);
                 await _dbContextInMemory.SaveChangesAsync();
