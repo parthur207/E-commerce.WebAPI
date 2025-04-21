@@ -10,7 +10,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
     public class ProductMapper
     {
 
-        public ProductDTO ToProductDTO(ProductEntity product)//Um pra exibir ao cliente
+        public static ProductDTO ToProductDTO(ProductEntity product)//Um pra exibir ao cliente
         {
             return new ProductDTO
             (
@@ -21,7 +21,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
             );
         }
 
-        public AdminProductDTO ToProductAdminDTO(ProductEntity product)//Outro pra exibir ao Admin
+        public static AdminProductDTO ToProductAdminDTO(ProductEntity product)//Outro pra exibir ao Admin
         {
             return new AdminProductDTO
             (
@@ -33,7 +33,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
             );
         }
 
-        public ProductEntity FromProductModel(CreateProductModel productModel)//Criação de um NOVO produto
+        public static ProductEntity FromProductModel(CreateProductModel productModel)//Criação de um NOVO produto
         {
             return new ProductEntity(productModel.ProductName,
                 productModel.Description,
@@ -41,6 +41,15 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
                 productModel.Quantity,
                 productModel.Category,
                 productModel.ImageUrl);
+        }
+
+        public static ProductEntity FromUpdateProductModel(UpdateProductModel model)
+        {
+            return new ProductEntity(model.ProductName,
+              model.Description,
+              model.Price,
+              model.Quantity,
+              model.ImageUrl);
         }
 
         //criar mappers do update model

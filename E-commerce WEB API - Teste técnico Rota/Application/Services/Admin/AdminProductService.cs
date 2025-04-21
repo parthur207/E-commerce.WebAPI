@@ -1,14 +1,18 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualBasic;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
 {
-    public class AdminProductService : IAdminProductInterface
+    public class AdminProductService : IAdminProductInterface, IAdminTransactionProductInterface
     {
 
         private readonly DbContextInMemory _dbContextInMemory;
@@ -16,74 +20,182 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         {
             _dbContextInMemory = dbContextInMemory;
         }
-        public async Task<ProductEntity> GetAllProducts()
+        public async Task<List<ProductEntity>> GetAllProducts()
         {
-            throw new NotImplementedException();
+            var products = await _dbContextInMemory.Product.ToListAsync();
+
+            return products;
         }
 
-        public async Task<ProductEntity> GetAllProductsByStatus(ProductStatusEnum status)
+        public async Task<List<ProductEntity>> GetAllProductsByStatus(ProductStatusEnum status)
         {
-            throw new NotImplementedException();
+            var productsStatus = await _dbContextInMemory.Product.Where(x => x.ProductStatus == status).ToListAsync();
+
+            return productsStatus;
         }
 
         public async Task<ProductEntity> GetBiggestSale()
         {
-            throw new NotImplementedException();
+            var BigSale = await _dbContextInMemory.Product
+                .OrderByDescending(x => x.Sales)
+                .FirstOrDefaultAsync();
+
+            return BigSale;
         }
 
         public async Task<ProductEntity> GetProductById(int idProduct)
         {
-            throw new NotImplementedException();
+            var Product = await _dbContextInMemory.Product
+                .Where(x => x.Id == idProduct)
+                .FirstOrDefaultAsync();
+
+            return Product;
         }
 
-        public async Task<ProductEntity> GetProductsByCategory(ProductCategoryEnum category)
+        public async Task<List<ProductEntity>> GetProductsByCategory(ProductCategoryEnum category)
         {
-            throw new NotImplementedException();
+            var ProductsCategory= await _dbContextInMemory.Product.Where(x => x.Category == category)
+                .ToListAsync(); 
+
+            return ProductsCategory;
         }
 
-        public async Task<ProductEntity> GetProductsByPrice(decimal price)
+        public async Task<List<ProductEntity>> GetProductsByPrice(decimal price)
         {
-            throw new NotImplementedException();
+            var ProductsPrice = await _dbContextInMemory.Product
+                .Where(x => x.Price <= price)
+                .ToListAsync();
+
+            return ProductsPrice;
         }
 
-        public async Task<ProductEntity> GetProductsInactive()
+        public async Task<List<ProductEntity>> GetProductsInactive()
         {
-            throw new NotImplementedException();
+            var ProductsInactive=await _dbContextInMemory.Product.Where(x => x.ProductStatus == ProductStatusEnum.Inactive)
+                .ToListAsync(); 
+
+            return ProductsInactive;
         }
 
-        public async Task<ProductEntity> GetProductsNoStock()
+        public async Task<List<ProductEntity>> GetProductsNoStock()
         {
-            throw new NotImplementedException();
+            var ProductsNoStock= await _dbContextInMemory.Product.Where(x=>x.Quantity==0)
+                .ToListAsync();
+
+            return ProductsNoStock;
         }
 
-        public async Task<ProductEntity> GetSales()
+        public async Task<List<ProductEntity>> GetSales()
         {
-            throw new NotImplementedException();
+            var Sales = await _dbContextInMemory.Product
+                .Where(x => x.Sales > 0)
+                .ToListAsync(); 
+
+            return Sales;
         }
 
-        public async Task<ProductEntity> GetSalesById(int productId)
+        public async Task<List<ProductEntity>> GetSalesById(int productIdSales)
         {
-            throw new NotImplementedException();
+            var ProductIdSales = await _dbContextInMemory.Product
+                .Where(x => x.Id == productIdSales)
+                .ToListAsync();
+
+            return ProductIdSales;
         }
 
-        public async Task<ProductEntity> GetSalesByPeriod(DateOnly from, DateOnly To)
+        public async Task<List<TransactionProductEntity>> GetSalesByPeriod(DateTime from, DateTime To)
         {
-            throw new NotImplementedException();
+            var SalesPeriod = await _dbContextInMemory.TransactionProduct
+                .Include(x=>x.Product)
+                .Where(x => x.Transaction.TransactionDate >= from && x.Transaction.TransactionDate <= To).ToListAsync();
+
+                return SalesPeriod;
         }
 
-        public async Task<ProductEntity> PostProduct(AdminProductDTO product)
+        public async Task<List<TransactionProductEntity>> GetBiggestSaleForDate(DateTime Date)
         {
-            throw new NotImplementedException();
+            var BiggerSaleForDate= await _dbContextInMemory.TransactionProduct
+                .Include(x => x.Product)
+                .ThenInclude(x => x.Sales)
+                .Where(x => x.Transaction.TransactionDate == Date)
+                .ToListAsync();
+
+            return BiggerSaleForDate;
         }
 
-        public async Task<ProductEntity> PutProduct(UpdateProductModel model)
+        public async Task<(bool, string)> PostProduct(CreateProductModel product)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var productEntity = ProductMapper.FromProductModel(product);
+
+                if (productEntity is null)
+                {
+                    return (false, "Falha no mapeamento. O produto não pode ser criado.");
+                }
+
+                await _dbContextInMemory.Product.AddAsync(productEntity);
+                await _dbContextInMemory.SaveChangesAsync();
+                return (true, "Produto criado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Erro ao criar o produto: {ex.Message}");
+            }
         }
 
-        public async Task<ProductEntity> PutProductStatus(int idProduct, ProductStatusEnum status)
+        public async Task<(bool, string)> PutProduct(int ProductId, UpdateProductModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                var ProductEntity = ProductMapper.FromUpdateProductModel(model);
+
+                if (ProductEntity is null)
+                {
+                    return (false, "Falha no mapeamento. O produto não pode ser atualizado.");
+                }
+
+                await _dbContextInMemory.Product
+                    .Where(x => x.Id == ProductId)
+                    .ExecuteUpdateAsync(x => x
+                        .SetProperty(x => x.ProductName, ProductEntity.ProductName)
+                        .SetProperty(x => x.Description, ProductEntity.Description)
+                        .SetProperty(x => x.Price, ProductEntity.Price)
+                        .SetProperty(x => x.Quantity, ProductEntity.Quantity)
+                        .SetProperty(x => x.ImageUrl, ProductEntity.ImageUrl));
+
+                return (true, "Produto atualizado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Erro ao atualizar o produto: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool, string)> PutProductStatus(int idProduct, ProductStatusEnum status)
+        {
+            try
+            {
+                var produtoEntity = await _dbContextInMemory.Product
+                    .Where(x => x.Id == idProduct)
+                    .FirstOrDefaultAsync();
+
+                if (produtoEntity is null)
+                {
+                    return (false, "Produto não encontrado.");
+                }
+                await _dbContextInMemory.Product
+                    .Where(x => x.Id == idProduct)
+                    .ExecuteUpdateAsync(x => x
+                        .SetProperty(x => x.ProductStatus, status));
+
+                return (true, "O status do produto foi atualizado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Erro ao atualizar o status do produto: {ex.Message}");
+            }
         }
     }
 }

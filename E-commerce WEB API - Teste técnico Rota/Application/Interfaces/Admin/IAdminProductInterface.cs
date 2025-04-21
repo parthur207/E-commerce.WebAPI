@@ -10,22 +10,21 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
     {
 
         //Queries
-        Task<ProductEntity> GetAllProducts();
+        Task<List<ProductEntity>> GetAllProducts();
         Task<ProductEntity> GetProductById(int idProduct);
-        Task<ProductEntity> GetAllProductsByStatus(ProductStatusEnum status);
-        Task<ProductEntity> GetProductsByCategory(ProductCategoryEnum category);
-        Task<ProductEntity> GetProductsByPrice(decimal price);
-        Task<ProductEntity> GetProductsNoStock();
-        Task<ProductEntity> GetProductsInactive();
+        Task<List<ProductEntity>> GetAllProductsByStatus(ProductStatusEnum status);
+        Task<List<ProductEntity>> GetProductsByCategory(ProductCategoryEnum category);
+        Task<List<ProductEntity>> GetProductsByPrice(decimal price);
+        Task<List<ProductEntity>> GetProductsNoStock();
+        Task<List<ProductEntity>> GetProductsInactive();
 
-        Task<ProductEntity> GetSales();
-        Task<ProductEntity> GetSalesById(int productId);
-        Task<ProductEntity> GetSalesByPeriod(DateOnly from, DateOnly To);
+        Task<List<ProductEntity>> GetSales();
+        Task<List<ProductEntity>> GetSalesById(int productId);
         Task<ProductEntity> GetBiggestSale();
 
         //Commands
-        Task<ProductEntity> PostProduct(AdminProductDTO product);
-        Task<ProductEntity> PutProduct(UpdateProductModel model);
-        Task<ProductEntity> PutProductStatus(int idProduct, ProductStatusEnum status);
+        Task<(bool, string)> PostProduct(CreateProductModel product);
+        Task<(bool,string)> PutProduct(int ProductId, UpdateProductModel model);
+        Task<(bool, string)> PutProductStatus(int ProductId, ProductStatusEnum status);
     }
 }

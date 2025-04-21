@@ -28,7 +28,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
         }
 
         [HttpPut("product/Change")]
-        public IActionResult PutProduct(UpdateProductModel model)//Valor, nome, quantidade no estoque
+        public IActionResult PutProduct(UpdateProductModel model)//Valor, nome, descrição e quantidade no estoque
         {
             return Ok();
         }

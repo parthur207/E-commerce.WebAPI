@@ -5,12 +5,22 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 {
     public class ProductEntity : BaseEntity
     {
+        public ProductEntity(string productName, string description, decimal price, int quantity, string imageUrl) 
+        {
+            ProductName = productName;
+            Description = description;
+            Price = price;
+            Quantity = quantity;
+            ImageUrl = imageUrl;
+        }
+
         public ProductEntity(string productName, string description, decimal price, int quantity, ProductCategoryEnum category, string? imageUrl)
         {
             ProductName = productName;
             Description = description;
             Price = price;
             Quantity = quantity;
+            Sales = 0;
             Category = category;
             ImageUrl = imageUrl;
             ProductStatus = ProductStatusEnum.Active;
