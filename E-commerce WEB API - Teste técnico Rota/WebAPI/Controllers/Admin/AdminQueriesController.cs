@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+using Microsoft.AspNetCore.Mvc;
 using static System.Net.WebRequestMethods;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
@@ -7,6 +8,21 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
     [Route("api/admin")]
     public class AdminQueriesController : ControllerBase
     {
+        //Injeção de dependencia dos serviços do admin. (Todo o processo de administração dos dados ocorrerá por la)
+        private readonly IAdminProductInterface _adminProductInterface;
+        private readonly IAdminTransactionInterface _adminTransactionInterface;
+        private readonly IAdminTransactionProductInterface _adminTransactionProductInterface;
+        private readonly IAdminUserInterface _adminUserInterface;
+
+        public AdminQueriesController(IAdminProductInterface adminProductInterface, IAdminTransactionInterface adminTransactionInterface, 
+            IAdminTransactionProductInterface adminTransactionProductInterface, IAdminUserInterface adminUserInterface)
+        {
+            _adminProductInterface = adminProductInterface;
+            _adminTransactionInterface = adminTransactionInterface;
+            _adminTransactionProductInterface = adminTransactionProductInterface;
+            _adminUserInterface = adminUserInterface;
+        }
+
         [HttpGet("users")]
         public IActionResult GetAllUsers()
         {
