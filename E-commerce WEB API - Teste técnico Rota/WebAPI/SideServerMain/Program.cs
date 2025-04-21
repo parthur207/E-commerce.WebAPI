@@ -40,7 +40,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.SideServerMain
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "E-Commerce API v1");
-                    c.RoutePrefix = string.Empty;
+                    
                 });
             }
 
