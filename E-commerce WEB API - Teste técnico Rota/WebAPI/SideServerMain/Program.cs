@@ -19,7 +19,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.SideServerMain
                 {
                     Title = "E-Commerce API",
                     Version = "v1",
-                    Description = "API para teste técnico Rota",
+                    Description = "API - teste técnico Rota",
                     Contact = new OpenApiContact
                     {
                         Name = "Paulo Andrade",
