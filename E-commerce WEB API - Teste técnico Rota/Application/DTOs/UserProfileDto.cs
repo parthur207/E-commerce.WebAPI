@@ -2,9 +2,9 @@
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs
 {
-    public class UserDTO
+    public class UserProfileDto
     {
-        public UserDTO(string name, DateTime birthDate, string email, DateTime createdAt, bool isDeleted, string? phone, string address, UserStatusEnum status)
+        public UserProfileDto(string name, DateTime birthDate, string email, DateTime createdAt, bool isDeleted, string? phone, string address, UserStatusEnum status)
         {
             Name = name;
             BirthDate = birthDate;
