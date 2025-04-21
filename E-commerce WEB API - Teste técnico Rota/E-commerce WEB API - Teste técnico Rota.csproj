@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="WebAPI\ExceptionHandler\" />
+    <Folder Include="WebAPI\SideClient\View\" />
     <Folder Include="WebAPI\SideClient\wwwroot\css\" />
     <Folder Include="WebAPI\SideClient\wwwroot\js\" />
   </ItemGroup>
