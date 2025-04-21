@@ -8,13 +8,13 @@
             ProductId = productId;
             Quantity = quantity;
         }
+
         public int TransactionId { get; private set; }
-        public TransactionEntity Transaction { get; private set; }
+        public TransactionEntity Transaction { get; protected set; }
 
         public int ProductId { get; private set; }
-        public ProductEntity Product { get; private set; }
+        public ProductEntity Product { get; protected set; }
 
         public int Quantity { get; private set; }
-
     }
 }

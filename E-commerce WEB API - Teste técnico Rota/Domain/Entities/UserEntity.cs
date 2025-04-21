@@ -26,12 +26,25 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public UserStatusEnum Status { get; private set; }
         public List<TransactionEntity> Transactions { get; private set; } // Lista de transações do usuário (Começando nula)
 
-        public void SetUserStatusInative()
+
+        public void SetStatus(UserStatusEnum status)
         {
-            if (Status == UserStatusEnum.Active)
-            {
-                Status = UserStatusEnum.Inactive;
-            }
+            Status = status;
         }
+        public void UpdatePhone(string? newPhone)
+        {
+            Phone = newPhone;
+        }
+
+        public void UpdateAddress(string newAddress)
+        {
+            Address = newAddress;
+        }
+
+        public void ChangePassword(string newPassword)
+        {
+            Password = newPassword;
+        }
+
     }
 }

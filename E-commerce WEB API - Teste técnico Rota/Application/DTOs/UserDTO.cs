@@ -10,7 +10,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs
             BirthDate = birthDate;
             Email = email;
             CreatedAt = createdAt;
-            IsDeleted = isDeleted;
             Phone = phone;
             Status = status;
         }
@@ -21,6 +20,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs
         public DateTime CreatedAt { get; private set; }
         public bool IsDeleted { get; private set; }
         public string? Phone { get; private set; }
+
+        public List<(string,int)> TransactionsList { get; set; }
         public UserStatusEnum Status { get; private set; }
     }
 }

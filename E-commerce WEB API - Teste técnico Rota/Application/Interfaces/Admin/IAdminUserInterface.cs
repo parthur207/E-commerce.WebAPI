@@ -7,10 +7,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
     {
         //Queries
         Task<List<UserEntity>> GetAllUsers();
-        Task<UserEntity> GetUserById(Guid id);
+        Task<UserEntity> GetUserByEmail(string email);
 
         //Commands
-        Task<UserEntity> PutUserStatus(UserStatusEnum status);
+        Task<(bool, string)> PutUserStatus(string email, UserStatusEnum status);
         
     }
 }

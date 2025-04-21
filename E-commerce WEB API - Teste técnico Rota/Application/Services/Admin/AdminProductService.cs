@@ -188,10 +188,37 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                 {
                     return (false, "Produto não encontrado.");
                 }
-                await _dbContextInMemory.Product
+
+                produtoEntity.SetProductStatus(status);
+
+                _dbContextInMemory.Product.Update(produtoEntity);
+                await _dbContextInMemory.SaveChangesAsync();
+
+                return (true, "O status do produto foi atualizado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Erro ao atualizar o status do produto: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool, string)> PutProductStatusAtive(int idProduct)
+        {
+            try
+            {
+                var produtoEntity = await _dbContextInMemory.Product
                     .Where(x => x.Id == idProduct)
-                    .ExecuteUpdateAsync(x => x
-                        .SetProperty(x => x.ProductStatus, status));
+                    .FirstOrDefaultAsync();
+
+                if (produtoEntity is null)
+                {
+                    return (false, "Produto não encontrado.");
+                }
+
+                produtoEntity.SetProductStatusActive();
+
+                _dbContextInMemory.Product.Update(produtoEntity);
+                await _dbContextInMemory.SaveChangesAsync();
 
                 return (true, "O status do produto foi atualizado com sucesso.");
             }

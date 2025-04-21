@@ -13,14 +13,15 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
 
         public void TransactionEntity (CreateTransactionModel model)
         {
-            return new TransactionEntity
+            return new TransactionEntity/*        public int UserId { get; set; }
+        public List<TransactionProductEntity> ShoppingList { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public decimal TotalValue { get; set; }*/
             {
-                model.User,
+                model.UserId,
+                model.ShoppingList,
                 model.TransactionDate,
-                model.TransactionStatus,
-                model.Quantity,
                 model.TotalValue,
-                model.ProductId
             };
         }
     }

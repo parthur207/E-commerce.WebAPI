@@ -16,43 +16,54 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<ProductEntity>(x =>
             {
-                x.HasKey(x => x.Id);
+                x.HasKey(p => p.Id);
+
+                x.HasMany(p => p.TransactionProducts)
+                 .WithOne(tp => tp.Product)
+                 .HasForeignKey(tp => tp.ProductId)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<UserEntity>(x =>
             {
-                x.HasKey(x => x.Id);
-                x.HasMany(x=>x.Transactions)
-                .WithOne(x => x.User)
-                    .HasForeignKey(x => x.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                x.HasKey(u => u.Id);
+
+                x.HasMany(u => u.Transactions)
+                 .WithOne(t => t.User)
+                 .HasForeignKey(t => t.UserId)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
+
             modelBuilder.Entity<TransactionEntity>(x =>
             {
-                x.HasKey(x => x.Id);
-                x.HasOne(x => x.User)
-                  .WithMany(t => t.Transactions)
-                .HasForeignKey(x => x.UserId)
-                  .OnDelete(DeleteBehavior.Restrict);    
+                x.HasKey(t => t.Id);
+
+                x.HasOne(t => t.User)
+                 .WithMany(u => u.Transactions)
+                 .HasForeignKey(t => t.UserId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+                x.HasMany(t => t.ShoppingList)
+                 .WithOne(tp => tp.Transaction)
+                 .HasForeignKey(tp => tp.TransactionId)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<TransactionProductEntity>(x =>
             {
-                x.HasKey(x => x.Id);
-                x.HasOne(x => x.Product)
-                .WithMany(x => x.TransactionProduct)
-                    .HasForeignKey(x => x.ProductId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                x.HasKey(tp => tp.Id);
 
+                x.HasOne(tp => tp.Product)
+                 .WithMany(p => p.TransactionProducts)
+                 .HasForeignKey(tp => tp.ProductId)
+                 .OnDelete(DeleteBehavior.Restrict);
 
-
-                x.HasOne(x => x.Transaction)
-                    .WithMany(x => x.ShoppingList)
-                    .HasForeignKey(x => x.ProductId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                x.HasOne(tp => tp.Transaction)
+                 .WithMany(t => t.ShoppingList)
+                 .HasForeignKey(tp => tp.TransactionId)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }
