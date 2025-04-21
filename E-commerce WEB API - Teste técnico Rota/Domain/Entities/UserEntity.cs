@@ -13,8 +13,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             Password = password;
             Phone = phone;
             Address = address;
-            Status = UserStatusEnum.Active;
             Transactions=new List<TransactionEntity>();
+            UserStatus = UserStatusEnum.Active;
+            Role = UserTypeEnum.User;
         }
 
         public string Name { get; private set; }
@@ -23,13 +24,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public string Password { get; private set; }
         public string? Phone { get; private set; }
         public string Address { get; private set; }
-        public UserStatusEnum Status { get; private set; }
-        public List<TransactionEntity> Transactions { get; private set; } // Lista de transações do usuário (Começando nula)
+        public List<TransactionEntity> Transactions { get; private set; } //Lista de transações do usuário (Começando nula)
+        public UserStatusEnum UserStatus { get; private set; }
+        public UserTypeEnum Role { get; private set; }
 
 
-        public void SetStatus(UserStatusEnum status)
+        public void SetStatus(UserStatusEnum Newstatus)//Admin
         {
-            Status = status;
+            UserStatus = Newstatus;
         }
         public void UpdatePhone(string? newPhone)
         {
