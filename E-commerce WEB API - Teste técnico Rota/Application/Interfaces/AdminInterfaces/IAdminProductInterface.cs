@@ -2,7 +2,6 @@
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
-using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models.AdminModels;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
@@ -24,7 +23,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
         Task<ProductEntity> GetBiggestSale();
 
         //Commands
-        Task<(bool, string)> PostProduct(CreateProductModel product);
+        Task<(bool, string)> PostProduct(AdminCreateProductModel product);
         Task<(bool,string)> PutProduct(int ProductId, AdminUpdateProductModel model);
         Task<(bool, string)> PutProductStatus(int ProductId, ProductStatusEnum status);
         Task<(bool, string)> PutProductCategory(int ProductId, ProductCategoryEnum category);

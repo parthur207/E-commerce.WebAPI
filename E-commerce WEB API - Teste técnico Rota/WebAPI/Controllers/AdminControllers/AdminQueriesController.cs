@@ -1,4 +1,6 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Roles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.WebRequestMethods;
 
@@ -23,6 +25,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
             _adminUserInterface = adminUserInterface;
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("users")]
         public IActionResult GetAllUsers()
         {
@@ -31,71 +34,84 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("user/{idUser}")]
-        public IActionResult GetUserById(int idUser)
+        public IActionResult GetUserById([FromBody]int idUser)
         {
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("transactions")]
         public IActionResult GetAllTransactions()
         {
             return Ok();
         }
 
+        [Authorize(Roles =UsersRoles.Admin)]
         [HttpGet("products")]
         public IActionResult GetAllProducts()
         {
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("product/{IdProduct}")]
-        public IActionResult GetProductById(int IdProduct)
+        public IActionResult GetProductById([FromRoute]int IdProduct)
         {
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("products/category/{category}")]
-        public IActionResult GetProductsByCategory(string category)
+        public IActionResult GetProductsByCategory([FromRoute]string category)
         {
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("products/price/{value}")]
-        public IActionResult GetProductsByPrice(decimal price)//produtos de 0 até value
+        public IActionResult GetProductsByPrice([FromRoute] decimal price)//produtos de 0 até value
         {
             return Ok();
         }
+
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("products/NoStock")]
         public IActionResult GetProductsNoStock()
         {
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("products/inactive")]
         public IActionResult GetProductsInactive()
         {
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("transactions/sales")]
         public IActionResult GetSales()
         {
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("transactions/sales/{productId}")]
-        public IActionResult GetSalesById(int productId)
+        public IActionResult GetSalesById([FromRoute] int productId)
         {
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("transactions/sales/period")]
-        public IActionResult GetSalesByPeriod(DateOnly from, DateOnly to)
+        public IActionResult GetSalesByPeriod([FromBody] DateOnly from, [FromBody] DateOnly to)
         {
             return Ok();
         }
 
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("product/biggestSale")]
         public IActionResult GetBiggestSale()
         {

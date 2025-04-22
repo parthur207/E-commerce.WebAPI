@@ -1,9 +1,9 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 using System.ComponentModel.DataAnnotations;
 
-namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models
+namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models.AdminModels
 {
-    public class CreateProductModel
+    public class AdminCreateProductModel
     {
         [Required]
         public string ProductName { get; set; }

@@ -1,7 +1,6 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
-using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models.AdminModels;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
 using Microsoft.VisualBasic;
@@ -37,7 +36,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
             );
         }
 
-        public static ProductEntity FromProductModel(CreateProductModel productModel)//Criação de um NOVO produto (Model=> Entity)
+        public static ProductEntity FromProductModel(AdminCreateProductModel productModel)//Criação de um NOVO produto (Model=> Entity)
         {
             return new ProductEntity(
                 productModel.ProductName,

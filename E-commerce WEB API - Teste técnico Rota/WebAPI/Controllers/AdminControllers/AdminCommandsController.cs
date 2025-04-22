@@ -1,6 +1,5 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
-using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models.AdminModels;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -40,7 +39,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpPost("product")]
-        public async Task<IActionResult> CreateProduct([FromBody] CreateProductModel model)
+        public async Task<IActionResult> CreateProduct([FromBody] AdminCreateProductModel model)
         {
             var (status, message)=await _adminProductInterface.PostProduct(model);
 

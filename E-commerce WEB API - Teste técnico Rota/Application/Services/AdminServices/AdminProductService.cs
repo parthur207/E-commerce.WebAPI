@@ -4,7 +4,6 @@ using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
-using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models.AdminModels;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -130,7 +129,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         }
 
         //Commands
-        public async Task<(bool, string)> PostProduct(CreateProductModel product)
+        public async Task<(bool, string)> PostProduct(AdminCreateProductModel product)
         {
             try
             {
