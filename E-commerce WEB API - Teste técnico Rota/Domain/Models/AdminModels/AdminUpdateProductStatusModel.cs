@@ -1,8 +1,8 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 
-namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models
+namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models.AdminModels
 {
-    public class UpdateProductStatusModel
+    public class AdminUpdateProductStatusModel
     {
         public ProductStatusEnum ProductStatus { get; set; }
     }

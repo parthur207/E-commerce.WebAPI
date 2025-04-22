@@ -26,7 +26,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             Address = address;
             Transactions=new List<TransactionEntity>();
             UserStatus = UserStatusEnum.Active;
-            Role = UserRoles.User;
+            Role = UsersRoles.User;
         }
 
         public string Name { get; private set; }

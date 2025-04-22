@@ -9,7 +9,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
     [Route("api/transaction")]
     public class TransactionController : ControllerBase
     {
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UsersRoles.User)]
         [HttpPost("newTransaction")]
         public IActionResult PostTransaction(CreateTransactionModel model)
         {
@@ -17,14 +17,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             return Created();
         }
 
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UsersRoles.User)]
         [HttpGet("all")]
         public IActionResult GettAllTransaction()
         {
             return Ok();
         }
 
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UsersRoles.User)]
         [HttpPut]
         public IActionResult PutTransactionToCanceled(int id)
         {

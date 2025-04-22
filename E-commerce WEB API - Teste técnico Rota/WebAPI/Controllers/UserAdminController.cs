@@ -25,21 +25,21 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UsersRoles.User)]
         [HttpPut("changePassword/{id}")]
         public IActionResult PutChangePassword(int id, UpdateUserPasswordModel model)//Pensar como estruturar esse 'put', tendo os 3 parametros email/senhaAtual e senhaNova, ou um model so pra update da senha
         {
             return Ok();
         }
 
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UsersRoles.User)]
         [HttpPut("changeData")]
         public IActionResult PutChangeData(UpdateUserDataModel model)
         {
             return Ok();
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpPut("inativeAccount/{id}")]
         public IActionResult PutInativeAccount(int id)
         {
