@@ -1,6 +1,8 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.Services;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
+using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Roles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
@@ -17,6 +19,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             _productService = productService;
         }
 
+        [Authorize(Roles = UserRoles.User)]
         [HttpGet("all")]
         public IActionResult GetAllProducts()
         {
@@ -24,6 +27,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             return Ok("Lista de produtos");
         }
 
+        [Authorize(Roles = UserRoles.User)]
         [HttpGet("search")]
         public IActionResult GetProductById(string search)
         {
@@ -39,6 +43,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             return Ok("Produto específico");
         }
 
+        [Authorize(Roles = UserRoles.User)]
         [HttpGet("{category}")]
         public IActionResult GetProductsByCategory(string category)
         {
@@ -46,7 +51,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
             return Ok();
         }
 
-
+        [Authorize(Roles = UserRoles.User)]
         [HttpGet("price")]
         public IActionResult GetProductsByPrice(decimal price)//Pegar todos os produtos de 0 a {price}
         {

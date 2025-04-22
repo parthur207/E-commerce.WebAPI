@@ -23,6 +23,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
 
         /*Em métodos de consulta. Os dados não serão convertidos para DTO por serem métodos Admin*/
 
+
+        //Queries
         public async Task<List<ProductEntity>> GetAllProducts()
         {
             var products = await _dbContextInMemory.Product.ToListAsync();
@@ -126,6 +128,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             return BiggerSaleForDate;
         }
 
+        //Commands
         public async Task<(bool, string)> PostProduct(CreateProductModel product)
         {
             try
@@ -139,7 +142,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
 
                 await _dbContextInMemory.Product.AddAsync(productEntity);
                 await _dbContextInMemory.SaveChangesAsync();
-                return (true, "Produto criado com sucesso.");
+
+                return (true, string.Empty);
             }
             catch (Exception ex)
             {
@@ -151,12 +155,20 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         {
             try
             {
-
                 var ProductEntity = ProductMapper.FromUpdateProductModel(model);
 
                 if (ProductEntity is null)
                 {
                     return (false, "Falha no mapeamento. O produto não pode ser atualizado.");
+                }
+
+                var produto = await _dbContextInMemory.Product
+                    .Where(x => x.Id == ProductId)
+                    .FirstOrDefaultAsync();
+
+                if (produto is null)
+                {
+                   return (false, "Produto não encontrado.");
                 }
 
                 await _dbContextInMemory.Product
@@ -167,8 +179,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                         .SetProperty(x => x.Price, ProductEntity.Price)
                         .SetProperty(x => x.Quantity, ProductEntity.Quantity)
                         .SetProperty(x => x.ImageUrl, ProductEntity.ImageUrl));
+                await _dbContextInMemory.SaveChangesAsync();
 
-                return (true, "Produto atualizado com sucesso.");
+                return (true, string.Empty);
             }
             catch (Exception ex)
             {
@@ -194,11 +207,36 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                 _dbContextInMemory.Product.Update(produtoEntity);
                 await _dbContextInMemory.SaveChangesAsync();
 
-                return (true, "O status do produto foi atualizado com sucesso.");
+                return (true, string.Empty);
             }
             catch (Exception ex)
             {
                 return (false, $"Erro ao atualizar o status do produto: {ex.Message}");
+            }
+        }
+        public async Task<(bool, string)> PutProductCategory(int idProduct, ProductCategoryEnum category)
+        {
+            try
+            {
+                var produtoEntity = await _dbContextInMemory.Product
+                    .Where(x => x.Id == idProduct)
+                    .FirstOrDefaultAsync();
+
+                if (produtoEntity is null)
+                {
+                    return (false, "Produto não encontrado.");
+                }
+
+                produtoEntity.SetProductCategory(category);
+
+                _dbContextInMemory.Product.Update(produtoEntity);
+                await _dbContextInMemory.SaveChangesAsync();
+
+                return (true, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Erro ao atualizar a categoria do produto: {ex.Message}");
             }
         }
     }

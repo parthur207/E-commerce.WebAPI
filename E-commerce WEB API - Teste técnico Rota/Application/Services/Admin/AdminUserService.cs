@@ -15,6 +15,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             _dbContextInMemory = dbContextInMemory;
         }
 
+        //Queries
         public async Task<List<UserEntity>> GetAllUsers()
         {
             var users = await _dbContextInMemory.User.ToListAsync();
@@ -28,7 +29,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             return userEntity;
         }
 
-        public async Task<(bool, string)> PutUserStatus(string email, UserStatusEnum status)
+        //Commands
+        public async Task<(bool, string)> PutUserStatusToInactive(string email)
         {
             try
             {
@@ -39,16 +41,38 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     return (false, "Usuário não encontrado");
                 }
 
-                userEntity.SetStatus(status);
+                userEntity.SetUserStatusToInactive();
                 _dbContextInMemory.User.Update(userEntity);
                 _dbContextInMemory.SaveChanges();
 
-                return (true, $"Status do usuário atualizado com sucesso para '{status}'.");
-
+                return (true, string.Empty);
             }
             catch (Exception ex)
             {
-                return (false, $"Erro na tentativa de atualizar o status do usuário.{ex.Message}");
+                return (false, $"Erro na tentativa de atualizar o status do usuário: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool, string)> PutUserStatusToActive(string email)
+        {
+            try
+            {
+                var userEntity = await _dbContextInMemory.User.FirstOrDefaultAsync(x => x.Email == email);
+
+                if (userEntity is null)
+                {
+                    return (false, "Usuário não encontrado");
+                }
+
+                userEntity.SetUserStatusToActive();
+                _dbContextInMemory.User.Update(userEntity);
+                _dbContextInMemory.SaveChanges();
+
+                return (true, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Erro na tentativa de atualizar o status do usuário: {ex.Message}");
             }
         }
     }

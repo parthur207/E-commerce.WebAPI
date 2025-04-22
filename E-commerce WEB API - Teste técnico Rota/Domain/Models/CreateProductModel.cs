@@ -19,6 +19,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models
 
         [Required]
         public ProductCategoryEnum Category { get; set; }
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

@@ -40,10 +40,16 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public String Role { get; private set; }
 
 
-        public void SetStatus(UserStatusEnum Newstatus)//Admin
+        public void SetUserStatusToActive()//Admin
         {
-            UserStatus = Newstatus;
+            UserStatus = UserStatusEnum.Active;
         }
+
+        public void SetUserStatusToInactive()//Admin
+        {
+            UserStatus = UserStatusEnum.Inactive;
+        }
+
         public void UpdatePhone(string? newPhone)
         {
             Phone = newPhone;

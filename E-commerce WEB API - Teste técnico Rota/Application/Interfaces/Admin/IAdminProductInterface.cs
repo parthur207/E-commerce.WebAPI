@@ -26,5 +26,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
         Task<(bool, string)> PostProduct(CreateProductModel product);
         Task<(bool,string)> PutProduct(int ProductId, UpdateProductModel model);
         Task<(bool, string)> PutProductStatus(int ProductId, ProductStatusEnum status);
+        Task<(bool, string)> PutProductCategory(int ProductId, ProductCategoryEnum category);
     }
 }

@@ -11,7 +11,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
 
         //Model => entity
 
-        public TransactionEntity ToTransactionEntity(CreateTransactionModel model)
+        public TransactionEntity FromTransactionModel(CreateTransactionModel model)
         {
             return new TransactionEntity
             (

@@ -26,6 +26,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
         [HttpGet("users")]
         public IActionResult GetAllUsers()
         {
+            
+
             return Ok();
         }
 

@@ -38,7 +38,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
 
         public static ProductEntity FromProductModel(CreateProductModel productModel)//Criação de um NOVO produto (Model=> Entity)
         {
-            return new ProductEntity(productModel.ProductName,
+            return new ProductEntity(
+                productModel.ProductName,
                 productModel.Description,
                 productModel.Price,
                 productModel.Quantity,
