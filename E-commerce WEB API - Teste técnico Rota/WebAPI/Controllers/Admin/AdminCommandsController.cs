@@ -26,9 +26,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("user/status/{idUser}")]
-        public async Task<IActionResult> PutUserStatusInactive(string email)
+        public async Task<IActionResult> PutUserStatusInactive([FromRoute] int idUser, [FromBody]string Usermail)
         {
-            var (status, message) = await _adminUserInterface.PutUserStatusToInactive(email);
+            var (status, message) = await _adminUserInterface.PutUserStatusToInactive(Usermail);
 
             if(status==false)
             {
@@ -39,7 +39,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPost("product")]
-        public async Task<IActionResult> CreateProduct(CreateProductModel model)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductModel model)
         {
             var (status, message)=await _adminProductInterface.PostProduct(model);
 
@@ -52,7 +52,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("product/Change/{idproduct}")]
-        public async Task<IActionResult> PutProduct(int idproduct, UpdateProductModel model)//Valor, nome, descrição e quantidade no estoque
+        public async Task<IActionResult> PutProduct([FromRoute] int idproduct, [FromBody] UpdateProductModel model)//Valor, nome, descrição e quantidade no estoque
         {
 
             var (status, message)=await _adminProductInterface.PutProduct(idproduct, model);
@@ -67,8 +67,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("product/status/{idproduct}")]
-        public async Task<IActionResult> PutProductStatus(int idproduct, ProductStatusEnum statusProduct)
+        public async Task<IActionResult> PutProductStatus([FromRoute]int idproduct, [FromBody] UpdateProductStatusModel statusProduct)
         {
+
+            //corrigir no service
             var (status, message)= await _adminProductInterface.PutProductStatus(idproduct, statusProduct);
 
             if (status == false)
@@ -81,8 +83,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("product/category/{idproduct}")]
-        public async Task<IActionResult> PutProductCategory(int idproduct, ProductCategoryEnum category)
+        public async Task<IActionResult> PutProductCategory([FromRoute]int idproduct, [FromBody] UpdateProductCategoryModel category)
         {
+            //corrigir no service
             var (status, message)= await _adminProductInterface.PutProductCategory(idproduct, category);
 
             if (status == false)
@@ -92,5 +95,30 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 
             return Ok();
         }
+
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpPut("product/newStock/{idproduct}}")]
+        public async Task<IActionResult> PutProductStockTotal([FromRoute]int idproduct, [FromBody] int newStock)
+        {
+            return Ok();
+        }
+
+        //quando a transação for cancelada
+        [Authorize(Roles =UserRoles.Admin)]
+        [HttpPut("product/stock/increase/{idproduct}")]
+        public async Task<IActionResult> PutProductStockIncrease([FromRoute] int idproduct, [FromBody] int newStock)
+        {
+            return Ok();
+        }
+
+        //Quando a transação for aprovada/estiver pendente
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpPut("product/stock/decrease/{idproduct}")]
+        public async Task<IActionResult> PutProductStockDecrease([FromRoute] int idproduct, [FromBody] int newStock)
+        {
+            return Ok();
+        }
+
+
     } 
 }
