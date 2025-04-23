@@ -10,17 +10,17 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
     {
 
         //Queries
-        Task<List<ProductEntity>> GetAllProducts();
-        Task<ProductEntity> GetProductById(int idProduct);
-        Task<List<ProductEntity>> GetAllProductsByStatus(ProductStatusEnum status);
-        Task<List<ProductEntity>> GetProductsByCategory(ProductCategoryEnum category);
-        Task<List<ProductEntity>> GetProductsByPrice(decimal price);
-        Task<List<ProductEntity>> GetProductsNoStock();
-        Task<List<ProductEntity>> GetProductsInactive();
+        Task<(bool, string, List<ProductEntity>?)> GetAllProducts();
+        Task<(bool, string, ProductEntity?)> GetProductById(int idProduct);
+        Task<(bool, string, List<ProductEntity>?)> GetAllProductsByStatus(ProductStatusEnum status);
+        Task<(bool, string, List<ProductEntity>?)> GetProductsByCategory(ProductCategoryEnum category);
+        Task<(bool, string, List<ProductEntity>?)> GetProductsByPrice(decimal price);
+        Task<(bool, string, List<ProductEntity>?)> GetProductsNoStock();
+        Task<(bool, string, List<ProductEntity>?)> GetProductsInactive();
 
-        Task<List<ProductEntity>> GetSales();
-        Task<List<ProductEntity>> GetSalesById(int productId);
-        Task<ProductEntity> GetBiggestSale();
+        Task<(bool, string, List<ProductEntity>?)> GetSales();
+        Task<(bool, string, ProductEntity?)> GetSaleById(int productId);
+        Task<(bool, string, ProductEntity?)> GetBiggestSale();
 
         //Commands
         Task<(bool, string)> PostProduct(AdminCreateProductModel product);

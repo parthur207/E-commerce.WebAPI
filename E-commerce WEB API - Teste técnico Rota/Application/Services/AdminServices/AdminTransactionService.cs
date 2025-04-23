@@ -15,24 +15,70 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             _dbContextInMemory = dbContextInMemory;
         }
 
-        public async Task<List<TransactionEntity>> GetAllTransactions()
+        public async Task<(bool, string, List<TransactionEntity>?)> GetAllTransactions()
         {
-            var transactions = _dbContextInMemory.Transaction.ToList();
+            string message=string.Empty;
+            try
+            {
+                var transactions = await _dbContextInMemory.Transaction.ToListAsync();
 
-            return transactions;
+
+
+                return (true, message, transactions);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar as transações: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<TransactionEntity> GetTransactionById(int idTransaction)
+        public async Task<(bool, string, TransactionEntity?)> GetTransactionById(int idTransaction)
         {
-            var TransactionId = _dbContextInMemory.Transaction.FirstOrDefault(x => x.Id == idTransaction);
-            return TransactionId;
+            string message = string.Empty;
+            try
+            {
+                var transaction = await _dbContextInMemory.Transaction
+                    .Where(x => x.Id == idTransaction)
+                    .FirstOrDefaultAsync();
+
+                if (transaction is null)
+                {
+                    message = "Transação não encontrada.";
+                    return (false, message, null);
+                }
+
+                return (true, message, transaction);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar a transação: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<TransactionEntity>> GetTransactionsByUserId(int idUser)
+        public async Task<(bool, string, List<TransactionEntity>?)> GetTransactionsByUserId(int idUser)
         {
-            var TransactionsUser = _dbContextInMemory.Transaction.Where(x => x.UserId == idUser).ToList();
+            string message = string.Empty;
+            try
+            {
+                var transactions = await _dbContextInMemory.Transaction
+                    .Where(x => x.UserId == idUser)
+                    .ToListAsync();
 
-            return TransactionsUser;
+                if(transactions is null)
+                {
+                    message = "Transações não encontradas.";
+                    return (false, message, null);
+                }
+
+                return (true, message, transactions);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar as transações: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
         public async Task<(bool, string)> PutTransactionStatus(int idTransction, TransactionStatusEnum status)

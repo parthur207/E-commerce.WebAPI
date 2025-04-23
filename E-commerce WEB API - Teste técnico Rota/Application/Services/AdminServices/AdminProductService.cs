@@ -233,14 +233,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, List<ProductEntity>?)> GetSalesById(int productIdSales)
+        public async Task<(bool, string, ProductEntity?)> GetSaleById(int productIdSales)
         {
             string message = string.Empty;
             try
             {
                 var ProductIdSales = await _dbContextInMemory.Product
                     .Where(x => x.Id == productIdSales)
-                    .ToListAsync();
+                    .FirstOrDefaultAsync();
 
                 if (ProductIdSales is null)
                 {
