@@ -5,21 +5,21 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 {
     public class ProductEntity : BaseEntity
     {
-        public ProductEntity(string productName, string description, decimal price, int quantity, string imageUrl) 
+        public ProductEntity(string productName, string description, decimal price, int stock, string imageUrl) 
         {
             ProductName = productName;
             Description = description;
             Price = price;
-            Quantity = quantity;
+            Stock = stock;
             ImageUrl = imageUrl;
         }
 
-        public ProductEntity(string productName, string description, decimal price, int quantity, ProductCategoryEnum category, string? imageUrl)
+        public ProductEntity(string productName, string description, decimal price, int stock, ProductCategoryEnum category, string? imageUrl)
         {
             ProductName = productName;
             Description = description;
             Price = price;
-            Quantity = quantity;
+            Stock = stock;
             Sales = 0;
             Category = category;
             ImageUrl = imageUrl;
@@ -30,7 +30,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public string ProductName { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }
-        public int Quantity { get; private set; } 
+        public int Stock { get; private set; } 
         public int Sales { get; private set; }
 
         public List<TransactionProductEntity> TransactionProducts { get; private set; }
@@ -45,9 +45,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
                 Sales += n;
             }
         }
-        public void SetStockProduct(int quantity)
+        public void SetStockProduct(int Unit)
         {
-            Quantity += quantity;
+            Stock += Unit;
         }
         public void SetProductCategory(ProductCategoryEnum category)
         {

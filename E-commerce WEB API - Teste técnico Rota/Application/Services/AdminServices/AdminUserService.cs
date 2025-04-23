@@ -1,4 +1,5 @@
-﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
@@ -16,10 +17,29 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         }
 
         //Queries
-        public async Task<List<UserEntity>> GetAllUsers()
+        public async Task<(bool,string, List<UserDtoPatern>?)> GetAllUsers()
         {
-            var users = await _dbContextInMemory.User.ToListAsync();
-            return users;
+            try
+            {
+                List<UserEntity> ListUsers = new List<UserEntity>();
+                string message = string.Empty;
+                var users = await _dbContextInMemory.User.ToListAsync();
+
+                if (users is null)
+                {
+                    message = "";
+                    return (false, message, null);
+                }
+                foreach (var u in users)
+                {
+
+                }
+                return (true, message, ListUsers);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Erro ao buscar os usuários: {ex.Message}", null);
+            }
         }
 
         public async Task<(bool, string, UserEntity?)> GetUserByEmail(string email)

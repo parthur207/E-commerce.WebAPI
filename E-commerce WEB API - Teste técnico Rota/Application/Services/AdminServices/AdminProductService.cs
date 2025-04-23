@@ -239,7 +239,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             try
             {
                 var ProductsNoStock = await _dbContextInMemory.Product
-                    .Where(x => x.Quantity == 0)
+                    .Where(x => x.Stock == 0)
                     .ToListAsync();
 
                 if (ProductsNoStock is null)
@@ -424,7 +424,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                         .SetProperty(x => x.ProductName, ProductEntity.ProductName)
                         .SetProperty(x => x.Description, ProductEntity.Description)
                         .SetProperty(x => x.Price, ProductEntity.Price)
-                        .SetProperty(x => x.Quantity, ProductEntity.Quantity)
+                        .SetProperty(x => x.Stock, ProductEntity.Stock)
                         .SetProperty(x => x.ImageUrl, ProductEntity.ImageUrl));
                 await _dbContextInMemory.SaveChangesAsync();
 

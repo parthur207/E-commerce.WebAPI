@@ -34,7 +34,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
 
                 foreach (var t in transactions)
                 {
-                    var transactionsDto= AdminTransactionMapper.ToTransactionDTO(t);
+                    var transactionsDto= TransactionMapper.ToTransactionAdminDTO(t);
                     ListTransactions.Add(transactionsDto);
                 }
 
@@ -62,7 +62,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     return (false, message, null);
                 }
 
-                return (true, message, transaction);
+                var transactionDto = TransactionMapper.ToTransactionAdminDTO(transaction);
+
+                return (true, message, transactionDto);
             }
             catch (Exception ex)
             {
@@ -74,6 +76,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         public async Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserId(int idUser)
         {
             string message = string.Empty;
+            List<AdminTransactionDTO> ListTransactions = new List<AdminTransactionDTO>();
             try
             {
                 var transactions = await _dbContextInMemory.Transaction
@@ -86,7 +89,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     return (false, message, null);
                 }
 
-                return (true, message, transactions);
+                foreach(var t in transactions)
+                {
+                    var transactionDto = TransactionMapper.ToTransactionAdminDTO(t);
+                    ListTransactions.Add(transactionDto);
+                }
+
+                return (true, message, ListTransactions);
             }
             catch (Exception ex)
             {
