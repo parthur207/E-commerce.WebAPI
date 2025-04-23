@@ -25,107 +25,288 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
 
 
         //Queries
-        public async Task<List<ProductEntity>> GetAllProducts()
+        public async Task<(bool, string, List<ProductEntity>?)> GetAllProducts()
         {
-            var products = await _dbContextInMemory.Product.ToListAsync();
-
-            return products;
+            string message=string.Empty;
+            try
+            {
+                var products = await _dbContextInMemory.Product.ToListAsync();
+                if(products is null)
+                {
+                    message= "Não foram encontrados produtos.";
+                    return (false, message, null);
+                }
+                return (true, message, products);
+            }
+            catch(Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<ProductEntity>> GetAllProductsByStatus(ProductStatusEnum status)
+        public async Task<(bool, string, List<ProductEntity>?)> GetAllProductsByStatus(ProductStatusEnum status)
         {
-            var productsStatus = await _dbContextInMemory.Product.Where(x => x.ProductStatus == status).ToListAsync();
-
-            return productsStatus;
+            string message = string.Empty;
+            try
+            {
+                var productsStatus = await _dbContextInMemory.Product
+                    .Where(x => x.ProductStatus == status)
+                    .ToListAsync();
+                if (productsStatus is null)
+                {
+                    message = "Não foram encontrados produtos.";
+                    return (false, message, null);
+                }
+                return (true, message, productsStatus);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<ProductEntity> GetBiggestSale()
+        public async Task<(bool, string, ProductEntity?)> GetBiggestSale()
         {
-            var BigSale = await _dbContextInMemory.Product
-                .OrderByDescending(x => x.Sales)
-                .FirstOrDefaultAsync();
+            string message = string.Empty;
+            try
+            {
+                var BigSale = await _dbContextInMemory.Product
+                    .OrderByDescending(x => x.Sales)
+                    .FirstOrDefaultAsync();
 
-            return BigSale;
+                if (BigSale is null)
+                {
+                    message = "Não foram encontrados produtos.";
+                    return (false, message, null);
+                }
+                return (true, message, BigSale);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<ProductEntity> GetProductById(int idProduct)
+        public async Task<(bool, string, ProductEntity?)> GetProductById(int idProduct)
         {
-            var Product = await _dbContextInMemory.Product
-                .Where(x => x.Id == idProduct)
-                .FirstOrDefaultAsync();
+            string message = string.Empty;
 
-            return Product;
+            try
+            {
+                var Product = await _dbContextInMemory.Product
+                    .Where(x => x.Id == idProduct)
+                    .FirstOrDefaultAsync();
+
+                if(Product is null)
+                {
+                    message = "Não foram encontrados produtos.";
+                    return (false, message, null);
+                }
+
+                return (true, message, Product);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produto: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<ProductEntity>> GetProductsByCategory(ProductCategoryEnum category)
+        public async Task<(bool, string, List<ProductEntity>?)> GetProductsByCategory(ProductCategoryEnum category)
         {
-            var ProductsCategory = await _dbContextInMemory.Product.Where(x => x.Category == category)
-                .ToListAsync();
+            string message = string.Empty;
+            try
+            {
+                var ProductsCategory = await _dbContextInMemory.Product
+                    .Where(x => x.Category == category)
+                    .ToListAsync();
 
-            return ProductsCategory;
+                if (ProductsCategory is null)
+                {
+                    message = $"Não foram encontrados produtos da categoria '{category}'.";
+                    return (false, message, null);
+                }
+
+                return (true, message, ProductsCategory);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<ProductEntity>> GetProductsByPrice(decimal price)
+        public async Task<(bool, string, List<ProductEntity>?)> GetProductsByPrice(decimal price)
         {
-            var ProductsPrice = await _dbContextInMemory.Product
-                .Where(x => x.Price <= price)
-                .ToListAsync();
+            string message = string.Empty;
+            try
+            {
+                var ProductsPrice = await _dbContextInMemory.Product
+                    .Where(x => x.Price <= price)
+                    .ToListAsync();
 
-            return ProductsPrice;
+                if (ProductsPrice is null)
+                {
+                    message = $"Não foram encontrados produtos com preço menor ou igual a '{price}'.";
+                    return (false, message, null);
+                }
+
+                return (true, message, ProductsPrice);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<ProductEntity>> GetProductsInactive()
+        public async Task<(bool, string, List<ProductEntity>?)> GetProductsInactive()
         {
-            var ProductsInactive = await _dbContextInMemory.Product.Where(x => x.ProductStatus == ProductStatusEnum.Inactive)
-                .ToListAsync();
+            string message = string.Empty;
 
-            return ProductsInactive;
+            try
+            {
+                var ProductsInactive = await _dbContextInMemory.Product
+                    .Where(x => x.ProductStatus == ProductStatusEnum.Inactive)
+                    .ToListAsync();
+
+                if (ProductsInactive is null)
+                {
+                    message = $"Não foram encontrados produtos inativos.";
+                    return (false, message, null);
+                }
+
+                return (true, message, ProductsInactive);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<ProductEntity>> GetProductsNoStock()
+        public async Task<(bool, string, List<ProductEntity>?)> GetProductsNoStock()
         {
-            var ProductsNoStock = await _dbContextInMemory.Product.Where(x => x.Quantity == 0)
-                .ToListAsync();
-
-            return ProductsNoStock;
+            string message = string.Empty;
+            try
+            {
+                var ProductsNoStock = await _dbContextInMemory.Product
+                    .Where(x => x.Quantity == 0)
+                    .ToListAsync();
+                if (ProductsNoStock is null)
+                {
+                    message = $"Não foram encontrados produtos sem estoque.";
+                    return (false, message, null);
+                }
+                return (true, message, ProductsNoStock);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<ProductEntity>> GetSales()
+        public async Task<(bool, string, List<ProductEntity>?)> GetSales()
         {
-            var Sales = await _dbContextInMemory.Product
-                .Where(x => x.Sales > 0)
-                .ToListAsync();
+            string message = string.Empty;
+            try
+            {
+                var ProductSales = await _dbContextInMemory.Product
+                    .Where(x => x.Sales > 0)
+                    .ToListAsync();
+                if (ProductSales is null)
+                {
+                    message = $"Não foram encontrados produtos com vendas.";
+                    return (false, message, null);
+                }
 
-            return Sales;
+                return (true, message, ProductSales);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<ProductEntity>> GetSalesById(int productIdSales)
+        public async Task<(bool, string, List<ProductEntity>?)> GetSalesById(int productIdSales)
         {
-            var ProductIdSales = await _dbContextInMemory.Product
-                .Where(x => x.Id == productIdSales)
-                .ToListAsync();
+            string message = string.Empty;
+            try
+            {
+                var ProductIdSales = await _dbContextInMemory.Product
+                    .Where(x => x.Id == productIdSales)
+                    .ToListAsync();
 
-            return ProductIdSales;
+                if (ProductIdSales is null)
+                {
+                    message = $"Não foram encontradas vendas vinculadas ao produto.";
+                    return (false, message, null);
+                }
+                return (true, message, ProductIdSales);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<TransactionProductEntity>> GetSalesByPeriod(DateTime from, DateTime To)
+        public async Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriod(DateTime from, DateTime To)
         {
-            var SalesPeriod = await _dbContextInMemory.TransactionProduct
-                .Include(x => x.Product)
-                .Where(x => x.Transaction.TransactionDate >= from && x.Transaction.TransactionDate <= To).ToListAsync();
+            string message = string.Empty;
 
-            return SalesPeriod;
+            try
+            {
+                var SalesPeriod = await _dbContextInMemory.TransactionProduct
+                    .Include(x => x.Product)
+                    .Where(x => x.Transaction.TransactionDate.Date >= from.Date && x.Transaction.TransactionDate.Date <= To.Date)
+                    .ToListAsync();
+
+                if (SalesPeriod is null)
+                {
+                    message = $"Não foram encontradas vendas no período de: {from.Date} até: {To.Date}";
+                    return (false, message, null);
+                }
+
+                return (true, message, SalesPeriod);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
-        public async Task<List<TransactionProductEntity>> GetBiggestSaleForDate(DateTime Date)
+        public async Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSaleForDate(DateTime Date)
         {
-            var BiggerSaleForDate = await _dbContextInMemory.TransactionProduct
-                .Include(x => x.Product)
-                .ThenInclude(x => x.Sales)
-                .Where(x => x.Transaction.TransactionDate == Date)
-                .ToListAsync();
+            string message = string.Empty;
 
-            return BiggerSaleForDate;
+            try
+            {
+                var BiggestsSalesForDate = await _dbContextInMemory.TransactionProduct
+                    .Include(x => x.Product)
+                    .ThenInclude(x => x.Sales)
+                    .OrderByDescending(x => x.Product.Sales)
+                    .Where(x => x.Transaction.TransactionDate.Date == Date.Date)
+                    .ToListAsync();
+
+                if (BiggestsSalesForDate is null)
+                {
+                    message = $"Não foram encontradas vendas na data: {Date.Date}";
+                    return (false, message, null);
+                }
+                return (true, message, BiggestsSalesForDate);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produtos: {ex.Message}";
+                return (false, message, null);
+            }        
         }
 
         //Commands
