@@ -8,7 +8,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
 {
    [ApiController]
    [Route("api/user")]
-    public class UserAdminController : ControllerBase
+    public class UserAndAdminController : ControllerBase
     {
         
         [HttpPost("register")]

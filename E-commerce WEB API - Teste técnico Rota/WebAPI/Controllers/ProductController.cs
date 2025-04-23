@@ -31,15 +31,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
         [HttpGet("search")]
         public IActionResult GetProductById(string search)
         {
-            //chama o service de get que retorna com o produto específico
-
-            /*if(productentity is null)
-             {
-                return NotFound("Produto não encontrado");
-             }
-             */
-
-            //chamar o mappeamento do produto para model e retorna-lo
+           if()
             return Ok("Produto específico");
         }
 

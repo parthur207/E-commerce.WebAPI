@@ -12,7 +12,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             UserId = userId;
             TotalValue = totalValue;
             TransactionDate = DateTime.Now;
-            TransactionStatus = TransactionStatusEnum.Pending;
+            TransactionStatus = TransactionStatusEnum.PendingPayment;
             ShoppingList = shoppingList;
         }
 
@@ -32,23 +32,23 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 
         public void SetTransactionStatusToPaid()
         {
-            if (TransactionStatus == TransactionStatusEnum.Pending || TransactionStatus == TransactionStatusEnum.InProcessing)
+            if (TransactionStatus == TransactionStatusEnum.PendingPayment)
             {
                 TransactionStatus = TransactionStatusEnum.Paid;
             }
         }
 
-        public void SetTransactionStatusToInProcessing()
+        public void SetTransactionStatusToInPendingShipping()
         {
-            if (TransactionStatus == TransactionStatusEnum.Pending || TransactionStatus == TransactionStatusEnum.Paid)
+            if (TransactionStatus == TransactionStatusEnum.Paid)
             {
-                TransactionStatus = TransactionStatusEnum.InProcessing;
+                TransactionStatus = TransactionStatusEnum.PendingShipping;
             }
         }
 
         public void SetTransactionStatusToCanceled()
         {
-            if (TransactionStatus == TransactionStatusEnum.Pending || TransactionStatus == TransactionStatusEnum.Paid || TransactionStatus == TransactionStatusEnum.InProcessing)
+            if (TransactionStatus == TransactionStatusEnum.PendingPayment) //Teria que implementar um "&&" e uma funçaõ que verificasse se o pagamento não foi realizado dentro de um período específico
             {
                 TransactionStatus = TransactionStatusEnum.Canceled;
             }

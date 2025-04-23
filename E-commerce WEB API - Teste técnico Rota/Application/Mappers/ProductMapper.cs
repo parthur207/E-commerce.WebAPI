@@ -36,7 +36,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
             );
         }
 
-        public static ProductEntity FromProductModel(AdminCreateProductModel productModel)//Criação de um NOVO produto (Model=> Entity)
+        public static ProductEntity ToCreateProductEntity(AdminCreateProductModel productModel)//Criação de um NOVO produto (Model=> Entity)
         {
             return new ProductEntity(
                 productModel.ProductName,
@@ -47,7 +47,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
                 productModel.ImageUrl);
         }
 
-        public static ProductEntity FromUpdateProductModel(AdminUpdateProductModel model)//Atualização de um produto (Model=> Entity)
+        public static ProductEntity ToAdminUpdateProductEntity(AdminUpdateProductModel model)//Atualização de um produto (Model=> Entity)
         {
             return new ProductEntity(model.ProductName,
               model.Description,

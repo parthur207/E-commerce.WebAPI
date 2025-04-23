@@ -1,4 +1,7 @@
-﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
@@ -15,16 +18,27 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             _dbContextInMemory = dbContextInMemory;
         }
 
-        public async Task<(bool, string, List<TransactionEntity>?)> GetAllTransactions()
+        public async Task<(bool, string, List<AdminTransactionDTO>?)> GetAllTransactions()
         {
             string message=string.Empty;
+            List<AdminTransactionDTO> ListTransactions = new List<AdminTransactionDTO>();
             try
             {
                 var transactions = await _dbContextInMemory.Transaction.ToListAsync();
 
+                if(transactions is null)
+                {
+                    message = "Transações não encontradas.";
+                    return (false, message, null);
+                }
 
+                foreach (var t in transactions)
+                {
+                    var transactionsDto= AdminTransactionMapper.ToTransactionDTO(t);
+                    ListTransactions.Add(transactionsDto);
+                }
 
-                return (true, message, transactions);
+                return (true, message, ListTransactions);
             }
             catch (Exception ex)
             {
@@ -33,7 +47,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, TransactionEntity?)> GetTransactionById(int idTransaction)
+        public async Task<(bool, string, AdminTransactionDTO?)> GetTransactionById(int idTransaction)
         {
             string message = string.Empty;
             try
@@ -57,7 +71,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, List<TransactionEntity>?)> GetTransactionsByUserId(int idUser)
+        public async Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserId(int idUser)
         {
             string message = string.Empty;
             try

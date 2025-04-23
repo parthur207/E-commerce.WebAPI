@@ -8,7 +8,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
     {
 
         // para atualizar dados do user
-        public UserEntity(string name, string? phone, string address)
+        public UserEntity(string name, int? phone, string address)
         {
             Name = name;
             Phone = phone;
@@ -16,7 +16,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         }
 
         //para criar um novo user
-        public UserEntity(string name, DateTime birthDate, string email, string password, string? phone, string address)
+        public UserEntity(string name, DateTime birthDate, string email, string password, int? phone, string address)
         {
             Name = name;
             BirthDate = birthDate;
@@ -33,7 +33,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public DateTime BirthDate { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
-        public string? Phone { get; private set; }
+        public int? Phone { get; private set; }
         public string Address { get; private set; }
         public List<TransactionEntity> Transactions { get; private set; } //Lista de transações do usuário
         public UserStatusEnum UserStatus { get; private set; }
@@ -50,7 +50,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             UserStatus = UserStatusEnum.Inactive;
         }
 
-        public void UpdatePhone(string? newPhone)
+        public void UpdatePhone(int? newPhone)
         {
             Phone = newPhone;
         }

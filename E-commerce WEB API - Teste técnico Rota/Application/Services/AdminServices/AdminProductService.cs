@@ -1,4 +1,5 @@
-﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin;
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers;
@@ -21,12 +22,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             _dbContextInMemory = dbContextInMemory;
         }
 
-        /*Em métodos de consulta. Os dados não serão convertidos para DTO por serem métodos Admin*/
-
-
         //Queries
-        public async Task<(bool, string, List<ProductEntity>?)> GetAllProducts()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetAllProducts()
         {
+            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message=string.Empty;
             try
             {
@@ -36,7 +35,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     message= "Não foram encontrados produtos.";
                     return (false, message, null);
                 }
-                return (true, message, products);
+
+                foreach (var p in products)
+                {
+                    var ProductSalesDTO = ProductMapper.ToProductAdminDTO(p);
+                    ListProducts.Add(ProductSalesDTO);
+                }
+
+                return (true, message, ListProducts);
             }
             catch(Exception ex)
             {
@@ -45,8 +51,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, List<ProductEntity>?)> GetAllProductsByStatus(ProductStatusEnum status)
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetAllProductsByStatus(ProductStatusEnum status)
         {
+            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
             try
             {
@@ -58,7 +65,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     message = "Não foram encontrados produtos.";
                     return (false, message, null);
                 }
-                return (true, message, productsStatus);
+
+                foreach (var p in productsStatus)
+                {
+                    var productmapped = ProductMapper.ToProductAdminDTO(p);
+                    ListProducts.Add(productmapped);
+                }
+                return (true, message, ListProducts);
             }
             catch (Exception ex)
             {
@@ -67,21 +80,28 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, ProductEntity?)> GetBiggestSale()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetBiggestSale()
         {
+            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();   
             string message = string.Empty;
             try
             {
                 var BigSale = await _dbContextInMemory.Product
                     .OrderByDescending(x => x.Sales)
-                    .FirstOrDefaultAsync();
+                    .ToListAsync();
 
                 if (BigSale is null)
                 {
                     message = "Não foram encontrados produtos.";
                     return (false, message, null);
                 }
-                return (true, message, BigSale);
+
+                foreach (var p in BigSale) {
+
+                    var BigSaleMapped = ProductMapper.ToProductAdminDTO(p);
+                    ListProducts.Add(BigSaleMapped);
+                }
+                return (true, message, ListProducts);
             }
             catch (Exception ex)
             {
@@ -90,7 +110,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, ProductEntity?)> GetProductById(int idProduct)
+        public async Task<(bool, string, AdminProductDTO?)> GetProductById(int idProduct)
         {
             string message = string.Empty;
 
@@ -106,7 +126,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     return (false, message, null);
                 }
 
-                return (true, message, Product);
+                var productMapped = ProductMapper.ToProductAdminDTO(Product);
+
+                return (true, message, productMapped);
             }
             catch (Exception ex)
             {
@@ -115,8 +137,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, List<ProductEntity>?)> GetProductsByCategory(ProductCategoryEnum category)
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsByCategory(ProductCategoryEnum category)
         {
+            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
             try
             {
@@ -130,7 +153,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     return (false, message, null);
                 }
 
-                return (true, message, ProductsCategory);
+                foreach (var p in ProductsCategory)
+                {
+                    var ProductSalesDTO = ProductMapper.ToProductAdminDTO(p);
+                    ListProducts.Add(ProductSalesDTO);
+                }
+
+                return (true, message, ListProducts);
             }
             catch (Exception ex)
             {
@@ -139,8 +168,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, List<ProductEntity>?)> GetProductsByPrice(decimal price)
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsByPrice(decimal price)
         {
+            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
             try
             {
@@ -154,7 +184,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     return (false, message, null);
                 }
 
-                return (true, message, ProductsPrice);
+                foreach (var p in ProductsPrice)
+                {
+                    var ProductSalesDTO = ProductMapper.ToProductAdminDTO(p);
+                    ListProducts.Add(ProductSalesDTO);
+                }
+
+                return (true, message, ListProducts);
             }
             catch (Exception ex)
             {
@@ -163,8 +199,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, List<ProductEntity>?)> GetProductsInactive()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsInactive()
         {
+            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
 
             try
@@ -179,7 +216,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     return (false, message, null);
                 }
 
-                return (true, message, ProductsInactive);
+                foreach (var p in ProductsInactive)
+                {
+                    var ProductSalesDTO = ProductMapper.ToProductAdminDTO(p);
+                    ListProducts.Add(ProductSalesDTO);
+                }
+
+                return (true, message, ListProducts);
             }
             catch (Exception ex)
             {
@@ -188,20 +231,30 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, List<ProductEntity>?)> GetProductsNoStock()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsNoStock()
         {
+            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>(); 
             string message = string.Empty;
+
             try
             {
                 var ProductsNoStock = await _dbContextInMemory.Product
                     .Where(x => x.Quantity == 0)
                     .ToListAsync();
+
                 if (ProductsNoStock is null)
                 {
                     message = $"Não foram encontrados produtos sem estoque.";
                     return (false, message, null);
                 }
-                return (true, message, ProductsNoStock);
+
+                foreach (var p in ProductsNoStock)
+                {
+                    var ProductSalesDTO = ProductMapper.ToProductAdminDTO(p);
+                    ListProducts.Add(ProductSalesDTO);
+                }
+
+                return (true, message, ListProducts);
             }
             catch (Exception ex)
             {
@@ -210,21 +263,30 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, List<ProductEntity>?)> GetSales()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetSales()
         {
+            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
+
             string message = string.Empty;
             try
             {
                 var ProductSales = await _dbContextInMemory.Product
                     .Where(x => x.Sales > 0)
                     .ToListAsync();
+
                 if (ProductSales is null)
                 {
                     message = $"Não foram encontrados produtos com vendas.";
                     return (false, message, null);
                 }
 
-                return (true, message, ProductSales);
+                foreach (var p in ProductSales)
+                {
+                    var ProductSalesDTO = ProductMapper.ToProductAdminDTO(p);
+                    ListProducts.Add(ProductSalesDTO);
+                }
+
+                return (true, message, ListProducts);
             }
             catch (Exception ex)
             {
@@ -233,7 +295,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, ProductEntity?)> GetSaleById(int productIdSales)
+        public async Task<(bool, string, AdminProductDTO?)> GetSaleById(int productIdSales)
         {
             string message = string.Empty;
             try
@@ -242,12 +304,16 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     .Where(x => x.Id == productIdSales)
                     .FirstOrDefaultAsync();
 
+             
                 if (ProductIdSales is null)
                 {
                     message = $"Não foram encontradas vendas vinculadas ao produto.";
                     return (false, message, null);
-                }
-                return (true, message, ProductIdSales);
+                }   
+
+                var ProductIdSalesDTO = ProductMapper.ToProductAdminDTO(ProductIdSales);
+
+                return (true, message, ProductIdSalesDTO);
             }
             catch (Exception ex)
             {
@@ -314,7 +380,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         {
             try
             {
-                var productEntity = ProductMapper.FromProductModel(product);
+                var productEntity = ProductMapper.ToCreateProductEntity(product);
 
                 if (productEntity is null)
                 {
@@ -336,7 +402,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         {
             try
             {
-                var ProductEntity = ProductMapper.FromUpdateProductModel(model);
+                var ProductEntity = ProductMapper.ToAdminUpdateProductEntity(model);
 
                 if (ProductEntity is null)
                 {

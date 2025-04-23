@@ -7,12 +7,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models
     public class UpdateUserPasswordModel
     {
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "É obrigatório o informe da senha atual.")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="É obrigatório o informe da nova senha.")]
         public string NewPassword { get; set; }
     }
 }

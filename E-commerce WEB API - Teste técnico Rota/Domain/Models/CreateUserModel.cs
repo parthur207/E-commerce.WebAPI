@@ -18,7 +18,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models
 
         [Required(ErrorMessage = "É obrigatório o informe de uma senha.")]
         public string Password { get; set; }
-        public string? Phone { get; set; }
+        public int? Phone { get; set; }
 
         [Required(ErrorMessage ="É obrigatório informar seu endereço.")]
         public string Address { get; set; }

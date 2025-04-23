@@ -10,20 +10,20 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
     {
 
         //Queries
-        Task<(bool, string, List<ProductEntity>?)> GetAllProducts();
-        Task<(bool, string, ProductEntity?)> GetProductById(int idProduct);
-        Task<(bool, string, List<ProductEntity>?)> GetAllProductsByStatus(ProductStatusEnum status);
-        Task<(bool, string, List<ProductEntity>?)> GetProductsByCategory(ProductCategoryEnum category);
-        Task<(bool, string, List<ProductEntity>?)> GetProductsByPrice(decimal price);
-        Task<(bool, string, List<ProductEntity>?)> GetProductsNoStock();
-        Task<(bool, string, List<ProductEntity>?)> GetProductsInactive();
+        Task<(bool, string, List<AdminProductDTO>?)> GetAllProducts();
+        Task<(bool, string, AdminProductDTO?)> GetProductById(int idProduct);
+        Task<(bool, string, List<AdminProductDTO>?)> GetAllProductsByStatus(ProductStatusEnum status);
+        Task<(bool, string, List<AdminProductDTO>?)> GetProductsByCategory(ProductCategoryEnum category);
+        Task<(bool, string, List<AdminProductDTO>?)> GetProductsByPrice(decimal price);
+        Task<(bool, string, List<AdminProductDTO>?)> GetProductsNoStock();
+        Task<(bool, string, List<AdminProductDTO>?)> GetProductsInactive();
 
-        Task<(bool, string, List<ProductEntity>?)> GetSales();
-        Task<(bool, string, ProductEntity?)> GetSaleById(int productId);
-        Task<(bool, string, ProductEntity?)> GetBiggestSale();
+        Task<(bool, string, List<AdminProductDTO>?)> GetSales();
+        Task<(bool, string, AdminProductDTO?)> GetSaleById(int productId);
+        Task<(bool, string, List<AdminProductDTO?>)> GetBiggestSale();
 
         //Commands
-        Task<(bool, string)> PostProduct(AdminCreateProductModel product);
+        Task<(bool,  string)> PostProduct(AdminCreateProductModel product);
         Task<(bool,string)> PutProduct(int ProductId, AdminUpdateProductModel model);
         Task<(bool, string)> PutProductStatus(int ProductId, ProductStatusEnum status);
         Task<(bool, string)> PutProductCategory(int ProductId, ProductCategoryEnum category);

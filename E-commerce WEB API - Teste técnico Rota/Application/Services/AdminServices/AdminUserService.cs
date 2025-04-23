@@ -22,11 +22,27 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             return users;
         }
 
-        public async Task<UserEntity> GetUserByEmail(string email)
+        public async Task<(bool, string, UserEntity?)> GetUserByEmail(string email)
         {
-            var userEntity = await _dbContextInMemory.User.FirstOrDefaultAsync(x => x.Email == email);
-            
-            return userEntity;
+            string message = string.Empty;
+            try
+            {
+                var userEntity = await _dbContextInMemory.User.FirstOrDefaultAsync(x => x.Email == email);
+
+                if(userEntity is null)
+                {
+                    message= "Usuário não encontrado.";
+                    return (false, message, null);
+                }
+
+                var userMapped=
+                return (true, message, userMapped);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao buscar o usuário: {ex.Message}");
+            }
         }
 
         //Commands

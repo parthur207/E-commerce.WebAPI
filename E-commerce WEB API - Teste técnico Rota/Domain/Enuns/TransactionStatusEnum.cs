@@ -2,9 +2,9 @@
 {
     public enum TransactionStatusEnum
     {
-        Pending = 1,
+        PendingPayment= 1,
         Paid = 2,
-        InProcessing=3,
+        PendingShipping = 3,
         Canceled = 4,
         Completed = 5,
     }
