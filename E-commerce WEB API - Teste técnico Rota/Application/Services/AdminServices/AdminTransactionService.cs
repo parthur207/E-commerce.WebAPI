@@ -104,7 +104,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string)> PutTransactionStatus(int idTransction, TransactionStatusEnum status)
+        public async Task<(bool, string)> PutTransactionStatusToCanceled(int idTransction)
         {
             try
             {
@@ -118,7 +118,31 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                 }
 
                 await _dbContextInMemory.Transaction.Where(x => x.Id == idTransction)
-                    .ExecuteUpdateAsync(x => x.SetProperty(y => y.TransactionStatus, status));
+                    .ExecuteUpdateAsync(x => x.SetProperty(y => y.TransactionStatus, TransactionStatusEnum.Canceled));
+
+                return (true, "O status da transação foi atualzado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Erro ao alterar o status da transação: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool, string)> PutTransactionStatusToSent(int idTransction)
+        {
+            try
+            {
+                var TransactionEntity = await _dbContextInMemory.Transaction
+                 .Where(x => x.Id == idTransction)
+                 .FirstOrDefaultAsync();
+
+                if (TransactionEntity is null)
+                {
+                    return (false, "Transação não encontrada.");
+                }
+
+                await _dbContextInMemory.Transaction.Where(x => x.Id == idTransction)
+                    .ExecuteUpdateAsync(x => x.SetProperty(y => y.TransactionStatus, TransactionStatusEnum.Canceled));
 
                 return (true, "O status da transação foi atualzado com sucesso.");
             }

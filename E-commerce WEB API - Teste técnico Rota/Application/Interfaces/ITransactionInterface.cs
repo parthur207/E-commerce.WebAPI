@@ -13,6 +13,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces
 
         //Commands
         Task<(bool, string)> PostTransaction(CreateTransactionModel transaction);
-        Task<(bool, string)> PutTransactionStatus(int transactionId, TransactionStatusEnum status);
+
+        Task<(bool, string)> PutTransactionStatusToPaid(int transactionId);
     }
 }

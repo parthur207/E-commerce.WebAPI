@@ -44,7 +44,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services
             }
             catch (Exception ex)
             {
-                message = $"Erro ao buscar as transações: {ex.Message}";
+                message = "Ocorreu um erro inesperado.";
                 return (false, message , null);
             }
         }
@@ -53,22 +53,53 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services
         //Commands
         public async Task<(bool, string)> PostTransaction(CreateTransactionModel transaction)
         {
-            var transactionEntity= TransactionMapper.FromTransactionModel(transaction);
-
-            if(transactionEntity is null)
+            try
             {
-                return (false, "Erro ao criar a transação e falha no mapeamento.");
-            }
+                var transactionEntity = TransactionMapper.ToTransactionEntity(transaction);
 
-            await _dbContextInMemory.Transaction.AddAsync(transactionEntity);
-            await _dbContextInMemory.SaveChangesAsync();  
-           
-            return (true, "Compra realizada com sucesso!\nEfetue o pagamento.");
+                if (transactionEntity is null)
+                {
+                    return (false, "Erro ao criar a transação e falha no mapeamento.");
+                }
+
+                await _dbContextInMemory.Transaction.AddAsync(transactionEntity);
+                await _dbContextInMemory.SaveChangesAsync();
+
+                return (true, "Compra realizada com sucesso!\nEfetue o pagamento.");
+            }
+            catch
+            {
+
+                return (false, "Ocorreu um erro inesperado.");
+            }
         }
 
-        public Task<(bool, string)> PutTransactionStatus(int transactionId, TransactionStatusEnum status)
+        public async Task<(bool, string)> PutTransactionStatusToPaid(int transactionId)
         {
-            throw new NotImplementedException();
+            string message = string.Empty;
+            try
+            {
+                var TransactionEntity = await _dbContextInMemory.Transaction.Where(x=>x.TransactionStatus==TransactionStatusEnum.Paid).FirstOrDefaultAsync();
+
+                
+                if(TransactionEntity is null)
+                {
+                    message = "Tranação não encontrada.";
+                    return (false, message);
+                }
+
+                await _dbContextInMemory.Transaction.Where(x => x.Id == transactionId)
+                    .ExecuteUpdateAsync(x => x.SetProperty(y => y.TransactionStatus, TransactionStatusEnum.Paid));
+                await _dbContextInMemory.SaveChangesAsync();
+
+                message= "Pagamento confirmado com sucesso!\nAguarde enquanto o vendedor providencia o envio.";
+                return (true, message);
+            }
+            catch
+            {
+                message = "Ocorreu um erro inesperado.";
+                return (false,message);
+            }
         }
     }
 }

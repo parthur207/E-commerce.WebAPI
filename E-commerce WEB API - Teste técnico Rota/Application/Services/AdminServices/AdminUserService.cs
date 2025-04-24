@@ -1,5 +1,6 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
 using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
@@ -17,24 +18,25 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
         }
 
         //Queries
-        public async Task<(bool,string, List<UserDtoPatern>?)> GetAllUsers()
+        public async Task<(bool,string, List<UserDTO>?)> GetAllUsers()
         {
             try
             {
-                List<UserEntity> ListUsers = new List<UserEntity>();
+                List<UserDTO> ListUsersDTO = new List<UserDTO>();
                 string message = string.Empty;
-                var users = await _dbContextInMemory.User.ToListAsync();
+                var usersEntity = await _dbContextInMemory.User.ToListAsync();
 
-                if (users is null)
+                if (usersEntity is null)
                 {
                     message = "";
                     return (false, message, null);
                 }
-                foreach (var u in users)
+                foreach (var u in usersEntity)
                 {
-
+                    var userDTO = UserMapper.ToUserDTO(u);
+                    ListUsersDTO.Add(userDTO);
                 }
-                return (true, message, ListUsers);
+                return (true, message, ListUsersDTO);
             }
             catch (Exception ex)
             {
@@ -42,7 +44,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
             }
         }
 
-        public async Task<(bool, string, UserEntity?)> GetUserByEmail(string email)
+        public async Task<(bool, string, UserDTO?)> GetUserByEmail(string email)
         {
             string message = string.Empty;
             try
@@ -55,8 +57,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin
                     return (false, message, null);
                 }
 
-                var userMapped=
-                return (true, message, userMapped);
+                var userMappedDTO = UserMapper.ToUserDTO(userEntity);
+                return (true, message, userMappedDTO);
 
             }
             catch (Exception ex)

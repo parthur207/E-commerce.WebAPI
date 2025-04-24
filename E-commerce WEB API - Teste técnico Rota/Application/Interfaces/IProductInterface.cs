@@ -1,5 +1,6 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
+using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces
 {
@@ -7,13 +8,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces
     {
         
         //Queries
-        Task<(bool, List<ProductDTO?>)> GetAllProducts();
+        Task<(bool, string, List<ProductDTO>?)> GetAllProducts();
 
-        Task<(bool, ProductDTO?)> GetProductByName(string ProductName);
+        Task<(bool,string, ProductDTO?)> GetProductByName(string ProductName);
 
-        Task<(bool, List<ProductDTO?>)> GetProductsByCategory(string category);
+        Task<(bool, string, List<ProductDTO>?)> GetProductsByCategory(ProductCategoryEnum category);
 
-        Task<(bool, List<ProductDTO?>)> GetProductsByPrice(decimal price);
+        Task<(bool,string,  List<ProductDTO>?)> GetProductsByPrice(decimal price);
 
         //Commands
     }

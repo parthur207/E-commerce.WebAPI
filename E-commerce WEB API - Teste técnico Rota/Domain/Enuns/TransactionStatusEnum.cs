@@ -4,7 +4,7 @@
     {
         PendingPayment= 1,
         Paid = 2,
-        PendingShipping = 3,
+        Sent = 3,
         Canceled = 4,
         Completed = 5,
     }

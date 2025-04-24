@@ -13,6 +13,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
         Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserId(int idUser);
 
         //Commads
-        Task<(bool, string)> PutTransactionStatus(int idTransction, TransactionStatusEnum status);
+        Task<(bool, string)> PutTransactionStatusToCanceled(int idTransction);
     }
 }

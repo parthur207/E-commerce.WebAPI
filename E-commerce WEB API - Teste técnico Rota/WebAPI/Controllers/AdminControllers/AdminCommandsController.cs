@@ -70,8 +70,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
         public async Task<IActionResult> PutProductStatus([FromRoute]int idproduct, [FromBody] AdminUpdateProductStatusModel statusProduct)
         {
 
-            //corrigir no service
-            var (status, message)= await _adminProductInterface.PutProductStatus(idproduct, statusProduct);
+            var productStatus= statusProduct.ProductStatus;
+            var (status, message)= await _adminProductInterface.PutProductStatus(idproduct, productStatus);
 
             if (status == false)
             {
@@ -85,8 +85,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
         [HttpPut("product/category/{idproduct}")]
         public async Task<IActionResult> PutProductCategory([FromRoute]int idproduct, [FromBody] AdminUpdateProductCategoryModel category)
         {
-            //corrigir no service
-            var (status, message)= await _adminProductInterface.PutProductCategory(idproduct, category);
+            var CategoryExtracted=category.NewCategory; 
+            var (status, message)= await _adminProductInterface.PutProductCategory(idproduct, CategoryExtracted);
 
             if (status == false)
             {
