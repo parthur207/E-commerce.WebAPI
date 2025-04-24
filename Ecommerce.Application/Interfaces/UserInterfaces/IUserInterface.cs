@@ -1,6 +1,6 @@
 ﻿using Ecommerce.Domain.Models;
 
-namespace Ecommerce.Application.Interfaces
+namespace Ecommerce.Application.Interfaces.UserInterfaces
 {
     public interface IUserInterface
     {

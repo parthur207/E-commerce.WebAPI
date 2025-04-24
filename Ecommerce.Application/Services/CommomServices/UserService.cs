@@ -1,8 +1,7 @@
-﻿
-using Ecommerce.Application.Interfaces;
+﻿using Ecommerce.Application.Interfaces.UserInterfaces;
 using Ecommerce.Domain.Models;
 
-namespace Ecommerce.Application.Services
+namespace Ecommerce.Application.Services.CommomServices
 {
     public class UserService : IUserInterface
     {

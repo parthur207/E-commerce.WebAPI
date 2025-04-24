@@ -1,8 +1,7 @@
-﻿
-using Ecommerce.Application.DTOs;
+﻿using Ecommerce.Application.DTOs;
 using Ecommerce.Domain.Models;
 
-namespace Ecommerce.Application.Interfaces
+namespace Ecommerce.Application.Interfaces.UserInterfaces
 {
     public interface ITransactionInterface
     {

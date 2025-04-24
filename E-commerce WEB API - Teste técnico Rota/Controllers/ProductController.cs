@@ -1,4 +1,4 @@
-﻿using Ecommerce.Application.Interfaces;
+﻿using Ecommerce.Application.Interfaces.UserInterfaces;
 using Ecommerce.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

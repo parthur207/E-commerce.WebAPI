@@ -1,9 +1,8 @@
-﻿
-using Ecommerce.Application.DTOs;
-using Ecommerce.Application.Interfaces;
+﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Application.Interfaces.UserInterfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Application.Services
+namespace Ecommerce.Application.Services.CommomServices
 {
     public class ProductService : IProductInterface
     {

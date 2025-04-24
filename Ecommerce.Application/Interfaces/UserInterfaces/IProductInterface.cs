@@ -1,7 +1,7 @@
 ﻿using Ecommerce.Application.DTOs;
 using Ecommerce.Domain.Enuns;
 
-namespace Ecommerce.Application.Interfaces
+namespace Ecommerce.Application.Interfaces.UserInterfaces
 {
     public interface IProductInterface
     {
