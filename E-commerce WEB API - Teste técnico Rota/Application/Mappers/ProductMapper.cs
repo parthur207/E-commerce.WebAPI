@@ -1,62 +1,55 @@
-﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
-using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin;
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models.AdminModels;
-using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
-using Microsoft.VisualBasic;
 
-namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
+public static class ProductMapper
 {
-    public class ProductMapper
+    public static ProductDTO ToProductDTO(ProductEntity product)
     {
+        return new ProductDTO(
+            product.ProductName,
+            product.Description,
+            product.Price,
+            product.Category
+        );
+    }
 
-        public static ProductDTO ToProductDTO(ProductEntity product)//Um pra exibir ao cliente (Entity=> DTO)
-        {
-            return new ProductDTO
-            (
-                product.ProductName,
-                product.Description,
-                product.Price,
-                product.Category
-            );
-        }
+    public static AdminProductDTO ToProductAdminDTO(ProductEntity product)
+    {
+        return new AdminProductDTO(
+            product.ProductName,
+            product.Description,
+            product.Price,
+            product.Stock,
+            product.Sales,
+            product.Category,
+            product.ImageUrl,
+            product.ProductStatus
+        );
+    }
 
-        public static AdminProductDTO ToProductAdminDTO(ProductEntity product)//Outro pra exibir ao Admin (Entity=> DTO)
-        {
-            return new AdminProductDTO
-            (
-                product.ProductName,
-                product.Description,
-                product.Price,
-                product.Sales,
-                product.Quantity,
-                product.Category,
-                product.ImageUrl,
-                product.ProductStatus
-            );
-        }
+    public static ProductEntity ToCreateProductEntity(AdminCreateProductModel model)
+    {
+        return new ProductEntity(
+            model.ProductName,
+            model.Description,
+            model.Price,
+            model.Quantity,
+            model.Category,
+            model.ImageUrl
+        );
+    }
 
-        public static ProductEntity ToCreateProductEntity(AdminCreateProductModel productModel)//Criação de um NOVO produto (Model=> Entity)
-        {
-            return new ProductEntity(
-                productModel.ProductName,
-                productModel.Description,
-                productModel.Price,
-                productModel.Quantity,
-                productModel.Category,
-                productModel.ImageUrl);
-        }
-
-        public static ProductEntity ToAdminUpdateProductEntity(AdminUpdateProductModel model)//Atualização de um produto (Model=> Entity)
-        {
-            return new ProductEntity(model.ProductName,
-              model.Description,
-              model.Price,
-              model.Quantity,
-              model.ImageUrl);
-        }
-
-        //criar mappers do update model
+    public static ProductEntity ToAdminUpdateProductEntity(AdminUpdateProductModel model)
+    {
+        return new ProductEntity(
+            model.ProductName,
+            model.Description,
+            model.Price,
+            model.Quantity,
+            model.Category,
+            model.ImageUrl
+        );
     }
 }
-    

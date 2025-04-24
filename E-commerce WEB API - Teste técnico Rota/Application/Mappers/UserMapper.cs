@@ -36,19 +36,31 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
         }
 
 
-        public static UserDtoPatern ToUserDtoPatern(UserEntity entity)
+        public static UserDTO ToUserDTO(UserEntity entity)
         {
-            return new UserDtoPatern
+            var transactionsList = entity.Transactions?
+                .SelectMany(t => t.TransactionProducts.Select(tp => new UserTransactionSummaryDTO
+                {
+                    TransactionId = t.Id,
+                    ProductName = tp.Product.ProductName,
+                    Category = tp.Product.Category,
+                    Quantity = tp.Quantity,
+                    TotalPaid = tp.Quantity * tp.Product.Price,
+                    TransactionDate = t.TransactionDate,
+                    TransactionStatus = t.TransactionStatus
+                })).ToList();
+
+            return new UserDTO
             {
                 Name = entity.Name,
                 BirthDate = entity.BirthDate,
                 Email = entity.Email,
                 CreatedAt = entity.CreatedAt,
-                Phone = entity.Phone,
+                Phone = entity.Phone?.ToString(),
                 Address = entity.Address,
-                TransactionsList = entity.Transactions.Select(x => x.ShoppingList.Select(x => (x.Product.ProductName, x.Quantity)).ToList(),
-               //UserStatus = entity.UserStatus            
-                };
+                UserStatus = entity.UserStatus,
+                TransactionsList = transactionsList
+            };
         }
     }
 }

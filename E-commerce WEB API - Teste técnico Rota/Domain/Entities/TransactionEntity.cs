@@ -7,13 +7,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 {
     public class TransactionEntity : BaseEntity
     {
-        public TransactionEntity(int userId, List<TransactionProductEntity> shoppingList, decimal totalValue)
+        public TransactionEntity(int userId, List<TransactionProductEntity> transactionProductsList, decimal totalValue)
         {
             UserId = userId;
             TotalValue = totalValue;
             TransactionDate = DateTime.Now;
             TransactionStatus = TransactionStatusEnum.PendingPayment;
-            ShoppingList = shoppingList;
+            TransactionProductsList = transactionProductsList;
         }
 
         public int UserId { get; private set; }
@@ -23,11 +23,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         public DateTime TransactionDate { get; private set; }
         public TransactionStatusEnum TransactionStatus { get; private set; }
 
-        public List<TransactionProductEntity> ShoppingList { get; private set; }
+        public List<TransactionProductEntity> TransactionProductsList { get; private set; }
 
         public void CalculateTotalValue()
         {
-            TotalValue = ShoppingList.Sum(x => x.Quantity * x.Product.Price);
+            TotalValue = TransactionProductsList.Sum(x => x.Quantity * x.Product.Price);
         }
 
         public void SetTransactionStatusToPaid()
@@ -48,7 +48,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 
         public void SetTransactionStatusToCanceled()
         {
-            if (TransactionStatus == TransactionStatusEnum.PendingPayment) //Teria que implementar um "&&" e uma funçaõ que verificasse se o pagamento não foi realizado dentro de um período específico
+            if (TransactionStatus == TransactionStatusEnum.PendingPayment)
             {
                 TransactionStatus = TransactionStatusEnum.Canceled;
             }

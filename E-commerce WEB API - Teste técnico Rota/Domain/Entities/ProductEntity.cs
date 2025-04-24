@@ -1,19 +1,12 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 {
     public class ProductEntity : BaseEntity
     {
-        public ProductEntity(string productName, string description, decimal price, int stock, string imageUrl) 
-        {
-            ProductName = productName;
-            Description = description;
-            Price = price;
-            Stock = stock;
-            ImageUrl = imageUrl;
-        }
-
         public ProductEntity(string productName, string description, decimal price, int stock, ProductCategoryEnum category, string? imageUrl)
         {
             ProductName = productName;
@@ -24,20 +17,20 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
             Category = category;
             ImageUrl = imageUrl;
             ProductStatus = ProductStatusEnum.Active;
-            TransactionProducts = new List<TransactionProductEntity>();
+            TransactionProductsList = new List<TransactionProductEntity>();
         }
 
         public string ProductName { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }
-        public int Stock { get; private set; } 
+        public int Stock { get; private set; }
         public int Sales { get; private set; }
 
-        public List<TransactionProductEntity> TransactionProducts { get; private set; }
+        public List<TransactionProductEntity> TransactionProductsList { get; private set; }
         public ProductCategoryEnum Category { get; private set; }
         public string? ImageUrl { get; private set; }
         public ProductStatusEnum ProductStatus { get; private set; }
-       
+
         public void SetSalesProduct(int n)
         {
             if (n > 0)
@@ -45,18 +38,20 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
                 Sales += n;
             }
         }
-        public void SetStockProduct(int Unit)
+
+        public void SetStockProduct(int unit)
         {
-            Stock += Unit;
+            Stock += unit;
         }
+
         public void SetProductCategory(ProductCategoryEnum category)
         {
-            this.Category = category;
+            Category = category;
         }
 
         public void SetImageUrl(string imageUrl)
         {
-            if (imageUrl.Count()>0)
+            if (!string.IsNullOrWhiteSpace(imageUrl))
             {
                 ImageUrl = imageUrl.Trim();
             }
@@ -64,7 +59,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 
         public void SetProductStatus(ProductStatusEnum status)
         {
-            ProductStatus = status;
+            if (Enum.IsDefined(typeof(ProductStatusEnum), status))
+            {
+                ProductStatus = status;
+            }
         }
     }
 }

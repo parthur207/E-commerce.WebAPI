@@ -16,6 +16,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Product
             modelBuilder.Entity<ProductEntity>(x =>
             {
                 x.HasKey(p => p.Id);
@@ -26,6 +27,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
                  .OnDelete(DeleteBehavior.Restrict);
             });
 
+            // User
             modelBuilder.Entity<UserEntity>(x =>
             {
                 x.HasKey(u => u.Id);
@@ -36,6 +38,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
                  .OnDelete(DeleteBehavior.Restrict);
             });
 
+            // Transaction
             modelBuilder.Entity<TransactionEntity>(x =>
             {
                 x.HasKey(t => t.Id);
@@ -45,15 +48,16 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
                  .HasForeignKey(t => t.UserId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                x.HasMany(t => t.ShoppingList)
+                x.HasMany(t => t.TransactionProducts)
                  .WithOne(tp => tp.Transaction)
                  .HasForeignKey(tp => tp.TransactionId)
                  .OnDelete(DeleteBehavior.Restrict);
             });
 
+            // TransactionProduct - chave composta
             modelBuilder.Entity<TransactionProductEntity>(x =>
             {
-                x.HasKey(tp => tp.Id);
+                x.HasKey(tp => new { tp.TransactionId, tp.ProductId });
 
                 x.HasOne(tp => tp.Product)
                  .WithMany(p => p.TransactionProducts)
@@ -61,10 +65,15 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
                  .OnDelete(DeleteBehavior.Restrict);
 
                 x.HasOne(tp => tp.Transaction)
-                 .WithMany(t => t.ShoppingList)
+                 .WithMany(t => t.TransactionProducts)
                  .HasForeignKey(tp => tp.TransactionId)
                  .OnDelete(DeleteBehavior.Restrict);
+
+                x.Property(tp => tp.Quantity)
+                 .IsRequired();
             });
         }
+
     }
+}
 }

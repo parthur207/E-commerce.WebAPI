@@ -11,10 +11,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Infrastructure.Authentication
     {
         private const string _smtpHost = "smtp.gmail.com";
         private const int _smtpPort = 587;
-        private const string _smtpUser = $"projetosdotnet@gmail.com";
-        private const string _smtpPass = "TesteTecnicoRota@2025";
+        //private const string _smtpUser = $"projetosdotnet@gmail.com";
+        private const string _smtpUser = $"parthur207@gmail.com";
+        private const string _smtpPass = "yvkl pdcw uxht baob";
         private const string Suject = "Confirmação de Compra - Pedido nº ";
-       
+
 
         public void SendEmail(string toEmail, TransactionInformationToEmailDTO TransactionData, string UserName)
         {
@@ -24,7 +25,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Infrastructure.Authentication
         <body style='font-family: Arial, sans-serif;'>
             <h2 style='color: #2c3e50;'>Compra confirmada com sucesso!</h2>
             <p>Olá <strong>{TransactionData.UserName}</strong>,</p>
-            <p>Obrigado por sua compra! Seu pedido <strong>nº {TransactionData.TransactionId+DateTime.Now.Date.ToString()}</strong> foi confirmado com sucesso em {TransactionData.TransactionDate.Date} as {TransactionData.TransactionDate.Hour}<strong></strong>.</p>
+            <p>Obrigado por sua compra! Seu pedido <strong>nº {TransactionData.TransactionId + DateTime.Now.Date.ToString()}</strong> foi confirmado com sucesso em {TransactionData.TransactionDate.Date} as {TransactionData.TransactionDate.Hour}<strong></strong>.</p>
 
             <h3>Detalhes do Pedido:</h3>
             <ul>
@@ -45,7 +46,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Infrastructure.Authentication
 ";
 
 
-        string SujectComplete = Suject + TransactionData.TransactionId.ToString();
+            string SujectComplete = Suject + TransactionData.TransactionId.ToString();
             using (var client = new SmtpClient(_smtpHost, _smtpPort))
             {
                 client.EnableSsl = true;
@@ -56,13 +57,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Infrastructure.Authentication
                 mail.To.Add(toEmail);
                 mail.Subject = SujectComplete;
                 mail.Body = body;
-                mail.IsBodyHtml = true; 
+                mail.IsBodyHtml = true;
 
                 client.Send(mail);
             }
         }
     }
-
-
 }
-}
+

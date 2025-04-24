@@ -31,7 +31,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
         [HttpGet("search")]
         public IActionResult GetProductById(string search)
         {
-           if()
+           
             return Ok("Produto específico");
         }
 

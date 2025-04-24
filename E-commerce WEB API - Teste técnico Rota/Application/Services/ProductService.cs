@@ -1,4 +1,5 @@
-﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces;
+﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs;
+using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
 
@@ -9,27 +10,27 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services
 
         private readonly DbContextInMemory _dbContextInMemory;
 
-        public TransactionService(DbContextInMemory dbContextInMemory)
+        public ProductService(DbContextInMemory dbContextInMemory)
         {
             _dbContextInMemory = dbContextInMemory;
         }
 
-        public Task<List<ProductEntity>> GetAllProducts()
+        public Task<(bool, List<ProductDTO>?)> GetAllProducts()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ProductEntity> GetProductByName(string ProductName)
+        public Task<(bool, ProductDTO?)> GetProductByName(string ProductName)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<ProductEntity>> GetProductsByCategory(string category)
+        public Task<(bool, List<ProductDTO?>)> GetProductsByCategory(string category)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<ProductEntity>> GetProductsByPrice(decimal price)
+        public Task<(bool, List<ProductDTO?>)> GetProductsByPrice(decimal price)
         {
             throw new NotImplementedException();
         }

@@ -5,10 +5,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs
 {
     public class TransactionDTO
     {
-        public List<(string, int)> ShoppingList { get; set; }//Nome do produto e a quantidade
+        public List<TransactionProductSimpleDTO> ShoppingList { get; set; }
         public int UserId { get; set; }
         public DateTime TransactionDate { get; set; }
-        public decimal TotalValue { get;  set; }
+        public decimal TotalValue { get; set; }
         public TransactionStatusEnum TransactionStatus { get; set; }
     }
+
 }

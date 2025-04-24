@@ -16,8 +16,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
 
         public static TransactionEntity ToTransactionEntity(CreateTransactionModel model)
         {
-            return new TransactionEntity
-            (
+            return new TransactionEntity(
                 model.UserId,
                 model.ShoppingList,
                 model.TotalValue
@@ -28,46 +27,55 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
         {
             return new TransactionDTO
             {
-                ShoppingList = entity.ShoppingList.Select(x => (x.Product.ProductName, x.Quantity)).ToList(),
                 UserId = entity.UserId,
                 TransactionDate = entity.TransactionDate,
                 TotalValue = entity.TotalValue,
-                TransactionStatus = entity.TransactionStatus
+                TransactionStatus = entity.TransactionStatus,
+                ShoppingList = entity.TransactionProductsList
+                    .Select(tp => new TransactionProductSimpleDTO
+                    {
+                        ProductName = tp.Product.ProductName,
+                        Quantity = tp.Quantity
+                    }).ToList()
             };
         }
 
-
         public static TransactionInformationToEmailDTO ToTransactionEmailDTO(TransactionEntity entity)
         {
-
-            var userName = entity.User != null ? $"{entity.User.Name}" : "Nome desconhecido.";
-            var userEmail = entity.User != null ? $"{entity.User.Email}" : "Email desconhecido.";
-
-            var shoppingList = entity.ShoppingList.Select(x => (x.Product.ProductName, x.Quantity)).ToList();
-
-            return new TransactionInformationToEmailDTO()
+            return new TransactionInformationToEmailDTO
             {
-                UserName = userName,
-                UserEmail = userEmail,
+                UserName = entity.User?.Name ?? "Nome desconhecido",
+                UserEmail = entity.User?.Email ?? "Email desconhecido",
                 TransactionId = entity.Id,
                 TransactionDate = entity.TransactionDate,
                 TotalValue = entity.TotalValue,
-                ShoppingList = shoppingList
+                ShoppingList = entity.TransactionProductsList
+                    .Select(tp => new TransactionProductSimpleDTO
+                    {
+                        ProductName = tp.Product.ProductName,
+                        Quantity = tp.Quantity
+                    }).ToList()
             };
         }
 
         public static AdminTransactionDTO ToTransactionAdminDTO(TransactionEntity entity)
         {
-
             return new AdminTransactionDTO
             {
-                ShoppingList= entity.ShoppingList.Select(x => (x.Product.ProductName, x.Quantity)).ToList(),
-                UserId=entity.UserId,
-                TransactionDate=entity.TransactionDate,
-                TotalValue=entity.TotalValue,
-                TransactionStatus=entity.TransactionStatus
-
-                };
+                UserId = entity.UserId,
+                TransactionDate = entity.TransactionDate,
+                TotalValue = entity.TotalValue,
+                TransactionStatus = entity.TransactionStatus,
+                ShoppingList = entity.TransactionProductsList
+                    .Select(tp => new TransactionProductSimpleDTO
+                    {
+                        ProductName = tp.Product.ProductName,
+                        Quantity = tp.Quantity
+                    }).ToList()
+            };
         }
     }
+
 }
+
+

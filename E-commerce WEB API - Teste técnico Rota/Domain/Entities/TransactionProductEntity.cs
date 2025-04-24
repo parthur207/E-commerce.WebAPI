@@ -1,20 +1,21 @@
 ﻿namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
 {
-    public class TransactionProductEntity : BaseEntity
+    public class TransactionProductEntity
     {
-        public TransactionProductEntity(int transactionId, int productId, int quantity)
+        public int TransactionId { get; set; }
+        public TransactionEntity Transaction { get; set; }
+
+        public int ProductId { get; set; }
+        public ProductEntity Product { get; set; }
+
+        public int Quantity { get; set; }
+
+        public TransactionProductEntity() { }
+
+        public TransactionProductEntity(int productId, int quantity)
         {
-            TransactionId = transactionId;
             ProductId = productId;
             Quantity = quantity;
         }
-
-        public int TransactionId { get; private set; }
-        public TransactionEntity Transaction { get; protected set; }
-
-        public int ProductId { get; private set; }
-        public ProductEntity Product { get; protected set; }
-
-        public int Quantity { get; private set; }
     }
 }
