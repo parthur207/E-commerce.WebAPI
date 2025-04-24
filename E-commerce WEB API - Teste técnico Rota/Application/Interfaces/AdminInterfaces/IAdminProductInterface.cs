@@ -20,7 +20,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin
 
         Task<(bool, string, List<AdminProductDTO>?)> GetSales();
         Task<(bool, string, AdminProductDTO?)> GetSaleById(int productId);
-        Task<(bool, string, List<AdminProductDTO?>)> GetBiggestSale();
+        Task<(bool, string, List<AdminProductDTO>?)> GetBiggestSale();
 
         //Commands
         Task<(bool,  string)> PostProduct(AdminCreateProductModel product);

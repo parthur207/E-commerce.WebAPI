@@ -42,7 +42,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Domain.Entities
         {
             if (TransactionStatus == TransactionStatusEnum.Paid)
             {
-                TransactionStatus = TransactionStatusEnum.PendingShipping;
+                TransactionStatus = TransactionStatusEnum.Sent;
             }
         }
 

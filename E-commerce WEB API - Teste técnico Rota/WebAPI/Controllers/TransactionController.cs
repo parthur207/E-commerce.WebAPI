@@ -11,7 +11,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
     {
         [Authorize(Roles = UsersRoles.User)]
         [HttpPost("newTransaction")]
-        public IActionResult PostTransaction(CreateTransactionModel model)
+        public IActionResult PostTransaction([FromBody] CreateTransactionModel model)
         {
 
             return Created();
@@ -25,7 +25,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
         }
 
         [Authorize(Roles = UsersRoles.User)]
-        [HttpPut]
+        [HttpPut("chanseStatus/{id}")]
         public IActionResult PutTransactionToCanceled(int id)
         {
             return Ok();

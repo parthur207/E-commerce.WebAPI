@@ -38,8 +38,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
 
         public static UserDTO ToUserDTO(UserEntity entity)
         {
-            var transactionsList = entity.Transactions?
-                .SelectMany(t => t.TransactionProducts.Select(tp => new UserTransactionSummaryDTO
+            var transactionsList = entity.TransactionsList?
+                .SelectMany(t => t.TransactionProductsList.Select(tp => new UserTransactionSummaryDTO
                 {
                     TransactionId = t.Id,
                     ProductName = tp.Product.ProductName,

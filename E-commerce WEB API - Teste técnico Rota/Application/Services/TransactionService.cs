@@ -42,7 +42,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services
                 }
                 return (true, message, ListProducts);
             }
-            catch (Exception ex)
+            catch 
             {
                 message = "Ocorreu um erro inesperado.";
                 return (false, message , null);

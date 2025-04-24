@@ -39,7 +39,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services
                 }
                 return (true, message, ListProductsDTO);
             }
-            catch(Exception ex)
+            catch
             {
                 //nao acho legal, retornar um erro expection ao meu side-client... talvez seria legal, implementar uma funcionalidade que notifica o admin via email, etc..
                 message = "Ocorreu um erro inesperado.";
@@ -122,7 +122,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Services
 
                 return (true, message, productsList);
             }
-            catch (Exception ex) {
+            catch {
                 message = "Ocorreu um erro inesperado.";
                 return (false, message, null);
             }

@@ -20,7 +20,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers
         }
 
         [HttpGet("login")]
-        public IActionResult GetLogin(UserLoginModel model)
+        public IActionResult GetLogin([FromBody]UserLoginModel model)
         {
             return Ok();
         }

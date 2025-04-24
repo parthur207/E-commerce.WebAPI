@@ -1,4 +1,5 @@
 ﻿using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
+using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models.AdminModels;
 using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("user/{idUser}")]
-        public IActionResult GetUserById([FromBody]int idUser)
+        public IActionResult GetUserById([FromRoute]int idUser)
         {
             return Ok();
         }
@@ -106,7 +107,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.WebAPI.Controllers.Admin
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("transactions/sales/period")]
-        public IActionResult GetSalesByPeriod([FromBody] DateOnly from, [FromBody] DateOnly to)
+        public IActionResult GetSalesByPeriod([FromQuery] DateOnly from, [FromQuery] DateOnly to)
         {
             return Ok();
         }
