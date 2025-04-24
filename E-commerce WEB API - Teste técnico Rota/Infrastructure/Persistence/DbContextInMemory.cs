@@ -21,7 +21,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
             {
                 x.HasKey(p => p.Id);
 
-                x.HasMany(p => p.TransactionProducts)
+                x.HasMany(p => p.TransactionProductsList)
                  .WithOne(tp => tp.Product)
                  .HasForeignKey(tp => tp.ProductId)
                  .OnDelete(DeleteBehavior.Restrict);
@@ -32,7 +32,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
             {
                 x.HasKey(u => u.Id);
 
-                x.HasMany(u => u.Transactions)
+                x.HasMany(u => u.TransactionsList)
                  .WithOne(t => t.User)
                  .HasForeignKey(t => t.UserId)
                  .OnDelete(DeleteBehavior.Restrict);
@@ -44,28 +44,28 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
                 x.HasKey(t => t.Id);
 
                 x.HasOne(t => t.User)
-                 .WithMany(u => u.Transactions)
+                 .WithMany(u => u.TransactionsList)
                  .HasForeignKey(t => t.UserId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-                x.HasMany(t => t.TransactionProducts)
+                x.HasMany(t => t.TransactionProductsList)
                  .WithOne(tp => tp.Transaction)
                  .HasForeignKey(tp => tp.TransactionId)
                  .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // TransactionProduct - chave composta
+            //N:N
             modelBuilder.Entity<TransactionProductEntity>(x =>
             {
                 x.HasKey(tp => new { tp.TransactionId, tp.ProductId });
 
                 x.HasOne(tp => tp.Product)
-                 .WithMany(p => p.TransactionProducts)
+                 .WithMany(p => p.TransactionProductsList)
                  .HasForeignKey(tp => tp.ProductId)
                  .OnDelete(DeleteBehavior.Restrict);
 
                 x.HasOne(tp => tp.Transaction)
-                 .WithMany(t => t.TransactionProducts)
+                 .WithMany(t => t.TransactionProductsList)
                  .HasForeignKey(tp => tp.TransactionId)
                  .OnDelete(DeleteBehavior.Restrict);
 
@@ -76,4 +76,4 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Persistence
 
     }
 }
-}
+

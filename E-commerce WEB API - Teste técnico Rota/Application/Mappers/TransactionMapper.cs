@@ -63,6 +63,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.Mappers
             return new AdminTransactionDTO
             {
                 UserId = entity.UserId,
+                TransactionId = entity.Id,
                 TransactionDate = entity.TransactionDate,
                 TotalValue = entity.TotalValue,
                 TransactionStatus = entity.TransactionStatus,

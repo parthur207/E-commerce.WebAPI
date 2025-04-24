@@ -7,6 +7,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Application.DTOs.Admin
     {
         public List<TransactionProductSimpleDTO> ShoppingList { get; set; }
         public int UserId { get; set; }
+        public int TransactionId { get; set; }
         public DateTime TransactionDate { get; set; }
         public decimal TotalValue { get; set; }
         public TransactionStatusEnum TransactionStatus { get; set; }
