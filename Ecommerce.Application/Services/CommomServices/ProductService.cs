@@ -49,7 +49,6 @@ namespace Ecommerce.Application.Services.CommomServices
             string message = string.Empty;
             try
             {
-
                 var Response= await _IproductRepository.GetProductByNameAsync(productName);
 
                 if (Response.Item1 is false)
@@ -75,7 +74,7 @@ namespace Ecommerce.Application.Services.CommomServices
 
             var Response = await _IproductRepository.GetByProductsCategoryAsync(category);
 
-            if (Response.Item1 is false) 
+            if (Response.Item1 is false)
             {
                 message = "Nenhum produto encontrado.";
                 return (false, message, null);
@@ -88,8 +87,7 @@ namespace Ecommerce.Application.Services.CommomServices
             }
 
             return (true, message, ProductsList);
-
-            }
+        }
             
         
 
@@ -113,7 +111,6 @@ namespace Ecommerce.Application.Services.CommomServices
             }
 
             return (true, message, productsList);
-
         }
     }
 }

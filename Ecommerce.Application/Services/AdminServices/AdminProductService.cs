@@ -11,7 +11,7 @@ using Ecommerce.Application.DTOs;
 
 namespace Ecommerce.Application.Services.AdminServices
 {
-    public class AdminProductService : IAdminProductInterface, IAdminTransactionProductInterface
+    public class AdminProductService : IAdminProductInterface
     {
 
         private readonly IProductRepository _IProductRepository;
@@ -190,7 +190,7 @@ namespace Ecommerce.Application.Services.AdminServices
         public async Task<(bool, string, AdminProductDTO?)> GetSaleById(int productIdSales)
         {
             string message=string.Empty;
-            var Response = await _IProductRepository.GetSaleByIdAsync(productIdSales);
+            var Response = await _IProductRepository.GetSaleByProductIdAsync(productIdSales);
 
             if (Response.Item3 is null)
             {
@@ -202,32 +202,7 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, productMapped);
         }
 
-        public async Task<(bool, string, List<TransactionDTO>?)> GetSalesByPeriod(DateTime from, DateTime To)
-        {
-            List<TransactionDTO> ListProducts = new List<TransactionDTO>();
-            string message = string.Empty;
-
-            var Response = await _IProductRepository.GetSalesByPeriodAsync(from, To);
-
-            if (Response.Item3 is null)
-            {
-                message = Response.Item2;
-                return (false, message, null);
-            }
-            foreach (var p in Response.Item3)
-            {
-                var pDTO = TransactionMapper.ToTransactionDTO(p);
-                ListProducts.Add(pDTO);
-            }
-            return (true, message, ListProducts);
-
-        }
-
-        public async Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSaleForPeriod(DateTime from, DateTime to)
-        {
-            List<TransactionProductEntity> ListProducts = new List<TransactionProductEntity>();
-
-        }
+      
 
         //Commands
         public async Task<(bool, string)> PostProduct(AdminCreateProductModel product)
@@ -276,7 +251,7 @@ namespace Ecommerce.Application.Services.AdminServices
         public async Task<(bool, string)> PutProductStatus(int idProduct, ProductStatusEnum status)
         {
             string message = string.Empty;
-            var Response = await _IProductRepository.UpdateStatusAsync(idProduct, status);
+            var Response = await _IProductRepository.UpdateProductStatusAsync(idProduct, status);
 
             if (Response.Item1 is false)
             {
@@ -289,7 +264,7 @@ namespace Ecommerce.Application.Services.AdminServices
         public async Task<(bool, string)> PutProductCategory(int idProduct, ProductCategoryEnum category)
         {
             string message = string.Empty;
-            var Response = await _IProductRepository.UpdateCategoryAsync(idProduct, category);
+            var Response = await _IProductRepository.UpdateProductCategoryAsync(idProduct, category);
 
             if (Response.Item1 is false)
             {
