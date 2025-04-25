@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -24,13 +25,13 @@ namespace Ecommerce.Infrastructure.Repositories
         }
 
         // Queries
-        public async Task<(bool, string, ProductEntity?)> GetProductByIdAsync(int id)
+        public async Task<(bool, string, ProductEntity?)> GetProductByNameAsync(string productName)
         {
             string message = string.Empty;
             try
             {
                 var Product = await _dbContextInMemory.Product
-                    .Where(x => x.Id == id)
+                    .Where(x => x.ProductName == productName)
                     .FirstOrDefaultAsync();
 
                 if (Product is null)
@@ -259,7 +260,7 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSaleByPeriodAsync(DateTime from, DateTime to)
+        public async Task<(bool, string, List<TransactionProductEntity>?)> GetTopThreeSalesByDateAsync(DateTime from, DateTime to)
         {
             string message = string.Empty;
             try
@@ -269,6 +270,7 @@ namespace Ecommerce.Infrastructure.Repositories
                   .ThenInclude(x => x.Sales)
                   .Where(x => x.Transaction.TransactionDate.Date >= from.Date && x.Transaction.TransactionDate.Date <= to.Date)
                   .OrderByDescending(x => x.Product.Sales)
+                  .Take(3)
                   .ToListAsync();
 
                 if (biggestSalesForDate is null)

@@ -9,7 +9,7 @@ namespace Ecommerce.Application.Interfaces.Repositories
     public interface IProductRepository
     {
         //Queries
-        Task<(bool, string, ProductEntity?)> GetProductByIdAsync(int id);
+        Task<(bool, string, ProductEntity?)> GetProductByNameAsync(string productName);
         Task<(bool, string, List<ProductEntity>?)> GetAllProductsAsync();
         Task<(bool, string, List<ProductEntity>?)> GetByProductsCategoryAsync(ProductCategoryEnum category); 
         Task<(bool, string, List<ProductEntity>?)> GetProductsByStatusAsync(ProductStatusEnum status); 
@@ -21,7 +21,7 @@ namespace Ecommerce.Application.Interfaces.Repositories
         Task<(bool, string, List<ProductEntity>?)> GetSalesAsync();
         Task<(bool, string, ProductEntity?)> GetSaleByIdAsync(int productId); 
         Task<(bool, string, List<ProductEntity>?)> GetBiggestSaleAsync();
-        Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSalesByPeriodAsync(DateTime from, DateTime to);
+        Task<(bool, string, List<TransactionProductEntity>?)> GetTopThreeSalesByDateAsync(DateTime from, DateTime to);
 
         Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriodAsync(DateTime from, DateTime to);
         //Commands

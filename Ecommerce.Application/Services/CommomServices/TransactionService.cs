@@ -1,7 +1,9 @@
 ﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Application.Interfaces.Repositories;
+using Ecommerce.Application.Interfaces.RepositoriesInterface;
 using Ecommerce.Application.Interfaces.UserInterfaces;
 using Ecommerce.Application.Mappers;
-using Microsoft.EntityFrameworkCore;
+
 using System.Linq.Expressions;
 
 namespace Ecommerce.Application.Services.CommomServices
@@ -9,40 +11,36 @@ namespace Ecommerce.Application.Services.CommomServices
     public class TransactionService : ITransactionInterface
     {
 
-        private readonly DbContextInMemory _dbContextInMemory;
+        private readonly ITransactionRepository _ItransactionRepository;
 
-        public TransactionService(DbContextInMemory dbContextInMemory)
+        public TransactionService(ITransactionRepository ItransactionRepository)
         {
-            _dbContextInMemory = dbContextInMemory;
+            _ItransactionRepository = ItransactionRepository;
         }
 
         //Queries
         public async Task<(bool, string, List<TransactionDTO>?)> GetAllTransactions()
         {
-            List<TransactionDTO> ListProducts=new List<TransactionDTO>();
+            List<TransactionDTO> ListTransaction=new List<TransactionDTO>();
             string message = string.Empty;
-            try
-            {
-                var transactionsE = await _dbContextInMemory.Transaction.ToListAsync();
 
-                if(transactionsE is null)
-                {
-                    message = "Transações não encontradas.";
-                    return (false, message, null);
-                }
 
-                foreach (var transactionEntity in transactionsE)
-                {
-                    var transactionMapped= TransactionMapper.ToTransactionDTO(transactionEntity);
-                    ListProducts.Add(transactionMapped);
-                }
-                return (true, message, ListProducts);
-            }
-            catch 
+            var Response = await _ItransactionRepository.GetAllTransactions();
+
+            if (Response.Item1 is false)
             {
-                message = "Ocorreu um erro inesperado.";
-                return (false, message , null);
+                message = "Nenhuma transação encontrada.";
+                return (false, message, null);
             }
+
+
+            foreach (var t in Response.Item3)
+            {
+                var TMappedDTO = TransactionMapper.ToTransactionDTO(t);
+                ListTransaction.Add(TMappedDTO);
+            }
+
+            return (true, message, ListTransaction);
         }
 
 

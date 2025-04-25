@@ -1,40 +1,40 @@
 ﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Application.Interfaces.Repositories;
 using Ecommerce.Application.Interfaces.UserInterfaces;
-using Microsoft.EntityFrameworkCore;
+using Ecommerce.Domain.Enuns;
 
 namespace Ecommerce.Application.Services.CommomServices
 {
     public class ProductService : IProductInterface
     {
 
-        private readonly DbContextInMemory _dbContextInMemory;
+        private readonly IProductRepository _IproductRepository;
 
-        public ProductService(DbContextInMemory dbContextInMemory)
+        public ProductService(IProductRepository IProductRepository)
         {
-            _dbContextInMemory = dbContextInMemory;
+            _IproductRepository = IProductRepository;
         }
 
         public async Task<(bool,string, List<ProductDTO>?)> GetAllProducts()
         {   
             string message = string.Empty;
+            List<ProductDTO> ProductsAllDTO = new List<ProductDTO>();
             try
             {
-                List<ProductDTO> ListProductsDTO = new List<ProductDTO>();
+                var Response = await _IproductRepository.GetAllProductsAsync();
 
-                var ProductsEntityList = await _dbContextInMemory.Product.ToListAsync();
-
-                if (ProductsEntityList is null)
+                if (Response.Item1 is false)
                 {
                     message = "Nenhum produto encontrado.";
                     return (false, message, null);
                 }
 
-                foreach (var p in ProductsEntityList)
+                foreach (var p in Response.Item3)
                 {
                     var ProductDTO = ProductMapper.ToProductDTO(p);
-                    ListProductsDTO.Add(ProductDTO);
+                    ProductsAllDTO.Add(ProductDTO);
                 }
-                return (true, message, ListProductsDTO);
+                return (true, message, ProductsAllDTO);
             }
             catch
             {
@@ -44,21 +44,21 @@ namespace Ecommerce.Application.Services.CommomServices
             }
         }
 
-        public async Task<(bool,string, ProductDTO?)> GetProductByName(string ProductName)
+        public async Task<(bool,string, ProductDTO?)> GetProductByName(string productName)
         {
             string message = string.Empty;
             try
             {
 
-                var productEntity = await _dbContextInMemory.Product.FirstOrDefaultAsync(x => x.ProductName == ProductName);
+                var Response= await _IproductRepository.GetProductByNameAsync(productName);
 
-                if (productEntity is null)
+                if (Response.Item1 is false)
                 {
                     message = "Nenhum produto foi encontrado.";
                     return (false, message, null);
                 }
 
-                var productDTO = ProductMapper.ToProductDTO(productEntity);
+                var productDTO = ProductMapper.ToProductDTO(Response.Item3);
                 return (true, message, productDTO);
             }
             catch
@@ -72,57 +72,48 @@ namespace Ecommerce.Application.Services.CommomServices
         {
             string message = string.Empty;
             List<ProductDTO> ProductsList = new List<ProductDTO>();
-            try
-            {
-                var productsCategoryEntity = await _dbContextInMemory.Product.Where(x => x.Category == category).ToListAsync();
 
-                if(productsCategoryEntity is null)
-                {
-                    message = $"Nenhum produto da categoria '{category}' foi encontrado.";
-                    return (false, message, null);
-                }
+            var Response = await _IproductRepository.GetByProductsCategoryAsync(category);
 
-                foreach (var p in productsCategoryEntity)
-                {
-                    var productDTO = ProductMapper.ToProductDTO(p);
-                    ProductsList.Add(productDTO);
-                }
-                return (true, message, ProductsList);
-            }
-            catch
+            if (Response.Item1 is false) 
             {
-                message = "Ocorreu um erro inesperado.";
+                message = "Nenhum produto encontrado.";
                 return (false, message, null);
             }
+
+            foreach (var p in Response.Item3)
+            {
+                var productMapppedDTO = ProductMapper.ToProductDTO(p);
+                ProductsList.Add(productMapppedDTO);
+            }
+
+            return (true, message, ProductsList);
+
+            }
             
-        }
+        
 
         public async Task<(bool,string, List<ProductDTO>?)> GetProductsByPrice(decimal price)
         {
             string message = string.Empty;
             List<ProductDTO> productsList = new List<ProductDTO>();
-            try
+
+            var Response = await _IproductRepository.GetProductsByPriceAsync(price);
+
+            if (Response.Item1 is false)
             {
-                var ProductsByPrice= await _dbContextInMemory.Product.Where(x=>x.Price<=price).ToListAsync();
-
-                if(ProductsByPrice is null)
-                {
-                    message = $"Não foram encontrados produtos com preços menores ou iguais a R$ {price}.";
-                    return (false, message, null);
-                }
-
-                foreach(var p in ProductsByPrice)
-                {
-                    var productDTO= ProductMapper.ToProductDTO(p);
-                    productsList.Add(productDTO);
-                }
-
-                return (true, message, productsList);
-            }
-            catch {
-                message = "Ocorreu um erro inesperado.";
+                message = $"Nenhum produto dentro do valor estipulado (R$ 0.00 a R$ {price}).";
                 return (false, message, null);
             }
+
+            foreach (var p in Response.Item3)
+            {
+                var productMappedDTO = ProductMapper.ToProductDTO(p);
+                productsList.Add(productMappedDTO);
+            }
+
+            return (true, message, productsList);
+
         }
     }
 }
