@@ -312,7 +312,7 @@ namespace Ecommerce.Infrastructure.Repositories
         }
 
         // Comandos (Commands)
-        public async Task<(bool, string)> AddAsync(ProductEntity product)
+        public async Task<(bool, string)> AddProductAsync(ProductEntity product)
         {
             string message = string.Empty;
             try

@@ -25,7 +25,7 @@ namespace Ecommerce.Application.Interfaces.Repositories
 
         Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriodAsync(DateTime from, DateTime to);
         //Commands
-        Task <(bool, string)> AddAsync(ProductEntity product); 
+        Task <(bool, string)> AddProductAsync(ProductEntity product); 
         Task<(bool, string)> UpdateProductAsync(int id, ProductEntity product);
         Task<(bool, string)> UpdateStatusAsync(int productId, ProductStatusEnum status);
         Task<(bool, string)> UpdateCategoryAsync(int productId, ProductCategoryEnum category); 

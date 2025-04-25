@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
 {
     internal interface ITransactionProductRepository
     {
-
+        Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSaleForDateAsync(DateTime Date);
+        Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriodAsync(DateTime from, DateTime To);
     }
 }

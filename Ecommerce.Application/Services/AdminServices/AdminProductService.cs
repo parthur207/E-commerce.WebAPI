@@ -232,26 +232,91 @@ namespace Ecommerce.Application.Services.AdminServices
         //Commands
         public async Task<(bool, string)> PostProduct(AdminCreateProductModel product)
         {
-            
+            string message = string.Empty;
+            var productEntity = ProductMapper.ToCreateProductEntity(product);
+
+            if (productEntity is null)
+            {
+                message = "Erro ao criar o produto e falha no mapeamento.";
+                return (false, message);
+            }
+            var Response = await _IProductRepository.AddProductAsync(productEntity);
+
+            if (Response.Item1 is false)
+            {
+                message = Response.Item2;
+                return (false, message);
+            }
+            message = "Produto criado com sucesso.";
+            return (true, message);
         }
 
         public async Task<(bool, string)> PutProduct(int ProductId, AdminUpdateProductModel model)
         {
-          
+          string message= string.Empty;
+
+            var productEntity = ProductMapper.ToAdminUpdateProductEntity(model);
+
+            if (productEntity is null)
+            {
+                message = "Erro ao atualizar o produto e falha no mapeamento.";
+                return (false, message);
+            }
+            var Response = await _IProductRepository.UpdateProductAsync(ProductId, productEntity);
+
+            if (Response.Item1 is false)
+            {
+                message = Response.Item2;
+                return (false, message);
+            }
+            message = "Produto atualizado com sucesso.";
+            return (true, message);
         }
 
         public async Task<(bool, string)> PutProductStatus(int idProduct, ProductStatusEnum status)
         {
-          
+            string message = string.Empty;
+            var Response = await _IProductRepository.UpdateStatusAsync(idProduct, status);
+
+            if (Response.Item1 is false)
+            {
+                message = Response.Item2;
+                return (false, message);
+            }
+            message = "Produto atualizado com sucesso.";
+            return (true, message);
         }
         public async Task<(bool, string)> PutProductCategory(int idProduct, ProductCategoryEnum category)
         {
-           
+            string message = string.Empty;
+            var Response = await _IProductRepository.UpdateCategoryAsync(idProduct, category);
+
+            if (Response.Item1 is false)
+            {
+                message = Response.Item2;
+                return (false, message);
+            }
+
+            message = "Produto atualizado com sucesso.";
+            return (true, message);
+
         }
 
         public Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSaleForDate(DateTime Date)
         {
-            throw new NotImplementedException();
+            string message = string.Empty;
+            var Response = await _IProductRepository.GetBiggestSaleForDateAsync(Date);
+            if (Response.Item3 is null)
+            {
+                message = Response.Item2;
+                return (false, message, null);
+            }
+            foreach (var p in Response.Item3)
+            {
+                var pDTO = TransactionMapper.ToTransactionDTO(p);
+                ListProducts.Add(pDTO);
+            }
+            return (true, message, ListProducts);
         }
     }
 }
