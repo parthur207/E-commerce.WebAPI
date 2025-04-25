@@ -9,7 +9,7 @@ namespace Ecommerce.Application.Interfaces.AdminInterfaces
 
         //Queries
         Task<(bool, string, List<AdminProductDTO>?)> GetAllProducts();
-        Task<(bool, string, AdminProductDTO?)> GetProductById(int idProduct);
+        Task<(bool, string, AdminProductDTO?)> GetProductByName(string productName);
         Task<(bool, string, List<AdminProductDTO>?)> GetAllProductsByStatus(ProductStatusEnum status);
         Task<(bool, string, List<AdminProductDTO>?)> GetProductsByCategory(ProductCategoryEnum category);
         Task<(bool, string, List<AdminProductDTO>?)> GetProductsByPrice(decimal price);

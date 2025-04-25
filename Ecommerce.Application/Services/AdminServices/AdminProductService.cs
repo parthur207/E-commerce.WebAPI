@@ -6,6 +6,8 @@ using Microsoft.VisualBasic;
 using Ecommerce.Application.Interfaces.Repositories;
 using Ecommerce.Domain.Models.AdminModels;
 using System.Collections.Generic;
+using Ecommerce.Application.Mappers;
+using Ecommerce.Application.DTOs;
 
 namespace Ecommerce.Application.Services.AdminServices
 {
@@ -76,12 +78,12 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, ListProducts);
         }
 
-        public async Task<(bool, string, AdminProductDTO?)> GetProductById(int idProduct)
+        public async Task<(bool, string, AdminProductDTO?)> GetProductByName(string productName)
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = "Produto criado com sucesso.";
 
-            var Response = await _IProductRepository.GetProductByIdAsync(idProduct);
+            var Response = await _IProductRepository.GetProductByNameAsync(productName);
 
             if (Response.Item3 is null)
             {
@@ -200,9 +202,9 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, productMapped);
         }
 
-        public async Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriod(DateTime from, DateTime To)
+        public async Task<(bool, string, List<TransactionDTO>?)> GetSalesByPeriod(DateTime from, DateTime To)
         {
-            List<TransactionProductEntity> ListProducts = new List<TransactionProductEntity>();
+            List<TransactionDTO> ListProducts = new List<TransactionDTO>();
             string message = string.Empty;
 
             var Response = await _IProductRepository.GetSalesByPeriodAsync(from, To);
@@ -214,7 +216,7 @@ namespace Ecommerce.Application.Services.AdminServices
             }
             foreach (var p in Response.Item3)
             {
-                var pDTO = ProductMapper.ToProductAdminDTO(p);
+                var pDTO = TransactionMapper.ToTransactionDTO(p);
                 ListProducts.Add(pDTO);
             }
             return (true, message, ListProducts);
@@ -245,6 +247,11 @@ namespace Ecommerce.Application.Services.AdminServices
         public async Task<(bool, string)> PutProductCategory(int idProduct, ProductCategoryEnum category)
         {
            
+        }
+
+        public Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSaleForDate(DateTime Date)
+        {
+            throw new NotImplementedException();
         }
     }
 }
