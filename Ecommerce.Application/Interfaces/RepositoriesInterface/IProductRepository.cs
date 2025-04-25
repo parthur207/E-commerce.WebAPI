@@ -19,16 +19,14 @@ namespace Ecommerce.Application.Interfaces.Repositories
 
         // Consultas de vendas (admin)
         Task<(bool, string, List<ProductEntity>?)> GetSalesAsync();
-        Task<(bool, string, ProductEntity?)> GetSaleByIdAsync(int productId); 
+        Task<(bool, string, ProductEntity?)> GetSaleByProductIdAsync(int productId); 
         Task<(bool, string, List<ProductEntity>?)> GetBiggestSaleAsync();
-        Task<(bool, string, List<TransactionProductEntity>?)> GetTopThreeSalesByDateAsync(DateTime from, DateTime to);
 
-        Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriodAsync(DateTime from, DateTime to);
         //Commands
         Task <(bool, string)> AddProductAsync(ProductEntity product); 
         Task<(bool, string)> UpdateProductAsync(int id, ProductEntity product);
-        Task<(bool, string)> UpdateStatusAsync(int productId, ProductStatusEnum status);
-        Task<(bool, string)> UpdateCategoryAsync(int productId, ProductCategoryEnum category); 
-        Task<(bool, string)> DeleteAsync(int productId);
+        Task<(bool, string)> UpdateProductStatusAsync(int productId, ProductStatusEnum status);
+        Task<(bool, string)> UpdateProductCategoryAsync(int productId, ProductCategoryEnum category); 
+        Task<(bool, string)> DeleteProductAsync(int productId);
     }
 }

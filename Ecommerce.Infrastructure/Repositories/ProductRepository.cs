@@ -215,7 +215,7 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string, ProductEntity?)> GetSaleByIdAsync(int productId)
+        public async Task<(bool, string, ProductEntity?)> GetSaleByProductIdAsync(int productId)
         {
             string message = string.Empty;
             try
@@ -365,7 +365,7 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string)> UpdateStatusAsync(int productId, ProductStatusEnum status)
+        public async Task<(bool, string)> UpdateProductStatusAsync(int productId, ProductStatusEnum status)
         {
             string message = string.Empty;
             try
@@ -389,7 +389,7 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string)> UpdateCategoryAsync(int productId, ProductCategoryEnum category)
+        public async Task<(bool, string)> UpdateProductCategoryAsync(int productId, ProductCategoryEnum category)
         {
             string message = string.Empty;
             try
@@ -411,7 +411,7 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string)> DeleteAsync(int productId)
+        public async Task<(bool, string)> DeleteProductAsync(int productId)
         {
             string message = string.Empty;
             try
