@@ -13,14 +13,9 @@ namespace Ecommerce.Application.Services.AdminServices
 {
     internal class AdminTransactionProductService : IAdminTransactionProductInterface
     {
-        public Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSaleForDate(DateTime Date)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriod(DateTime from, DateTime To)
         {
-            List<TransactionDTO> ListProducts = new List<TransactionDTO>();
+            List<TransactionProductEntity> ListProducts = new List<TransactionProductEntity>();
             string message = string.Empty;
 
             var Response = await _IProductRepository.Get(from, To);
@@ -39,7 +34,7 @@ namespace Ecommerce.Application.Services.AdminServices
         }
 
 
-        public async Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSaleForPeriod(DateTime from, DateTime to)
+        public async Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSalesByPeriod(DateTime from, DateTime to)
         {
             List<TransactionProductEntity> ListProducts = new List<TransactionProductEntity>();
 

@@ -18,9 +18,10 @@ namespace Ecommerce.Infrastructure.Repositories
         public TransactionRepository(DbContextInMemory dbcontext)
         {
             _dbContextinInMemory = dbcontext;
-    }
+        }
 
-        public async Task<(bool, string, List<TransactionEntity>?)> GetAllTransactions()
+
+        public async Task<(bool, string, List<TransactionEntity>?)> GetAllTransactionsAdmin()
         {
             string message = string.Empty;
             try
@@ -42,12 +43,17 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public Task<(bool, string, AdminTransactionDTO?)> GetTransactionById(int idTransaction)
+        public Task<(bool, string, AdminTransactionDTO?)> GetTransactionByIdAdmin(int idTransaction)
         {
             throw new NotImplementedException();
         }
 
         public Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserId(int idUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(bool, string)> PostTransaction(TransactionEntity transaction)
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Application.DTOs;
 using Ecommerce.Application.DTOs.AdminDTOs;
+using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
     {
         //admin
         //queries
-        Task<(bool, string, List<AdminTransactionDTO>?)> GetAllTransactionsAdmin();
-        Task<(bool, string, AdminTransactionDTO?)> GetTransactionByIdAdmin(int idTransaction);
-        Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserIdAdmin(int idUser);
+        Task<(bool, string, List<TransactionEntity>?)> GetAllTransactionsAdmin();
+        Task<(bool, string, TransactionEntity?)> GetTransactionByIdAdmin(int idTransaction);
+        Task<(bool, string, List<TransactionEntity>?)> GetTransactionsByUserIdAdmin(int idUser);
 
         //Commads
         //user e admin
@@ -24,10 +25,10 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
         //user
         //Queries
 
-        Task<(bool, string, List<TransactionDTO>?)> GetAllTransactions();
+        Task<(bool, string, List<TransactionEntity>?)> GetAllTransactions();
 
         //Commands
-        Task<(bool, string)> PostTransaction(CreateTransactionModel transaction);
+        Task<(bool, string)> PostTransaction(TransactionEntity transaction);
 
         Task<(bool, string)> PutTransactionStatusToPaid(int transactionId);
     }

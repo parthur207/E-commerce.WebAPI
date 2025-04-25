@@ -3,7 +3,7 @@ using Ecommerce.Application.Interfaces.Repositories;
 using Ecommerce.Application.Interfaces.RepositoriesInterface;
 using Ecommerce.Application.Interfaces.UserInterfaces;
 using Ecommerce.Application.Mappers;
-
+using Ecommerce.Domain.Models;
 using System.Linq.Expressions;
 
 namespace Ecommerce.Application.Services.CommomServices
@@ -55,9 +55,8 @@ namespace Ecommerce.Application.Services.CommomServices
                 {
                     return (false, "Erro ao criar a transação e falha no mapeamento.");
                 }
+                var Response = await _ItransactionRepository.PostTransaction(transactionEntity);
 
-                await _dbContextInMemory.Transaction.AddAsync(transactionEntity);
-                await _dbContextInMemory.SaveChangesAsync();
 
                 return (true, "Compra realizada com sucesso!\nEfetue o pagamento.");
             }

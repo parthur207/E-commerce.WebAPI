@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Application.DTOs.AdminDTOs;
 using Ecommerce.Application.Interfaces.AdminInterfaces;
+using Ecommerce.Application.Interfaces.Repositories;
 using Ecommerce.Application.Mappers;
 
 
@@ -8,10 +9,10 @@ namespace Ecommerce.Application.Services.AdminServices
     public class AdminTransactionService : IAdminTransactionInterface
     {
 
-        private readonly DbContextInMemory _dbContextInMemory;
-        public AdminTransactionService(DbContextInMemory dbContextInMemory)
+        private readonly IProductRepository _IproductRepository;
+        public AdminTransactionService(IProductRepository IproductRepository)
         {
-            _dbContextInMemory = dbContextInMemory;
+            _IproductRepository = IproductRepository;
         }
 
         public async Task<(bool, string, List<AdminTransactionDTO>?)> GetAllTransactions()
@@ -20,7 +21,7 @@ namespace Ecommerce.Application.Services.AdminServices
             List<AdminTransactionDTO> ListTransactions = new List<AdminTransactionDTO>();
             try
             {
-                var transactions = await _dbContextInMemory.Transaction.ToListAsync();
+                var transactions = await _IproductRepository.GetAllProductsAsync();
 
                 if(transactions is null)
                 {
@@ -75,7 +76,7 @@ namespace Ecommerce.Application.Services.AdminServices
             List<AdminTransactionDTO> ListTransactions = new List<AdminTransactionDTO>();
             try
             {
-                var transactions = await _dbContextInMemory.Transaction
+                var transactions = await _IproductRepository.Transaction
                     .Where(x => x.UserId == idUser)
                     .ToListAsync();
 
