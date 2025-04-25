@@ -6,11 +6,11 @@ namespace Ecommerce.Application.Interfaces.AdminInterfaces
     public interface IAdminTransactionInterface
     {
         //Queries
-        Task<(bool, string, List<AdminTransactionDTO>?)> GetAllTransactions();
-        Task<(bool, string, AdminTransactionDTO?)> GetTransactionById(int idTransaction);
-        Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserId(int idUser);
+        Task<(bool, string, List<AdminTransactionDTO>?)> GetAllTransactionsAdmin();
+        Task<(bool, string, AdminTransactionDTO?)> GetTransactionByIdAdmin(int idTransaction);
+        Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserIdAdmin(int idUser);
 
         //Commads
-        Task<(bool, string)> PutTransactionStatusToCanceled(int idTransction);
+        Task<(bool, string)> PutTransactionStatusToCanceledAdmin(int idTransction);
     }
 }

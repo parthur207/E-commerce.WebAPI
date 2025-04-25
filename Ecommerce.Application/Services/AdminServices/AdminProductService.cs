@@ -21,26 +21,26 @@ namespace Ecommerce.Application.Services.AdminServices
         }
 
         //Queries
-        public async Task<(bool, string, List<AdminProductDTO>?)> GetAllProducts()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetAllProductsAdmin()
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
 
-            var Response= await _IProductRepository.GetAllProductsAsync();
-            if(Response.Item3 is null)
+            var Response = await _IProductRepository.GetAllProductsAsync();
+            if (Response.Item3 is null)
             {
                 message = Response.Item2;
                 return (false, message, null);
             }
             foreach (var p in Response.Item3)
             {
-                var pDTO=ProductMapper.ToProductAdminDTO(p);
+                var pDTO = ProductMapper.ToProductAdminDTO(p);
                 ListProducts.Add(pDTO);
             }
             return (true, message, ListProducts);
         }
 
-        public async Task<(bool, string, List<AdminProductDTO>?)> GetAllProductsByStatus(ProductStatusEnum status)
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetAllProductsByStatusAdmin(ProductStatusEnum status)
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
@@ -59,11 +59,11 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, ListProducts);
         }
 
-        public async Task<(bool, string, List<AdminProductDTO>?)> GetBiggestSale()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetBiggestSaleAdmin()
         {
-            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();   
+            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
-            var Response = await _IProductRepository.GetBiggestSaleAsync();
+            var Response = await _IProductRepository.Get();
 
             if (Response.Item3 is null)
             {
@@ -78,7 +78,7 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, ListProducts);
         }
 
-        public async Task<(bool, string, AdminProductDTO?)> GetProductByName(string productName)
+        public async Task<(bool, string, AdminProductDTO?)> GetProductByNameAdmin(string productName)
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = "Produto criado com sucesso.";
@@ -95,7 +95,7 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, productMapped);
         }
 
-        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsByCategory(ProductCategoryEnum category)
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsByCategoryAdmin(ProductCategoryEnum category)
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             var message = string.Empty;
@@ -113,7 +113,7 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, ListProducts);
         }
 
-        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsByPrice(decimal price)
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsByPriceAdmin(decimal price)
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             var message = string.Empty;
@@ -131,7 +131,7 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, ListProducts);
         }
 
-        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsInactive()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsInactiveAdmin()
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
@@ -150,7 +150,7 @@ namespace Ecommerce.Application.Services.AdminServices
 
         }
 
-        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsNoStock()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsNoStockAdmin()
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
@@ -169,7 +169,7 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, ListProducts);
         }
 
-        public async Task<(bool, string, List<AdminProductDTO>?)> GetSales()
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetSalesAdmin()
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
             string message = string.Empty;
@@ -187,9 +187,9 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, ListProducts);
         }
 
-        public async Task<(bool, string, AdminProductDTO?)> GetSaleById(int productIdSales)
+        public async Task<(bool, string, AdminProductDTO?)> GetSaleByIdAdmin(int productIdSales)
         {
-            string message=string.Empty;
+            string message = string.Empty;
             var Response = await _IProductRepository.GetSaleByProductIdAsync(productIdSales);
 
             if (Response.Item3 is null)
@@ -202,10 +202,10 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, productMapped);
         }
 
-      
+
 
         //Commands
-        public async Task<(bool, string)> PostProduct(AdminCreateProductModel product)
+        public async Task<(bool, string)> PostProductAdmin(AdminCreateProductModel product)
         {
             string message = string.Empty;
             var productEntity = ProductMapper.ToCreateProductEntity(product);
@@ -226,9 +226,9 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message);
         }
 
-        public async Task<(bool, string)> PutProduct(int ProductId, AdminUpdateProductModel model)
+        public async Task<(bool, string)> PutProductAdmin(int ProductId, AdminUpdateProductModel model)
         {
-          string message= string.Empty;
+            string message = string.Empty;
 
             var productEntity = ProductMapper.ToAdminUpdateProductEntity(model);
 
@@ -248,7 +248,7 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message);
         }
 
-        public async Task<(bool, string)> PutProductStatus(int idProduct, ProductStatusEnum status)
+        public async Task<(bool, string)> PutProductStatusAdmin(int idProduct, ProductStatusEnum status)
         {
             string message = string.Empty;
             var Response = await _IProductRepository.UpdateProductStatusAsync(idProduct, status);
@@ -261,7 +261,7 @@ namespace Ecommerce.Application.Services.AdminServices
             message = "Produto atualizado com sucesso.";
             return (true, message);
         }
-        public async Task<(bool, string)> PutProductCategory(int idProduct, ProductCategoryEnum category)
+        public async Task<(bool, string)> PutProductCategoryAdmin(int idProduct, ProductCategoryEnum category)
         {
             string message = string.Empty;
             var Response = await _IProductRepository.UpdateProductCategoryAsync(idProduct, category);
@@ -275,23 +275,6 @@ namespace Ecommerce.Application.Services.AdminServices
             message = "Produto atualizado com sucesso.";
             return (true, message);
 
-        }
-
-        public Task<(bool, string, List<TransactionProductEntity>?)> GetBiggestSaleForDate(DateTime Date)
-        {
-            string message = string.Empty;
-            var Response = await _IProductRepository.GetBiggestSaleForDateAsync(Date);
-            if (Response.Item3 is null)
-            {
-                message = Response.Item2;
-                return (false, message, null);
-            }
-            foreach (var p in Response.Item3)
-            {
-                var pDTO = TransactionMapper.ToTransactionDTO(p);
-                ListProducts.Add(pDTO);
-            }
-            return (true, message, ListProducts);
         }
     }
 }

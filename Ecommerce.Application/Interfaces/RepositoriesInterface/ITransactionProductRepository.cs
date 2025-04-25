@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Interfaces.RepositoriesInterface
 {
-    internal interface ITransactionProductRepository
+    public interface ITransactionProductRepository
     {
-        Task<(bool, string, List<TransactionProductEntity>?)> GetTopThreeSalesByDateAsync(DateTime from, DateTime to);
+        Task<(bool, string, List<TransactionProductEntity>?)> GetTopFiveSalesByDateAsync(DateTime from, DateTime to);
         Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriodAsync(DateTime from, DateTime to);
     }
 }

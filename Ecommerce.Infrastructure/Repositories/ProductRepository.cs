@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -236,7 +237,7 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string, List<ProductEntity>?)> GetBiggestSaleAsync()
+        public async Task<(bool, string, List<ProductEntity>?)> GetTopFiveSalesByPeriodAsync(DateTime from, DateTime to)
         {
             string message = string.Empty;
             try
@@ -244,6 +245,7 @@ namespace Ecommerce.Infrastructure.Repositories
                 var biggestSale = await _dbContextInMemory.Product
                     .Include(x => x.Sales)
                     .OrderByDescending(x => x.Sales)
+                    .Take(5)
                     .ToListAsync();
 
                 if (biggestSale is null)
@@ -260,58 +262,32 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string, List<TransactionProductEntity>?)> GetTopThreeSalesByDateAsync(DateTime from, DateTime to)
+        public async Task<(bool, string, ProductEntity?)> GetBiggetSaleAsync()
         {
             string message = string.Empty;
             try
             {
-                var biggestSalesForDate = await _dbContextInMemory.TransactionProduct
-                  .Include(x => x.Product)
-                  .ThenInclude(x => x.Sales)
-                  .Where(x => x.Transaction.TransactionDate.Date >= from.Date && x.Transaction.TransactionDate.Date <= to.Date)
-                  .OrderByDescending(x => x.Product.Sales)
-                  .Take(3)
-                  .ToListAsync();
+                var BiggestProductSold=await _dbContextInMemory.Product.OrderByDescending(x => x.Sales).FirstOrDefaultAsync();
 
-                if (biggestSalesForDate is null)
+                if(BiggestProductSold is null)
                 {
-                    message = "Não foram encontradas vendas dentro do período informado.";
+                    message = "Nenhum produto encontrado.";
                     return (false, message, null);
                 }
-                return (true, message, biggestSalesForDate);
+
+                return (true, message, BiggestProductSold);
             }
             catch (Exception ex)
             {
-                message = $"Erro ao buscar produtos: {ex.Message}";
-                return (false, message, null);
-            }
-        }
-        public async Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriodAsync(DateTime from, DateTime to)
-        {
-            string message = string.Empty;
-            try
-            {
-               var productsSales = await _dbContextInMemory.TransactionProduct
-                    .Include(x => x.Product)
-                    .ThenInclude(x => x.Sales)
-                    .Where(x => x.Transaction.TransactionDate.Date >= from.Date && x.Transaction.TransactionDate.Date <= to.Date)
-                    .ToListAsync();
-
-                if (productsSales is null)
-                {
-                    message = $"Não foram encontrados produtos com vendas.";
-                    return (false, message, null);
-                }
-                return (true, message, productsSales);
-            }
-            catch (Exception ex)
-            {
-                message = $"Erro ao buscar produtos: {ex.Message}";
+                message = $"Ocorreu um erro inesperado: {ex.Message}";
                 return (false, message, null);
             }
         }
 
-        // Comandos (Commands)
+
+        //------------------------------------------------------------------------------------------------------
+
+        // Commands
         public async Task<(bool, string)> AddProductAsync(ProductEntity product)
         {
             string message = string.Empty;

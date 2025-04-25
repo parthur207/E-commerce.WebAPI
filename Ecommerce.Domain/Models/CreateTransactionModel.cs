@@ -10,13 +10,6 @@ namespace Ecommerce.Domain.Models
 
         [Required]
         public List<TransactionProductEntity> ShoppingList { get; set; }
-        
-        [Required]
-        public DateTime TransactionDate { get; set; }
-        
-        [Required]
-        public decimal TotalValue { get; set; }
-
 
         /*public string PaymentMethod { get; set; } = string.Empty;
         public string DeliveryAddress { get; set; } = string.Empty;

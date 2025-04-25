@@ -8,5 +8,7 @@ namespace Ecommerce.Infrastructure.Repositories
 {
     internal class UserRepository
     {
+
+        
     }
 }

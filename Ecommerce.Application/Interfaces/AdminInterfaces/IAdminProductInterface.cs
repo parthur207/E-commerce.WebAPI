@@ -8,22 +8,22 @@ namespace Ecommerce.Application.Interfaces.AdminInterfaces
     {
 
         //Queries
-        Task<(bool, string, List<AdminProductDTO>?)> GetAllProducts();
-        Task<(bool, string, AdminProductDTO?)> GetProductByName(string productName);
-        Task<(bool, string, List<AdminProductDTO>?)> GetAllProductsByStatus(ProductStatusEnum status);
-        Task<(bool, string, List<AdminProductDTO>?)> GetProductsByCategory(ProductCategoryEnum category);
-        Task<(bool, string, List<AdminProductDTO>?)> GetProductsByPrice(decimal price);
-        Task<(bool, string, List<AdminProductDTO>?)> GetProductsNoStock();
-        Task<(bool, string, List<AdminProductDTO>?)> GetProductsInactive();
-
-        Task<(bool, string, List<AdminProductDTO>?)> GetSales();
-        Task<(bool, string, AdminProductDTO?)> GetSaleById(int productId);
-        Task<(bool, string, List<AdminProductDTO>?)> GetBiggestSale();
+        Task<(bool, string, List<AdminProductDTO>?)> GetAllProductsAdmin();
+        Task<(bool, string, AdminProductDTO?)> GetProductByNameAdmin(string productName);
+        Task<(bool, string, List<AdminProductDTO>?)> GetAllProductsByStatusAdmin(ProductStatusEnum status);
+        Task<(bool, string, List<AdminProductDTO>?)> GetProductsByCategoryAdmin(ProductCategoryEnum category);
+        Task<(bool, string, List<AdminProductDTO>?)> GetProductsByPriceAdmin(decimal price);
+        Task<(bool, string, List<AdminProductDTO>?)> GetProductsNoStockAdmin();
+        Task<(bool, string, List<AdminProductDTO>?)> GetProductsInactiveAdmin();
+        //Vendas
+        Task<(bool, string, List<AdminProductDTO>?)> GetSalesAdmin();
+        Task<(bool, string, AdminProductDTO?)> GetSaleByIdAdmin(int productId);
+        Task<(bool, string, List<AdminProductDTO>?)> GetBiggestSaleAdmin();
 
         //Commands
-        Task<(bool,  string)> PostProduct(AdminCreateProductModel product);
-        Task<(bool,string)> PutProduct(int ProductId, AdminUpdateProductModel model);
-        Task<(bool, string)> PutProductStatus(int ProductId, ProductStatusEnum status);
-        Task<(bool, string)> PutProductCategory(int ProductId, ProductCategoryEnum category);
+        Task<(bool,  string)> PostProductAdmin(AdminCreateProductModel product);
+        Task<(bool,string)> PutProductAdmin(int ProductId, AdminUpdateProductModel model);
+        Task<(bool, string)> PutProductStatusAdmin(int ProductId, ProductStatusEnum status);
+        Task<(bool, string)> PutProductCategoryAdmin(int ProductId, ProductCategoryEnum category);
     }
 }

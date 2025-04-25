@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Application.DTOs.AdminDTOs;
 using Ecommerce.Application.Interfaces.AdminInterfaces;
 using Ecommerce.Application.Interfaces.Repositories;
+using Ecommerce.Application.Interfaces.RepositoriesInterface;
 using Ecommerce.Application.Mappers;
 
 
@@ -9,144 +10,80 @@ namespace Ecommerce.Application.Services.AdminServices
     public class AdminTransactionService : IAdminTransactionInterface
     {
 
-        private readonly IProductRepository _IproductRepository;
-        public AdminTransactionService(IProductRepository IproductRepository)
+        private readonly ITransactionRepository _ItransactionRepository;
+        public AdminTransactionService(ITransactionRepository ItransactionRepository)
         {
-            _IproductRepository = IproductRepository;
+            _ItransactionRepository = ItransactionRepository;
         }
 
-        public async Task<(bool, string, List<AdminTransactionDTO>?)> GetAllTransactions()
+        public async Task<(bool, string, List<AdminTransactionDTO>?)> GetAllTransactionsAdmin()
         {
-            string message=string.Empty;
             List<AdminTransactionDTO> ListTransactions = new List<AdminTransactionDTO>();
-            try
+
+            var Response = await _ItransactionRepository.GetAllTransactionsAdminAsync();
+
+            if(Response.Item1 is false)
             {
-                var transactions = await _IproductRepository.GetAllProductsAsync();
-
-                if(transactions is null)
-                {
-                    message = "Transações não encontradas.";
-                    return (false, message, null);
-                }
-
-                foreach (var t in transactions)
-                {
-                    var transactionsDto= TransactionMapper.ToTransactionAdminDTO(t);
-                    ListTransactions.Add(transactionsDto);
-                }
-
-                return (true, message, ListTransactions);
+                return (false, Response.Item2, null);
             }
-            catch (Exception ex)
+
+            foreach (var t in Response.Item3) 
             {
-                message = $"Erro ao buscar as transações: {ex.Message}";
-                return (false, message, null);
+                var TransactionMapped = TransactionMapper.ToTransactionAdminDTO(t);
+                ListTransactions.Add(TransactionMapped);
             }
+
+            return (true, Response.Item2, ListTransactions);
         }
 
-        public async Task<(bool, string, AdminTransactionDTO?)> GetTransactionById(int idTransaction)
+        public async Task<(bool, string, AdminTransactionDTO?)> GetTransactionByIdAdmin(int idTransaction)
         {
-            string message = string.Empty;
-            try
+            var Response= await _ItransactionRepository.GetTransactionByIdAdminAsync(idTransaction);
+
+            if(Response.Item1 is false)
             {
-                var transaction = await _dbContextInMemory.Transaction
-                    .Where(x => x.Id == idTransaction)
-                    .FirstOrDefaultAsync();
-
-                if (transaction is null)
-                {
-                    message = "Transação não encontrada.";
-                    return (false, message, null);
-                }
-
-                var transactionDto = TransactionMapper.ToTransactionAdminDTO(transaction);
-
-                return (true, message, transactionDto);
+                return (false, Response.Item2, null);
             }
-            catch (Exception ex)
-            {
-                message = $"Erro ao buscar a transação: {ex.Message}";
-                return (false, message, null);
-            }
+
+            var TransactionMapped = TransactionMapper.ToTransactionAdminDTO(Response.Item3);
+
+            return (true, Response.Item2, TransactionMapped);
         }
 
-        public async Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserId(int idUser)
+        public async Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserIdAdmin(int idUser)
         {
-            string message = string.Empty;
             List<AdminTransactionDTO> ListTransactions = new List<AdminTransactionDTO>();
-            try
+             var Response= await _ItransactionRepository.GetAllTransactionsUserAsync(idUser);
+
+            if(Response.Item1 is false)
             {
-                var transactions = await _IproductRepository.Transaction
-                    .Where(x => x.UserId == idUser)
-                    .ToListAsync();
-
-                if(transactions is null)
-                {
-                    message = "Transações não encontradas.";
-                    return (false, message, null);
-                }
-
-                foreach(var t in transactions)
-                {
-                    var transactionDto = TransactionMapper.ToTransactionAdminDTO(t);
-                    ListTransactions.Add(transactionDto);
-                }
-
-                return (true, message, ListTransactions);
+                return (false, Response.Item2 ,null);
             }
-            catch (Exception ex)
+
+            foreach(var t in Response.Item3)
             {
-                message = $"Erro ao buscar as transações: {ex.Message}";
-                return (false, message, null);
+                var TransactionMapped= TransactionMapper.ToTransactionAdminDTO(t);
+                ListTransactions.Add(TransactionMapped);
             }
+            return (true, Response.Item2, ListTransactions);
         }
 
-        public async Task<(bool, string)> PutTransactionStatusToCanceled(int idTransction)
+        public async Task<(bool, string)> PutTransactionStatusToCanceledAdmin(int idTransction)
         {
-            try
+           var Response= await _ItransactionRepository.PutTransactionStatusToCanceledAsync(idTransction);
+
+            if (Response.Item1 is false)
             {
-                var TransactionEntity = await _dbContextInMemory.Transaction
-                 .Where(x => x.Id == idTransction)
-                 .FirstOrDefaultAsync();
-
-                if(TransactionEntity is null)
-                {
-                    return (false, "Transação não encontrada.");
-                }
-
-                await _dbContextInMemory.Transaction.Where(x => x.Id == idTransction)
-                    .ExecuteUpdateAsync(x => x.SetProperty(y => y.TransactionStatus, TransactionStatusEnum.Canceled));
-
-                return (true, "O status da transação foi atualzado com sucesso.");
+                return (false, Response.Item2);
             }
-            catch (Exception ex)
-            {
-                return (false, $"Erro ao alterar o status da transação: {ex.Message}");
-            }
+            return (true, Response.Item2);    
         }
 
-        public async Task<(bool, string)> PutTransactionStatusToSent(int idTransction)
+        public async Task<(bool, string)> PutTransactionStatusToSentAdmin(int idTransction)
         {
-            try
-            {
-                var TransactionEntity = await _dbContextInMemory.Transaction
-                 .Where(x => x.Id == idTransction)
-                 .FirstOrDefaultAsync();
 
-                if (TransactionEntity is null)
-                {
-                    return (false, "Transação não encontrada.");
-                }
 
-                await _dbContextInMemory.Transaction.Where(x => x.Id == idTransction)
-                    .ExecuteUpdateAsync(x => x.SetProperty(y => y.TransactionStatus, TransactionStatusEnum.Canceled));
-
-                return (true, "O status da transação foi atualzado com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Erro ao alterar o status da transação: {ex.Message}");
-            }
+            
         }
     }
 }

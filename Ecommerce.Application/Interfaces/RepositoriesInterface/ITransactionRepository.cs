@@ -12,24 +12,22 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
 {
     public interface ITransactionRepository
     {
-        //admin
+       //admin
         //queries
-        Task<(bool, string, List<TransactionEntity>?)> GetAllTransactionsAdmin();
-        Task<(bool, string, TransactionEntity?)> GetTransactionByIdAdmin(int idTransaction);
-        Task<(bool, string, List<TransactionEntity>?)> GetTransactionsByUserIdAdmin(int idUser);
+        Task<(bool, string, List<TransactionEntity>?)> GetAllTransactionsAdminAsync();
+        
+        Task<(bool, string, TransactionEntity?)> GetTransactionByIdAdminAsync(int idTransaction);
 
-        //Commads
+        //Commads e queries
         //user e admin
-        Task<(bool, string)> PutTransactionStatusToCanceled(int idTransaction);
+        Task<(bool, string)> PutTransactionStatusToCanceledAsync(int idTransaction);
+        Task<(bool, string, List<TransactionEntity>?)> GetAllTransactionsUserAsync(int idUser);
 
+        
         //user
-        //Queries
-
-        Task<(bool, string, List<TransactionEntity>?)> GetAllTransactions();
-
         //Commands
-        Task<(bool, string)> PostTransaction(TransactionEntity transaction);
+        Task<(bool, string)> PostTransactionAsync(TransactionEntity transaction);
 
-        Task<(bool, string)> PutTransactionStatusToPaid(int transactionId);
+        Task<(bool, string)> PutTransactionStatusToPaidAsync(int transactionId, int UserId);
     }
 }

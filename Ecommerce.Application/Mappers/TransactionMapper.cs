@@ -16,8 +16,7 @@ namespace Ecommerce.Application.Mappers
         {
             return new TransactionEntity(
                 model.UserId,
-                model.ShoppingList,
-                model.TotalValue
+                model.ShoppingList
             );
         }
 

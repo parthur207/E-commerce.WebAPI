@@ -1,18 +1,19 @@
 ﻿
 using Ecommerce.Application.DTOs;
 using Ecommerce.Application.Interfaces.AdminInterfaces;
+using Ecommerce.Application.Interfaces.RepositoriesInterface;
 using Ecommerce.Application.Mappers;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace Ecommerce.Application.Services.AdminServices
 {
     public class AdminUserService : IAdminUserInterface
     {
 
-        private readonly DbContextInMemory _dbContextInMemory;
-        public AdminUserService(DbContextInMemory dbContextInMemory)
+        private readonly IUserRepository _IuserRepository;
+        public AdminUserService(IUserRepository IuserRepository)
         {
-            _dbContextInMemory = dbContextInMemory;
+            _IuserRepository = IuserRepository;
         }
 
         //Queries

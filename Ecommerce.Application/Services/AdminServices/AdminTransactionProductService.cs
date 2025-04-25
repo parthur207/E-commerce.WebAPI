@@ -1,6 +1,8 @@
 ﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Application.DTOs.AdminDTOs;
 using Ecommerce.Application.Interfaces.AdminInterfaces;
 using Ecommerce.Application.Interfaces.Repositories;
+using Ecommerce.Application.Interfaces.RepositoriesInterface;
 using Ecommerce.Application.Mappers;
 using Ecommerce.Domain.Entities;
 using System;
@@ -13,12 +15,19 @@ namespace Ecommerce.Application.Services.AdminServices
 {
     internal class AdminTransactionProductService : IAdminTransactionProductInterface
     {
-        public Task<(bool, string, List<TransactionProductEntity>?)> GetSalesByPeriod(DateTime from, DateTime To)
+        private readonly ITransactionProductRepository _transactionProductRepository;
+
+        public AdminTransactionProductService(ITransactionProductRepository transactionProductRepository)
         {
-            List<TransactionProductEntity> ListProducts = new List<TransactionProductEntity>();
+            _transactionProductRepository = transactionProductRepository;
+        }
+
+        public  async Task<(bool, string, List<AdminProductDTO>?)> GetSalesByPeriod(DateTime from, DateTime To)
+        {
+            List<AdminProductDTO> ListProducts = new List<TransactionProductEntity>();
             string message = string.Empty;
 
-            var Response = await _IProductRepository.Get(from, To);
+            var Response = await _transactionProductRepository.GetSalesByPeriodAsync(from, To);
 
             if (Response.Item3 is null)
             {

@@ -5,6 +5,11 @@ namespace Ecommerce.Application.Services.CommomServices
 {
     public class UserService : IUserInterface
     {
+
+        public Task<(bool, string)> AddUserAssync()
+        {
+            throw new NotImplementedException();
+        }
         public Task<(bool, string)> PutPassword(UpdateUserPasswordModel model)
         {
             throw new NotImplementedException();

@@ -70,29 +70,16 @@ namespace Ecommerce.Application.Services.CommomServices
         public async Task<(bool, string)> PutTransactionStatusToPaid(int transactionId)
         {
             string message = string.Empty;
-            try
+
+            var Response = await _ItransactionRepository.PutTransactionStatusToPaid(transactionId);
+
+            if (Response.Item1 == false)
             {
-                var TransactionEntity = await _dbContextInMemory.Transaction.Where(x=>x.TransactionStatus==TransactionStatusEnum.Paid).FirstOrDefaultAsync();
-
-                
-                if(TransactionEntity is null)
-                {
-                    message = "Tranação não encontrada.";
-                    return (false, message);
-                }
-
-                await _dbContextInMemory.Transaction.Where(x => x.Id == transactionId)
-                    .ExecuteUpdateAsync(x => x.SetProperty(y => y.TransactionStatus, TransactionStatusEnum.Paid));
-                await _dbContextInMemory.SaveChangesAsync();
-
-                message= "Pagamento confirmado com sucesso!\nAguarde enquanto o vendedor providencia o envio.";
-                return (true, message);
+                message = "Falha na confirmação do pagamento.";
+                return (false, message);
             }
-            catch
-            {
-                message = "Ocorreu um erro inesperado.";
-                return (false,message);
-            }
+
+            return (true, message);
         }
     }
 }
