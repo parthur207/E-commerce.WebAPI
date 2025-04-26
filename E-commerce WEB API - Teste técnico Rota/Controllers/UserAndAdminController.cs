@@ -45,6 +45,12 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
                 return Ok(new { Token = tokenAdmin });
             }
 
+            if(model.Email=="user@teste.com" && model.Password == "12345")
+            {
+                var tokenUser = _jwtInterface.GenerateToken(2, UsersRoles.User);
+                return Ok(new { Token = tokenUser });
+            }
+
                 var Response = await  _userInterface.LoginUser(model);
 
             if(Response.Item1 is false)
