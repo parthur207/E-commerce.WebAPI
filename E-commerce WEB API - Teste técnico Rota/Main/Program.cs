@@ -4,6 +4,8 @@ using Ecommerce.Application.Interfaces.RepositoriesInterface;
 using Ecommerce.Application.Interfaces.UserInterfaces;
 using Ecommerce.Application.Services.AdminServices;
 using Ecommerce.Application.Services.CommomServices;
+using Ecommerce.Infrastructure.Auth;
+using Ecommerce.Infrastructure.Auth.JwtInterface;
 using Ecommerce.Infrastructure.ExternalService;
 using Ecommerce.Infrastructure.ExternalService.InterfaceNotification;
 using Ecommerce.Infrastructure.Persistence;
@@ -47,31 +49,34 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
             builder.Services.AddScoped<IAdminTransactionInterface, AdminTransactionService>();
             builder.Services.AddScoped<IAdminUserInterface, AdminUserService>();
 
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-
             builder.Services.AddScoped<IProductInterface, ProductService>();
             builder.Services.AddScoped<ITransactionInterface, TransactionService>();
             builder.Services.AddScoped<IUserInterface, UserService>();
 
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+            builder.Services.AddScoped<IJwtInterface,JwtService>();
+
             builder.Services.AddTransient<INotificationInterface, NotificationService>();
 
-            var SecretKeyString = builder.Configuration.GetValue<string>("SecretKey");
+
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options => {
-          options.TokenValidationParameters = new TokenValidationParameters
-          {
-              ValidateIssuer = true,
-              ValidateAudience = true,
-              ValidateLifetime = true,
-              ValidateIssuerSigningKey = true,
-              ValidIssuer = builder.Configuration["Jwt:Issuer"],
-              ValidAudience = builder.Configuration["Jwt:Audience"],
-              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-          };
-      });
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+            });
 
             var app = builder.Build();
 

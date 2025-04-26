@@ -1,12 +1,51 @@
-﻿using System;
+﻿using Ecommerce.Infrastructure.Auth.JwtInterface;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Ecommerce.Infrastructure.Auth
 {
-    internal class JwtService
+    public class JwtService : IJwtInterface
     {
+        private readonly string _secretKey;
+        private readonly string _issuer;
+        private readonly string _audience;
+        private readonly int _expirationMinutes;
+
+        public JwtService(IConfiguration configuration)
+        {
+            _secretKey = configuration["Jwt:Key"];
+            _issuer = configuration["Jwt:Issuer"];
+            _audience = configuration["Jwt:Audience"];
+            _expirationMinutes = int.Parse(configuration["Jwt:ExpirationInMinutes"]);
+        }
+
+        public string GenerateToken(Guid userId, string userType)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                new Claim("userType", userType),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _issuer,
+                audience: _audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_expirationMinutes),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }
