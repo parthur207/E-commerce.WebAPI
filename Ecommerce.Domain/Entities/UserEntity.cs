@@ -7,6 +7,12 @@ namespace Ecommerce.Domain.Entities
 {
     public class UserEntity
     {
+
+        public UserEntity(string email, string password)
+        {
+            Email = email;
+            Password = password;
+        }
         public UserEntity(string name, int? phone, string address)
         {
             Name = name;

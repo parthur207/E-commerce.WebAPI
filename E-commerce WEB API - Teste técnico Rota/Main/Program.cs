@@ -8,9 +8,12 @@ using Ecommerce.Infrastructure.ExternalService;
 using Ecommerce.Infrastructure.ExternalService.InterfaceNotification;
 using Ecommerce.Infrastructure.Persistence;
 using Ecommerce.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
 {
@@ -56,11 +59,19 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
 
             var SecretKeyString = builder.Configuration.GetValue<string>("SecretKey");
 
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            });
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options => {
+          options.TokenValidationParameters = new TokenValidationParameters
+          {
+              ValidateIssuer = true,
+              ValidateAudience = true,
+              ValidateLifetime = true,
+              ValidateIssuerSigningKey = true,
+              ValidIssuer = builder.Configuration["Jwt:Issuer"],
+              ValidAudience = builder.Configuration["Jwt:Audience"],
+              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+          };
+      });
 
             var app = builder.Build();
 

@@ -19,7 +19,7 @@ namespace Ecommerce.Application.Services.CommomServices
         }
 
         //Queries
-        public async Task<(bool, string, List<TransactionDTO>?)> GetAllTransactions()
+        public async Task<(bool, string, List<TransactionDTO>?)> GetAllTransactions(int IdUser)
         {
             List<TransactionDTO> ListTransaction=new List<TransactionDTO>();
             string message = string.Empty;
@@ -46,33 +46,30 @@ namespace Ecommerce.Application.Services.CommomServices
 
 
         //Commands
-        public async Task<(bool, string)> PostTransaction(CreateTransactionModel transaction)
+        public async Task<(bool, string)> PostTransaction(CreateTransactionModel transaction, int UserId)
         {
-            try
+
+            var transactionEntity = TransactionMapper.ToTransactionEntity(transaction);
+
+            if (transactionEntity is null)
             {
-                var transactionEntity = TransactionMapper.ToTransactionEntity(transaction);
-
-                if (transactionEntity is null)
-                {
-                    return (false, "Erro ao criar a transação e falha no mapeamento.");
-                }
-                var Response = await _ItransactionRepository.PostTransaction(transactionEntity);
-
-
-                return (true, "Compra realizada com sucesso!\nEfetue o pagamento.");
+                return (false, "Erro ao criar a transação e falha no mapeamento.");
             }
-            catch
+            var Response = await _ItransactionRepository.PostTransactionAsync(transactionEntity, UserId);
+
+            if (Response.Item1 is false)
             {
-
-                return (false, "Ocorreu um erro inesperado.");
+                return (false, Response.Item2);
             }
+
+            return (true, "Pedido confirmado com sucesso!\nEfetue o pagamento.");
         }
 
-        public async Task<(bool, string)> PutTransactionStatusToPaid(int transactionId)
+        public async Task<(bool, string)> PutTransactionStatusToPaid(int transactionId, int IdUser)
         {
             string message = string.Empty;
 
-            var Response = await _ItransactionRepository.PutTransactionStatusToPaidAsync(transactionId);
+            var Response = await _ItransactionRepository.PutTransactionStatusToPaidAsync(transactionId, IdUser);
 
             if (Response.Item1 == false)
             {

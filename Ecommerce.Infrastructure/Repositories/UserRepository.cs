@@ -67,9 +67,9 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-              var UserEntity = await _dbContextInMemory.User
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(u => u.Email == email);
+                var UserEntity = await _dbContextInMemory.User
+                      .AsNoTracking()
+                      .FirstOrDefaultAsync(u => u.Email == email);
 
                 if (UserEntity == null)
                 {
@@ -121,8 +121,8 @@ namespace Ecommerce.Infrastructure.Repositories
         {
             string message = string.Empty;
             try
-            { 
-                var ListUsers= await _dbContextInMemory.User.ToListAsync();
+            {
+                var ListUsers = await _dbContextInMemory.User.ToListAsync();
 
                 if (ListUsers == null || ListUsers.Count == 0)
                 {
@@ -134,7 +134,7 @@ namespace Ecommerce.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                message= $"Ocorreu um erro inesperado: {ex.Message}";
+                message = $"Ocorreu um erro inesperado: {ex.Message}";
                 return (false, message, null);
             }
         }
@@ -156,7 +156,7 @@ namespace Ecommerce.Infrastructure.Repositories
                 }
                 return (true, message, user);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 message = $"Ocorreu um erro inesperado: {ex.Message}";
                 return (false, message, null);
@@ -185,10 +185,33 @@ namespace Ecommerce.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-               message = $"Ocorreu um erro inesperado: {ex.Message}";
+                message = $"Ocorreu um erro inesperado: {ex.Message}";
                 return (false, message);
             }
         }
+
+        public async Task<(bool, string)> LoginUserAsync(UserEntity user)
+        {
+            string message = string.Empty;
+            try
+            {
+                var userToLogin = await _dbContextInMemory.User
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.Password);
+                if (userToLogin == null)
+                {
+                    message = "Email ou senha incorretos.";
+                    return (false, message);
+                }
+                message = "Login realizado com sucesso.";
+                return (true, message);
+            }
+            catch 
+            {
+                return (false, "Ocorreu um erro inesperado.");
+            }
+        }
+            
 
         /*public Task<(bool, string)> UpdatePasswordUser(UserEntity user, int IdUser)
         {

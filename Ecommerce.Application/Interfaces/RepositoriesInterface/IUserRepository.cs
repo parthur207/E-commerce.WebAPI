@@ -16,6 +16,8 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
 
         Task<(bool, string,List<UserEntity>?)> GetAllUsersAsync();
 
+        Task<(bool, string)> LoginUserAsync(UserEntity user);
+
         //Commands
         Task<(bool, string)> AddUserAsync(UserEntity user);
 

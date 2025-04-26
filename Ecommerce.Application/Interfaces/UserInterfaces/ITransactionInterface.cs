@@ -7,11 +7,11 @@ namespace Ecommerce.Application.Interfaces.UserInterfaces
     {
 
         //Queries
-        Task<(bool, string, List<TransactionDTO>?)> GetAllTransactions();
+        Task<(bool, string, List<TransactionDTO>?)> GetAllTransactions(int IdUser);
 
         //Commands
         Task<(bool, string)> PostTransaction(CreateTransactionModel transaction, int UserId);
 
-        Task<(bool, string)> PutTransactionStatusToPaid(int transactionId);
+        Task<(bool, string)> PutTransactionStatusToPaid(int transactionId, int UserId);
     }
 }
