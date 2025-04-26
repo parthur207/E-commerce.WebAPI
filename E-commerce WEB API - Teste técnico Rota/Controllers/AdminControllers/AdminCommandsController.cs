@@ -28,7 +28,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpPut("user/status/{idUser}")]
-        public async Task<IActionResult> PutUserStatusInactive([FromRoute] int idUser, [FromBody]string Usermail)
+        public async Task<IActionResult> PutUserStatusInactive([FromRoute] [FromBody]string Usermail)
         {
             var (status, message) = await _adminUserInterface.PutUserStatusToInactive(Usermail);
 
@@ -108,6 +108,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         [HttpPut("product/newStock/{idproduct}")]
         public async Task<IActionResult> PutProductStockTotal([FromRoute]int idproduct, [FromBody] int newStock)
         {
+
+            var (status, message) = await _adminProductInterface.PutProductStockTotalAdmin(idproduct, newStock);
             return Ok();
         }
 

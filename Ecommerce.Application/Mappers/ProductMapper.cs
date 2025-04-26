@@ -48,7 +48,7 @@ public static class ProductMapper
             model.ProductName,
             model.Description,
             model.Price,
-            model.Quantity,
+            model.Stock,
             model.Category,
             model.ImageUrl
         );

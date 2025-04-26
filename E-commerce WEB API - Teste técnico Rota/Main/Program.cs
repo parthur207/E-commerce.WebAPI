@@ -27,7 +27,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
 
             builder.Services.AddControllersWithViews();
 
-            // Configuração do Swagger
+            //Configuração do Swagger
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -42,7 +42,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
                     }
                 });
 
-                // 🔥 Configuração de segurança JWT no Swagger
                 var securityScheme = new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -76,11 +75,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
                 });
             });
 
-            // Configuração do banco de dados InMemory
+            //banco de dados InMemory
             builder.Services.AddDbContext<DbContextInMemory>(options =>
                 options.UseInMemoryDatabase("DbContextInMemory"));
 
-            // Injeção de dependências - Serviços
+
             builder.Services.AddScoped<IAdminProductInterface, AdminProductService>();
             builder.Services.AddScoped<IAdminTransactionInterface, AdminTransactionService>();
             builder.Services.AddScoped<IAdminUserInterface, AdminUserService>();
@@ -88,18 +87,18 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
             builder.Services.AddScoped<ITransactionInterface, TransactionService>();
             builder.Services.AddScoped<IUserInterface, UserService>();
 
-            // Injeção de dependências - Repositórios
+
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-            // Injeção de dependência - JWT
+
             builder.Services.AddScoped<IJwtInterface, JwtService>();
 
-            // Injeção de dependência - Notificação
+
             builder.Services.AddTransient<INotificationInterface, NotificationService>();
 
-            // Configuração de Autenticação JWT
+            //Autenticação JWT
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -120,7 +119,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
 
             var app = builder.Build();
 
-            // Configuração do pipeline HTTP
+            //pipeline HTTP
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

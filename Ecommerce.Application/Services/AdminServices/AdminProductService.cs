@@ -275,6 +275,19 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message);
         }
 
+        public async Task<(bool, string)> PutProductStockTotalAdmin(int ProductId, int newStock)
+        {
+            string message = string.Empty;
+            var Response = await _IProductRepository.UpdateProductStockTotalAdmin(ProductId, newStock);
+
+            if (Response.Item1 is false)
+            {
+                return (false, Response.Item2);
+            }
+
+            return (true, Response.Item2);
+        }
+
         public async Task<(bool, string)> PutProductCategoryAdmin(int idProduct, ProductCategoryEnum category)
         {
             string message = string.Empty;

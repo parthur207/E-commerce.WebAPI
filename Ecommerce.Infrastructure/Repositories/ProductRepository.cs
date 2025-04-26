@@ -388,6 +388,32 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
+        public async Task<(bool, string)> UpdateProductStockTotalAdmin(int IdProduct, int newStock)
+        {
+            string message = string.Empty;
+            try
+            {
+                var ProductEntity = await _dbContextInMemory.Product.FirstOrDefaultAsync(x=>x.Id==IdProduct);
+
+                if (ProductEntity is null)
+                {
+                    message= "Produto não encontrado.";
+                    return (false, message);
+                }
+                ProductEntity.SetStockProduct(newStock);
+                _dbContextInMemory.Product.Update(ProductEntity);
+                await _dbContextInMemory.SaveChangesAsync();
+
+                message = "Estoque alterado com sucesso.";
+                return (true, message);
+            }
+            catch (Exception ex)
+            {
+                message = $"Ocorreu um erro inesperado: {ex.Message}";
+                return (false, message);
+            }
+        }
+
         public async Task<(bool, string)> UpdateProductCategoryAsync(int productId, ProductCategoryEnum category)
         {
             string message = string.Empty;

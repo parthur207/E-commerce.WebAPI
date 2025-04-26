@@ -26,6 +26,7 @@ namespace Ecommerce.Application.Interfaces.Repositories
         //Commands
         Task <(bool, string)> AddProductAsync(ProductEntity product); 
         Task<(bool, string)> UpdateProductAsync(int id, ProductEntity product);
+        Task<(bool, string)> UpdateProductStockTotalAdmin(int ProductId, int newStock);
         Task<(bool, string)> UpdateProductStatusToInativeAsync(int productId);
         Task<(bool, string)> UpdateProductStatusToAtiveAsync(int productId);
         Task<(bool, string)> UpdateProductCategoryAsync(int productId, ProductCategoryEnum category); 
