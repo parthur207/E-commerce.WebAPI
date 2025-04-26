@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services.AuthService
 {
-    public class JwtTokenService : IJwtTokenService
+    public class JwtTokenService : IJwtTokenInterface
     {
         private readonly string _secretKey;
 

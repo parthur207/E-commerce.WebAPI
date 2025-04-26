@@ -24,8 +24,9 @@ namespace Ecommerce.Application.Services.CommomServices
             List<TransactionDTO> ListTransaction=new List<TransactionDTO>();
             string message = string.Empty;
 
-
-            var Response = await _ItransactionRepository.GetAllTransactions();
+            int iduser=0;
+            
+            var Response = await _ItransactionRepository.GetAllTransactionsUserAsync(iduser);
 
             if (Response.Item1 is false)
             {
@@ -71,7 +72,7 @@ namespace Ecommerce.Application.Services.CommomServices
         {
             string message = string.Empty;
 
-            var Response = await _ItransactionRepository.PutTransactionStatusToPaid(transactionId);
+            var Response = await _ItransactionRepository.PutTransactionStatusToPaidAsync(transactionId);
 
             if (Response.Item1 == false)
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Interfaces.AuthInterface
 {
-    public interface IJwtTokenService
+    public interface IJwtTokenInterface
     {
         string GenerateToken(UserEntity user);
     }

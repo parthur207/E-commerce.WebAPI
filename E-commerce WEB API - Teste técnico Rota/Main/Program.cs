@@ -1,10 +1,3 @@
-using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces;
-using E_commerce_WEB_API___Teste_técnico_Rota.Application.Interfaces.Admin;
-using E_commerce_WEB_API___Teste_técnico_Rota.Application.Services;
-using E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin;
-using E_commerce_WEB_API___Teste_técnico_Rota.Infrastructure.AuthenticationService;
-using E_commerce_WEB_API___Teste_técnico_Rota.Infrastructure.ExternalService.InterfaceNotification;
-using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
 using Ecommerce.Application.Interfaces.AdminInterfaces;
 using Ecommerce.Application.Interfaces.Repositories;
 using Ecommerce.Application.Interfaces.RepositoriesInterface;
@@ -45,6 +38,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
                 });
             });
 
+            builder.Services.AddDbContext<DbContextInMemory>(options => options.UseInMemoryDatabase("DbContextInMemory"));
+
             builder.Services.AddScoped<IAdminProductInterface, AdminProductService>();
             builder.Services.AddScoped<IAdminTransactionInterface, AdminTransactionService>();
             builder.Services.AddScoped<IAdminUserInterface, AdminUserService>();
@@ -59,10 +54,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
 
             builder.Services.AddTransient<INotificationInterface, NotificationService>();
 
+            var SecretKeyString = builder.Configuration.GetValue<string>("SecretKey");
 
-
-            builder.Services.AddDbContext<DbContextInMemory>(options =>
-                options.UseInMemoryDatabase("DbContextInMemory"));
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
 
             var app = builder.Build();
 
@@ -73,11 +71,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "E-Commerce API v1");
-                    
                 });
             }
 
-            app.UseAuthentication(); 
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             app.Run();

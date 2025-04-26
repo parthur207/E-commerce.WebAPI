@@ -10,12 +10,23 @@ namespace Ecommerce.Application.Services.CommomServices
         {
             throw new NotImplementedException();
         }
-        public Task<(bool, string)> PutPassword(UpdateUserPasswordModel model)
+
+        public Task<(bool, string)> AddUserAssync(CreateUserModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(bool, string)> PutPassword(UpdateUserPasswordModel model, int UserId)
         {
             throw new NotImplementedException();
         }
 
         public Task<(bool, string)> PutUserData(UpdateUserDataModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(bool, string)> PutUserData(UpdateUserDataModel model, int UserId)
         {
             throw new NotImplementedException();
         }

@@ -8,6 +8,7 @@ using static System.Net.WebRequestMethods;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/admin")]
     public class AdminCommandsController : ControllerBase
@@ -41,7 +42,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         [HttpPost("product")]
         public async Task<IActionResult> CreateProduct([FromBody] AdminCreateProductModel model)
         {
-            var (status, message) =await _adminProductInterface.PostProduct(model);
+            var (status, message) =await _adminProductInterface.PostProductAdmin(model);
 
             if (status == false)
             {
@@ -55,7 +56,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         public async Task<IActionResult> PutProduct([FromRoute] int idproduct, [FromBody] AdminUpdateProductModel model)//Valor, nome, descrição e quantidade no estoque
         {
 
-            var (status, message)=await _adminProductInterface.PutProduct(idproduct, model);
+            var (status, message)=await _adminProductInterface.PutProductAdmin(idproduct, model);
 
             if (status == false)
             {
@@ -71,7 +72,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         {
 
             var productStatus= statusProduct.ProductStatus;
-            var (status, message)= await _adminProductInterface.PutProductStatus(idproduct, productStatus);
+            var (status, message)= await _adminProductInterface.PutProductStatusAdmin(idproduct, productStatus);
 
             if (status == false)
             {
@@ -86,7 +87,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         public async Task<IActionResult> PutProductCategory([FromRoute]int idproduct, [FromBody] AdminUpdateProductCategoryModel category)
         {
             var CategoryExtracted=category.NewCategory; 
-            var (status, message)= await _adminProductInterface.PutProductCategory(idproduct, CategoryExtracted);
+            var (status, message)= await _adminProductInterface.PutProductCategoryAdmin(idproduct, CategoryExtracted);
 
             if (status == false)
             {

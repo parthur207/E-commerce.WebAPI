@@ -31,7 +31,7 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-
+                return (true, message);
             }
             catch(Exception ex)
             {
@@ -46,7 +46,7 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-                user.SetAsDeleted();
+                user.SetUserStatusToInactive();
                 _dbContextInMemory.Update(user);
                 await _dbContextInMemory.SaveChangesAsync();
 
@@ -65,7 +65,12 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-                user.SetAsDeleted();
+                user.SetUserStatusToActive();
+                _dbContextInMemory.Update(user);
+                await _dbContextInMemory.SaveChangesAsync();
+
+                message = "Usuário ativado com sucesso.";
+                return (true, message);
             }
             catch (Exception ex)
             {
@@ -87,6 +92,11 @@ namespace Ecommerce.Infrastructure.Repositories
 
         //User
         public Task<(bool, string)> UpdateDataUserAsync(UserEntity user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(bool, string)> UpdatePasswordUser(UserEntity user)
         {
             throw new NotImplementedException();
         }
