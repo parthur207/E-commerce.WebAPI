@@ -34,6 +34,15 @@ namespace Ecommerce.Application.Mappers
             );
         }
 
+        public static UserDataTokenDTO ToUserTokenDTO(UserEntity entity)
+        {
+            return new UserDTO
+            (
+                entity.Id,
+                entity.Role
+            );
+        }
+
         public static UserEntity ToUserLoginEntity(UserLoginModel model)
         {
             return new UserEntity

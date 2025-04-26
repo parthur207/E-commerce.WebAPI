@@ -8,6 +8,6 @@ namespace Ecommerce.Infrastructure.Auth.JwtInterface
 {
     public interface IJwtInterface
     {
-        string GenerateToken(Guid UserId, string userType);
+        string GenerateToken(int UserId, string userType);
     }
 }
