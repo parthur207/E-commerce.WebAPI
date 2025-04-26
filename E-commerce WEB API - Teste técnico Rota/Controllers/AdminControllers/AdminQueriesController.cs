@@ -110,7 +110,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("products/price/{value}")]
+        [HttpGet("products/price/{price}")]
         public async Task<IActionResult> GetProductsByPrice([FromRoute] decimal price)//produtos de 0 até value
         {
             var Response = await _adminProductInterface.GetProductsByPriceAdmin(price);
@@ -149,7 +149,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("transactions/sales")]
+        [HttpGet("transactions/Allsales")]
         public async Task<IActionResult> GetSales()
         {
             var Response = await _adminProductInterface.GetSalesAdmin();
@@ -186,7 +186,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("transactions/sales/period")]
+        [HttpGet("transactions/sales/category")]
         public async Task<IActionResult> GetSalesByCategory([FromBody] AdminUpdateProductCategoryModel model)
         {
             var CategoryExtrait = model.NewCategory;
@@ -200,7 +200,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("product/biggestSale")]
+        [HttpGet("product/sales/topfive")]
         public async Task<IActionResult> GetTopFiveBiggestSale([FromBody] AdminUpdateProductCategoryModel model)
         {
             var CategoryExtrait = model.NewCategory;

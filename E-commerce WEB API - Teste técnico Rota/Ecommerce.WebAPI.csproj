@@ -19,4 +19,10 @@
     <ProjectReference Include="..\Ecommerce.Infrastructure\Ecommerce.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SideClient\View\" />
+    <Folder Include="SideClient\wwwroot\css\" />
+    <Folder Include="SideClient\wwwroot\js\" />
+  </ItemGroup>
+
 </Project>

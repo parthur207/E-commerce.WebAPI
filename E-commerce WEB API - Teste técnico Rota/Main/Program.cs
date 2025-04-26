@@ -128,6 +128,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "E-Commerce API v1");
                 });
             }
+         
+
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
