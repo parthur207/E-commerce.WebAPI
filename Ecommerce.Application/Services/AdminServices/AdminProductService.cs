@@ -59,23 +59,22 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, ListProducts);
         }
 
-        public async Task<(bool, string, List<AdminProductDTO>?)> GetBiggestSaleAdmin()
+        public async Task<(bool, string, AdminProductDTO?)> GetBiggestSaleAdmin()
         {
-            List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
+         
             string message = string.Empty;
-            var Response = await _IProductRepository.Get();
+            var Response = await _IProductRepository.GetBiggetSaleAsync();
 
-            if (Response.Item3 is null)
+            if (Response.Item1 is false)
             {
                 message = Response.Item2;
                 return (false, message, null);
             }
-            foreach (var p in Response.Item3)
-            {
-                var pDTO = ProductMapper.ToProductAdminDTO(p);
-                ListProducts.Add(pDTO);
-            }
-            return (true, message, ListProducts);
+        
+                var pDTO = ProductMapper.ToProductAdminDTO(Response.Item3);
+   
+            
+            return (true, message, pDTO);
         }
 
         public async Task<(bool, string, AdminProductDTO?)> GetProductByNameAdmin(string productName)

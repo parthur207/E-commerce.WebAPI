@@ -18,7 +18,7 @@ namespace Ecommerce.Application.Interfaces.AdminInterfaces
         //Vendas
         Task<(bool, string, List<AdminProductDTO>?)> GetSalesAdmin();
         Task<(bool, string, AdminProductDTO?)> GetSaleByIdAdmin(int productId);
-        Task<(bool, string, List<AdminProductDTO>?)> GetBiggestSaleAdmin();
+        Task<(bool, string, AdminProductDTO?)> GetBiggestSaleAdmin();
 
         //Commands
         Task<(bool,  string)> PostProductAdmin(AdminCreateProductModel product);

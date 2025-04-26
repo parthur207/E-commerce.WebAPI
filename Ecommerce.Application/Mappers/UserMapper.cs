@@ -54,7 +54,6 @@ namespace Ecommerce.Application.Mappers
                 Name = entity.Name,
                 BirthDate = entity.BirthDate,
                 Email = entity.Email,
-                CreatedAt = entity.CreatedAt,
                 Phone = entity.Phone?.ToString(),
                 Address = entity.Address,
                 UserStatus = entity.UserStatus,

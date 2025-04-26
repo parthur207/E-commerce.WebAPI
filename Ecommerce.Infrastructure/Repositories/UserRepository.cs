@@ -2,6 +2,7 @@
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Models;
 using Ecommerce.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +24,37 @@ namespace Ecommerce.Infrastructure.Repositories
         //User
         public async Task<(bool, string)> AddUserAsync(UserEntity user)
         {
-            throw new NotImplementedException();
+            string message = string.Empty;
+            try
+            {
+                var userExists = await _dbContextInMemory.User
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.Email == user.Email);
+                if (userExists != null)
+                {
+                    message = "Email já cadastrado";
+                    return (false, message);
+                }
+                await _dbContextInMemory.User.AddAsync(user);
+                await _dbContextInMemory.SaveChangesAsync();
+                message = "Cadastrado realizado com sucesso.";
+                return (true, message);
+            }
+            catch (Exception ex)
+            {
+                message = $"Ocorreu um erro inesperado: {ex.Message}";
+                return (false, message);
+            }
         }
 
-        public async Task<(bool, string)> UpdatePasswordUser(UserEntity user, int userId)
+        public async Task<(bool, string)> UpdatePasswordUserAsync(UserEntity user, int userId)
         {
             string message = string.Empty;
             try
             {
                 return (true, message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 message = "Ocorreu um erro inesperado.";
                 return (false, ex.Message);
@@ -41,32 +62,49 @@ namespace Ecommerce.Infrastructure.Repositories
         }
 
         //Admin
-        public async Task<(bool, string)> InativeUserAsync(UserEntity user)
+        public async Task<(bool, string)> InativeUserByEmailAsync(string email)
         {
             string message = string.Empty;
             try
             {
-                user.SetUserStatusToInactive();
-                _dbContextInMemory.Update(user);
-                await _dbContextInMemory.SaveChangesAsync();
+              var UserEntity = await _dbContextInMemory.User
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.Email == email);
 
-                message= "Usuário inativado com sucesso.";
+                if (UserEntity == null)
+                {
+                    message = "Usuário não encontrado.";
+                    return (false, message);
+                }
+                UserEntity.SetUserStatusToInactive();
+                _dbContextInMemory.User.Update(UserEntity);
+                await _dbContextInMemory.SaveChangesAsync();
+                message = "Usuário inativado com sucesso.";
                 return (true, message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 message = $"Ocorreu um erro inesperado: {ex.Message}";
                 return (false, message);
             }
         }
 
-        public async Task<(bool, string)> ActiveUserAsync(UserEntity user)
+        public async Task<(bool, string)> ActiveUserByEmailAsync(string Email)
         {
             string message = string.Empty;
             try
             {
-                user.SetUserStatusToActive();
-                _dbContextInMemory.Update(user);
+
+                var userToActivate = await _dbContextInMemory.User
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.Email == Email);
+                if (userToActivate == null)
+                {
+                    message = "Usuário não encontrado.";
+                    return (false, message);
+                }
+                userToActivate.SetUserStatusToActive();
+                _dbContextInMemory.User.Update(userToActivate);
                 await _dbContextInMemory.SaveChangesAsync();
 
                 message = "Usuário ativado com sucesso.";
@@ -79,26 +117,82 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
         //Admin
-        public Task<UserEntity> GetAllUsers()
+        public async Task<(bool, string, List<UserEntity>?)> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            string message = string.Empty;
+            try
+            { 
+                var ListUsers= await _dbContextInMemory.User.ToListAsync();
+
+                if (ListUsers == null || ListUsers.Count == 0)
+                {
+                    message = "Nenhum usuário encontrado.";
+                    return (false, message, null);
+                }
+
+                return (true, message, ListUsers);
+            }
+            catch (Exception ex)
+            {
+                message= $"Ocorreu um erro inesperado: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
         //Admin
-        public Task<UserEntity> GetUserByEmailAsync()
+        public async Task<(bool, string, UserEntity?)> GetUserByEmailAsync(string Email)
         {
-            throw new NotImplementedException();
+            string message = string.Empty;
+            try
+            {
+                var user = await _dbContextInMemory.User
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.Email == Email);
+
+                if (user == null)
+                {
+                    message = "Usuário não encontrado.";
+                    return (false, message, null);
+                }
+                return (true, message, user);
+            }
+            catch(Exception ex)
+            {
+                message = $"Ocorreu um erro inesperado: {ex.Message}";
+                return (false, message, null);
+            }
         }
 
         //User
-        public Task<(bool, string)> UpdateDataUserAsync(UserEntity user)
+        public async Task<(bool, string)> UpdateDataUserAsync(UserEntity user, int idUser)
         {
-            throw new NotImplementedException();
+            string message = string.Empty;
+            try
+            {
+                var userToUpdate = await _dbContextInMemory.User
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.Id == idUser);
+                if (userToUpdate == null)
+                {
+                    message = "Usuário não encontrado.";
+                    return (false, message);
+                }
+                _dbContextInMemory.User.Update(user);
+                await _dbContextInMemory.SaveChangesAsync();
+                message = "Dados do usuário atualizados com sucesso.";
+                return (true, message);
+
+            }
+            catch (Exception ex)
+            {
+               message = $"Ocorreu um erro inesperado: {ex.Message}";
+                return (false, message);
+            }
         }
 
-        public Task<(bool, string)> UpdatePasswordUser(UserEntity user)
+        /*public Task<(bool, string)> UpdatePasswordUser(UserEntity user, int IdUser)
         {
-            throw new NotImplementedException();
-        }
+            
+        }*/
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,22 +12,22 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
     {
 
         //Queries Admin
-        Task<UserEntity> GetUserByEmailAsync();
+        Task<(bool,string,UserEntity?)> GetUserByEmailAsync(string email);
 
-        Task<UserEntity> GetAllUsers();
+        Task<(bool, string,List<UserEntity>?)> GetAllUsersAsync();
 
         //Commands
         Task<(bool, string)> AddUserAsync(UserEntity user);
 
-        Task<(bool, string)> UpdateDataUserAsync(UserEntity user);
+        Task<(bool, string)> UpdateDataUserAsync(UserEntity user, int idUser);
 
         //admin
 
-        Task<(bool, string)> UpdatePasswordUser(UserEntity user);
+       //Task<(bool, string)> UpdatePasswordUserAsync(UserEntity user, int idUser);
 
-        Task<(bool, string)> InativeUserAsync(UserEntity user);
+        Task<(bool, string)> InativeUserByEmailAsync(string email);
 
-        Task<(bool, string)> ActiveUserAsync(UserEntity user);
+        Task<(bool, string)> ActiveUserByEmailAsync(string email);
 
     }
 }

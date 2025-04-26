@@ -19,98 +19,66 @@ namespace Ecommerce.Application.Services.AdminServices
         //Queries
         public async Task<(bool,string, List<UserDTO>?)> GetAllUsers()
         {
-            try
-            {
+ 
                 List<UserDTO> ListUsersDTO = new List<UserDTO>();
                 string message = string.Empty;
-                var usersEntity = await _dbContextInMemory.User.ToListAsync();
+                var Response = await _IuserRepository.GetAllUsersAsync();
 
-                if (usersEntity is null)
+                if (Response.Item1 is false)
                 {
-                    message = "";
+                    message = "Nenhum usuário foi encontrado.";
                     return (false, message, null);
                 }
-                foreach (var u in usersEntity)
+                foreach (var u in Response.Item3)
                 {
                     var userDTO = UserMapper.ToUserDTO(u);
                     ListUsersDTO.Add(userDTO);
                 }
                 return (true, message, ListUsersDTO);
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Erro ao buscar os usuários: {ex.Message}", null);
-            }
         }
 
         public async Task<(bool, string, UserDTO?)> GetUserByEmail(string email)
         {
             string message = string.Empty;
-            try
+
+            var Response = await _IuserRepository.GetUserByEmailAsync(email);
+            if (Response.Item1 is false)
             {
-                var userEntity = await _dbContextInMemory.User.FirstOrDefaultAsync(x => x.Email == email);
-
-                if(userEntity is null)
-                {
-                    message= "Usuário não encontrado.";
-                    return (false, message, null);
-                }
-
-                var userMappedDTO = UserMapper.ToUserDTO(userEntity);
-                return (true, message, userMappedDTO);
-
+                message = "Usuário não encontrado.";
+                return (false, message, null);
             }
-            catch (Exception ex)
-            {
-                throw new Exception($"Erro ao buscar o usuário: {ex.Message}");
-            }
+
+            var userDTO = UserMapper.ToUserDTO(Response.Item3);
+
+            return (true, message, userDTO);
         }
 
         //Commands
         public async Task<(bool, string)> PutUserStatusToInactive(string email)
         {
-            try
+            string message = string.Empty;
+            var Response = await _IuserRepository.InativeUserByEmailAsync(email);
+
+            if (Response.Item1 is false)
             {
-                var userEntity = await _dbContextInMemory.User.FirstOrDefaultAsync(x => x.Email == email);
-
-                if (userEntity is null)
-                {
-                    return (false, "Usuário não encontrado");
-                }
-
-                userEntity.SetUserStatusToInactive();
-                _dbContextInMemory.User.Update(userEntity);
-                _dbContextInMemory.SaveChanges();
-
-                return (true, string.Empty);
+                message = "Usuário não encontrado.";
+                return (false, message);
             }
-            catch (Exception ex)
-            {
-                return (false, $"Erro na tentativa de atualizar o status do usuário: {ex.Message}");
-            }
+            message= "Usuário inativado com sucesso.";
+            return (true, message);
         }
 
         public async Task<(bool, string)> PutUserStatusToActive(string email)
         {
-            try
+            string message = string.Empty;
+            var Response = await _IuserRepository.ActiveUserByEmailAsync(email);
+            if (Response.Item1 is false)
             {
-                var userEntity = await _dbContextInMemory.User.FirstOrDefaultAsync(x => x.Email == email);
-
-                if (userEntity is null)
-                {
-                    return (false, "Usuário não encontrado");
-                }
-
-                userEntity.SetUserStatusToActive();
-                _dbContextInMemory.User.Update(userEntity);
-                _dbContextInMemory.SaveChanges();
-
-                return (true, string.Empty);
+                message = "Usuário não encontrado.";
+                return (false, message);
             }
-            catch (Exception ex)
-            {
-                return (false, $"Erro na tentativa de atualizar o status do usuário: {ex.Message}");
-            }
+            message = "Usuário ativado com sucesso.";
+            return (true, message);
         }
     }
 }
