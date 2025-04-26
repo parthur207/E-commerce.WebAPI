@@ -22,12 +22,12 @@ namespace Ecommerce.Application.Services.AdminServices
 
             var Response = await _ItransactionRepository.GetAllTransactionsAdminAsync();
 
-            if(Response.Item1 is false)
+            if (Response.Item1 is false)
             {
                 return (false, Response.Item2, null);
             }
 
-            foreach (var t in Response.Item3) 
+            foreach (var t in Response.Item3)
             {
                 var TransactionMapped = TransactionMapper.ToTransactionAdminDTO(t);
                 ListTransactions.Add(TransactionMapped);
@@ -38,9 +38,9 @@ namespace Ecommerce.Application.Services.AdminServices
 
         public async Task<(bool, string, AdminTransactionDTO?)> GetTransactionByIdAdmin(int idTransaction)
         {
-            var Response= await _ItransactionRepository.GetTransactionByIdAdminAsync(idTransaction);
+            var Response = await _ItransactionRepository.GetTransactionByIdAdminAsync(idTransaction);
 
-            if(Response.Item1 is false)
+            if (Response.Item1 is false)
             {
                 return (false, Response.Item2, null);
             }
@@ -53,16 +53,16 @@ namespace Ecommerce.Application.Services.AdminServices
         public async Task<(bool, string, List<AdminTransactionDTO>?)> GetTransactionsByUserIdAdmin(int idUser)
         {
             List<AdminTransactionDTO> ListTransactions = new List<AdminTransactionDTO>();
-             var Response= await _ItransactionRepository.GetAllTransactionsUserAsync(idUser);
+            var Response = await _ItransactionRepository.GetAllTransactionsUserAsync(idUser);
 
-            if(Response.Item1 is false)
+            if (Response.Item1 is false)
             {
-                return (false, Response.Item2 ,null);
+                return (false, Response.Item2, null);
             }
 
-            foreach(var t in Response.Item3)
+            foreach (var t in Response.Item3)
             {
-                var TransactionMapped= TransactionMapper.ToTransactionAdminDTO(t);
+                var TransactionMapped = TransactionMapper.ToTransactionAdminDTO(t);
                 ListTransactions.Add(TransactionMapped);
             }
             return (true, Response.Item2, ListTransactions);
@@ -70,20 +70,26 @@ namespace Ecommerce.Application.Services.AdminServices
 
         public async Task<(bool, string)> PutTransactionStatusToCanceledAdmin(int idTransction)
         {
-           var Response= await _ItransactionRepository.PutTransactionStatusToCanceledAsync(idTransction);
+            var Response = await _ItransactionRepository.PutTransactionStatusToCanceledAsync(idTransction);
 
             if (Response.Item1 is false)
             {
                 return (false, Response.Item2);
             }
-            return (true, Response.Item2);    
+            return (true, Response.Item2);
         }
 
         public async Task<(bool, string)> PutTransactionStatusToSentAdmin(int idTransction)
         {
 
+            var Response = await _ItransactionRepository.PutTransactionStatusToSentAdminAsync(idTransction);
 
-            
+            if(Response.Item1 is false)
+            {
+                return (false, Response.Item2);
+            }
+
+            return (true, Response.Item2);
         }
     }
 }

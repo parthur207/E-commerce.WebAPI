@@ -1,16 +1,15 @@
-﻿using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Enuns;
-using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
-using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Roles;
+﻿using Ecommerce.Domain.Models;
+using Ecommerce.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 {
-   [ApiController]
-   [Route("api/user")]
+    [ApiController]
+    [Route("api/user")]
     public class UserAndAdminController : ControllerBase
     {
-        
+
         [HttpPost("register")]
         public IActionResult PostRegister(CreateUserModel model)
         {
@@ -20,14 +19,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         }
 
         [HttpGet("login")]
-        public IActionResult GetLogin([FromBody]UserLoginModel model)
+        public IActionResult GetLogin([FromBody] UserLoginModel model)
         {
             return Ok();
         }
 
         [Authorize(Roles = UsersRoles.User)]
         [HttpPut("changePassword/{id}")]
-        public IActionResult PutChangePassword(int id, UpdateUserPasswordModel model)//Pensar como estruturar esse 'put', tendo os 3 parametros email/senhaAtual e senhaNova, ou um model so pra update da senha
+        public IActionResult PutChangePassword(UpdateUserPasswordModel model)//Pensar como estruturar esse 'put', tendo os 3 parametros email/senhaAtual e senhaNova, ou um model so pra update da senha
         {
             return Ok();
         }

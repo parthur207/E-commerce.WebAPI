@@ -21,13 +21,15 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
         //Commads e queries
         //user e admin
         Task<(bool, string)> PutTransactionStatusToCanceledAsync(int idTransaction);
-        Task<(bool, string, List<TransactionEntity>?)> GetAllTransactionsUserAsync(int idUser);
+        Task<(bool, string, List<TransactionEntity>?)> GetAllTransactionsUserAsync(int UserId);
 
         
         //user
         //Commands
-        Task<(bool, string)> PostTransactionAsync(TransactionEntity transaction);
+        Task<(bool, string)> PostTransactionAsync(TransactionEntity transaction, int UserId);
 
         Task<(bool, string)> PutTransactionStatusToPaidAsync(int transactionId, int UserId);
+
+        Task<(bool, string)> PutTransactionStatusToSentAdminAsync(int idTransaction);
     }
 }

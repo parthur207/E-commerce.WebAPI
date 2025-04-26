@@ -1,5 +1,5 @@
-﻿using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Models;
-using E_commerce_WEB_API___Teste_técnico_Rota.Domain.Roles;
+﻿using Ecommerce.Domain.Models;
+using Ecommerce.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +11,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
     {
         [Authorize(Roles = UsersRoles.User)]
         [HttpPost("newTransaction")]
-        public IActionResult PostTransaction([FromBody] CreateTransactionModel model)
+        public IActionResult PostTransaction(int iduser, [FromBody] CreateTransactionModel model)
         {
 
             return Created();
@@ -19,7 +19,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 
         [Authorize(Roles = UsersRoles.User)]
         [HttpGet("all")]
-        public IActionResult GettAllTransaction()
+        public IActionResult GettAllTransaction(int iduser)
         {
             return Ok();
         }

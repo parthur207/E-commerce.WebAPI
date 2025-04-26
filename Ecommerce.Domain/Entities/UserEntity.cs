@@ -5,14 +5,13 @@ using System.Collections.Generic;
 
 namespace Ecommerce.Domain.Entities
 {
-    public class UserEntity : BaseEntity
+    public class UserEntity
     {
-
-        public UserEntity(string name, int?phone, string address)
+        public UserEntity(string name, int? phone, string address)
         {
             Name = name;
             Phone = phone;
-            Address = address;  
+            Address = address;
         }
         
         public UserEntity(string name, DateTime birthDate, string email, string password, int? phone, string address)
@@ -28,6 +27,7 @@ namespace Ecommerce.Domain.Entities
             Role = UsersRoles.User;
         }
 
+        public int Id { get; private set; } 
         public string Name { get; private set; }
         public DateTime BirthDate { get; private set; }
         public string Email { get; private set; }

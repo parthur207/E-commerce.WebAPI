@@ -3,7 +3,6 @@
 namespace Ecommerce.Domain.Models
 {
 
-    //Isso pode ser uma vulnerabilidade. Verificar depois..
     public class UpdateUserPasswordModel
     {
         [Required]

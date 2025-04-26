@@ -1,6 +1,8 @@
 ﻿using Ecommerce.Application.DTOs.AdminDTOs;
 using Ecommerce.Application.Interfaces.RepositoriesInterface;
+using Ecommerce.Application.Mappers;
 using Ecommerce.Domain.Entities;
+using Ecommerce.Infrastructure.ExternalService.InterfaceNotification;
 using Ecommerce.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,13 +14,16 @@ using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext
 
 namespace Ecommerce.Infrastructure.Repositories
 {
-    internal class TransactionRepository : ITransactionRepository
+    public class TransactionRepository : ITransactionRepository
     {
 
         private readonly DbContextInMemory _dbContextinInMemory;
-        public TransactionRepository(DbContextInMemory dbcontext)
+        private readonly INotificationInterface _InotificationInterface;
+
+        public TransactionRepository(DbContextInMemory dbcontext, INotificationInterface notificationInterface)
         {
             _dbContextinInMemory = dbcontext;
+            _InotificationInterface = notificationInterface;
         }
 
 
@@ -114,6 +119,14 @@ namespace Ecommerce.Infrastructure.Repositories
                 await _dbContextinInMemory.Transaction.AddAsync(transaction);
                 await _dbContextinInMemory.SaveChangesAsync();
 
+                var UserEmail=await _dbContextinInMemory.User.Where(x => x.Id == transaction.UserId)
+                    .Select(x => x.Email)
+                    .FirstOrDefaultAsync();
+
+                var TransactionMapped=TransactionMapper.ToTransactionEmailDTO(transaction);
+                
+                _InotificationInterface.SendConfirmationEmail(TransactionMapped.UserEmail, TransactionMapped, TransactionMapped.UserName);
+
                 return (true, message);
             }
             catch (Exception ex)
@@ -138,7 +151,11 @@ namespace Ecommerce.Infrastructure.Repositories
                 transactionById.SetTransactionStatusToCanceled();
                 _dbContextinInMemory.Update(transactionById);
                 await _dbContextinInMemory.SaveChangesAsync();
-                message = "Transação cancelada com sucesso.";
+                message = $"Transação n° {transactionById.Id} cancelada com sucesso.";
+
+                var TransactionMapped = TransactionMapper.ToTransactionEmailDTO(transactionById);
+                _InotificationInterface.SendCanceledEmail(TransactionMapped.UserEmail, TransactionMapped, TransactionMapped.UserEmail);
+
                 return (true, message);
             }
             catch (Exception ex)
@@ -191,11 +208,13 @@ namespace Ecommerce.Infrastructure.Repositories
                     return (false, message);
                 }
 
-                TransactionUserEntity.SetTransactionStatusToPaid();
+                TransactionUserEntity.SetTransactionStatusToSent();
                 _dbContextinInMemory.Update(TransactionUserEntity);
                 await _dbContextinInMemory.SaveChangesAsync();
 
-                message = $"Transação n° {transactionId} paga com sucesso.";
+                var transactionMapped = TransactionMapper.ToTransactionEmailDTO(TransactionUserEntity);
+
+                _InotificationInterface.SendShippingConfirmationEmail(transactionMapped.UserEmail, transactionMapped, transactionMapped.UserName);
                 return (true, message);
             }
             catch (Exception ex)

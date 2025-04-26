@@ -10,7 +10,7 @@ namespace Ecommerce.Application.Interfaces.UserInterfaces
         Task<(bool, string, List<TransactionDTO>?)> GetAllTransactions();
 
         //Commands
-        Task<(bool, string)> PostTransaction(CreateTransactionModel transaction);
+        Task<(bool, string)> PostTransaction(CreateTransactionModel transaction, int UserId);
 
         Task<(bool, string)> PutTransactionStatusToPaid(int transactionId);
     }

@@ -12,5 +12,7 @@ namespace Ecommerce.Application.Interfaces.AdminInterfaces
 
         //Commads
         Task<(bool, string)> PutTransactionStatusToCanceledAdmin(int idTransction);
+
+        Task<(bool, string)> PutTransactionStatusToSentAdmin(int idTransction);
     }
 }

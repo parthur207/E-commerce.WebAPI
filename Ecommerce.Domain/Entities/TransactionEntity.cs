@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Ecommerce.Domain.Entities
 {
-    public class TransactionEntity : BaseEntity
+    public class TransactionEntity 
     {
         public TransactionEntity(int userId, List<TransactionProductEntity> transactionProductsList)
         {
@@ -14,16 +14,15 @@ namespace Ecommerce.Domain.Entities
             TransactionStatus = TransactionStatusEnum.PendingPayment;
             TransactionProductsList = transactionProductsList;
         }
-
+        public int Id { get; private set; }
         public int UserId { get; private set; }
         public UserEntity User { get; protected set; }
-
         public decimal TotalValue { get; private set; }
         public DateTime TransactionDate { get; private set; }
         public TransactionStatusEnum TransactionStatus { get; private set; }
-
         public List<TransactionProductEntity> TransactionProductsList { get; private set; }
 
+        
         public void CalculateTotalValue()
         {
             TotalValue = TransactionProductsList.Sum(x => x.Quantity * x.Product.Price);
@@ -34,14 +33,14 @@ namespace Ecommerce.Domain.Entities
             TransactionStatus = TransactionStatusEnum.Paid;
         }
 
-        public void SetTransactionStatusToInPendingShipping()
-        {
-                TransactionStatus = TransactionStatusEnum.Sent;
-        }
-
         public void SetTransactionStatusToCanceled()
         {
                 TransactionStatus = TransactionStatusEnum.Canceled;
+        }
+
+        public void SetTransactionStatusToSent()
+        {
+            TransactionStatus = TransactionStatusEnum.Sent;
         }
     }
 }

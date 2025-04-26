@@ -19,7 +19,7 @@ namespace Ecommerce.Infrastructure.Persistence
         {
             // Product
             modelBuilder.Entity<ProductEntity>(x =>
-            {
+            { 
                 x.HasKey(p => p.Id);
 
                 x.HasMany(p => p.TransactionProductsList)

@@ -5,6 +5,16 @@ using E_commerce_WEB_API___Teste_técnico_Rota.Application.Services.Admin;
 using E_commerce_WEB_API___Teste_técnico_Rota.Infrastructure.AuthenticationService;
 using E_commerce_WEB_API___Teste_técnico_Rota.Infrastructure.ExternalService.InterfaceNotification;
 using E_commerce_WEB_API___Teste_técnico_Rota.Persistence;
+using Ecommerce.Application.Interfaces.AdminInterfaces;
+using Ecommerce.Application.Interfaces.Repositories;
+using Ecommerce.Application.Interfaces.RepositoriesInterface;
+using Ecommerce.Application.Interfaces.UserInterfaces;
+using Ecommerce.Application.Services.AdminServices;
+using Ecommerce.Application.Services.CommomServices;
+using Ecommerce.Infrastructure.ExternalService;
+using Ecommerce.Infrastructure.ExternalService.InterfaceNotification;
+using Ecommerce.Infrastructure.Persistence;
+using Ecommerce.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -38,7 +48,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
             builder.Services.AddScoped<IAdminProductInterface, AdminProductService>();
             builder.Services.AddScoped<IAdminTransactionInterface, AdminTransactionService>();
             builder.Services.AddScoped<IAdminUserInterface, AdminUserService>();
-            builder.Services.AddScoped<IAdminTransactionProductInterface, AdminProductService>();
+
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             builder.Services.AddScoped<IProductInterface, ProductService>();
             builder.Services.AddScoped<ITransactionInterface, TransactionService>();
@@ -64,7 +77,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
                 });
             }
 
-            app.UseAuthentication();
+            app.UseAuthentication(); 
             app.UseAuthorization();
             app.MapControllers();
             app.Run();

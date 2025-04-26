@@ -10,12 +10,23 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
     public interface IUserRepository
     {
 
+        //Queries Admin
+        Task<UserEntity> GetUserByEmailAsync();
+
+        Task<UserEntity> GetAllUsers();
+
+        //Commands
         Task<(bool, string)> AddUserAsync(UserEntity user);
 
         Task<(bool, string)> UpdateDataUserAsync(UserEntity user);
 
-        Task<bool> DeleteUserAsync(UserEntity user);
-        Task<UserEntity> GetUserByEmailAsync();
-        Task<UserEntity> GetAllUsers();
+        //admin
+
+        Task<(bool, string)> UpdatePasswordUser(UserEntity user);
+
+        Task<(bool, string)> InativeUserAsync(UserEntity user);
+
+        Task<(bool, string)> ActiveUserAsync(UserEntity user);
+
     }
 }
