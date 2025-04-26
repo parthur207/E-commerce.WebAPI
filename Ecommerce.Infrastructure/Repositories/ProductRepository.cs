@@ -237,6 +237,29 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
+        public async Task<(bool, string, List<ProductEntity>?)> GetSalesByPeriodAsync(DateTime from, DateTime to)
+        {
+            string message = string.Empty;
+            try
+            {
+                var ProductsSales = await _dbContextInMemory.Product
+                    .Where(x => x.Sales > 0 && x.CreatedAt >= from && x.CreatedAt <= to)
+                    .ToListAsync();
+
+                if (ProductsSales is null)
+                {
+                    message = $"Não foram encontrados produtos com vendas no período especificado.";
+                    return (false, message, null);
+                }
+                return (true, message, ProductsSales);
+            }
+            catch (Exception ex)
+            {
+                message = $"Ocorreu um erro inesperado: {ex.Message}";
+                return (false, message, null);
+            }
+        }
+
         public async Task<(bool, string, List<ProductEntity>?)> GetTopFiveSalesByPeriodAsync(DateTime from, DateTime to)
         {
             string message = string.Empty;
@@ -280,6 +303,29 @@ namespace Ecommerce.Infrastructure.Repositories
             catch (Exception ex)
             {
                 message = $"Ocorreu um erro inesperado: {ex.Message}";
+                return (false, message, null);
+            }
+        }
+
+        public async Task<(bool, string, List<ProductEntity>?)> GetSalesByCategoryAsync(ProductCategoryEnum category)
+        {
+            string message = string.Empty;
+            try
+            {
+                var biggestSale = await _dbContextInMemory.Product
+                    .Where(x => x.Category == category)
+                    .OrderByDescending(x => x.Sales)
+                    .ToListAsync();
+                if (biggestSale is null)
+                {
+                    message = "Nenhuma venda encontrada.";
+                    return (false, message, null);
+                }
+                return (true, message, biggestSale);
+            }
+            catch (Exception ex)
+            {
+                message = $"";
                 return (false, message, null);
             }
         }

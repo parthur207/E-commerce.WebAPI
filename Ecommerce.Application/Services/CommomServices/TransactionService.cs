@@ -79,5 +79,17 @@ namespace Ecommerce.Application.Services.CommomServices
 
             return (true, message);
         }
+
+        public async Task<(bool, string)> PutTransactionStatusToCanceled(int transactionId, int IdUser)
+        {
+            string message = string.Empty;
+            var Response = await _ItransactionRepository.PutTransactionStatusToCanceledAsync(transactionId);
+            if (Response.Item1 == false)
+            {
+                message = "Falha na confirmação do cancelamento.";
+                return (false, message);
+            }
+            return (true, message);
+        }
     }
 }

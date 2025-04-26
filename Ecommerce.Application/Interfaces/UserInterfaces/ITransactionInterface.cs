@@ -13,5 +13,7 @@ namespace Ecommerce.Application.Interfaces.UserInterfaces
         Task<(bool, string)> PostTransaction(CreateTransactionModel transaction, int IdUser);
 
         Task<(bool, string)> PutTransactionStatusToPaid(int transactionId, int UserId);
+
+        Task<(bool, string)> PutTransactionStatusToCanceled(int transactionId, int UserId);
     }
 }

@@ -141,12 +141,22 @@ namespace Ecommerce.Infrastructure.Repositories
             try
             {
                 var transactionById = await _dbContextinInMemory.Transaction.Where(x => x.Id == idTransaction).FirstOrDefaultAsync();
-
+                
                 if (transactionById is null)
                 {
                     message = "Nenhuma transação encontrada. Verifique se o Id está correto.";
                     return (false, message);
                 }
+
+
+                var ProductsShopping = transactionById.TransactionProductsList;
+                foreach (var p in ProductsShopping)
+                {
+                    p.Product.SetSalesProduct(-p.Quantity);
+                    p.Product.SetStockProduct(p.Quantity);
+                    _dbContextinInMemory.Product.Update(p.Product);
+                }
+
                 transactionById.SetTransactionStatusToCanceled();
                 _dbContextinInMemory.Update(transactionById);
                 await _dbContextinInMemory.SaveChangesAsync();

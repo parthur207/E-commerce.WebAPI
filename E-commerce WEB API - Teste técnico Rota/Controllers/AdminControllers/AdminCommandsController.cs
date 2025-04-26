@@ -86,7 +86,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
                 return BadRequest("Status inválido.");
             }
 
-            return Ok();
+            return Ok(new {Message="Status modificado com sucesso." });
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
@@ -94,11 +94,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         public async Task<IActionResult> PutProductCategory([FromRoute]int idproduct, [FromBody] AdminUpdateProductCategoryModel category)
         {
             var CategoryExtracted=category.NewCategory; 
-            var (status, message)= await _adminProductInterface.PutProductCategoryAdmin(idproduct, CategoryExtracted);
+            var Response= await _adminProductInterface.PutProductCategoryAdmin(idproduct, CategoryExtracted);
 
-            if (status == false)
+            if (Response.Item1 == false)
             {
-                return BadRequest(message);
+                return BadRequest(Response.Item2);
             }
 
             return Ok();
@@ -109,26 +109,27 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         public async Task<IActionResult> PutProductStockTotal([FromRoute]int idproduct, [FromBody] int newStock)
         {
 
-            var (status, message) = await _adminProductInterface.PutProductStockTotalAdmin(idproduct, newStock);
-            return Ok();
+            var Response = await _adminProductInterface.PutProductStockTotalAdmin(idproduct, newStock);
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item2);
         }
 
         //quando a transação for cancelada
-        [Authorize(Roles =UsersRoles.Admin)]
-        [HttpPut("product/stock/increase/{idproduct}")]
-        public async Task<IActionResult> PutProductStockIncrease([FromRoute] int idproduct, [FromBody] int newStock)
-        {
-            return Ok();
-        }
-
-        //Quando a transação for aprovada/estiver pendente
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpPut("product/stock/decrease/{idproduct}")]
-        public async Task<IActionResult> PutProductStockDecrease([FromRoute] int idproduct, [FromBody] int newStock)
+        [HttpPut("transaction/Canceled")]
+        public async Task<IActionResult> PutTransactionStatusToCanceled([FromBody] int TransactionID)
         {
-            return Ok();
+            var Response = await _adminTransactionInterface.PutTransactionStatusToCanceledAdmin(TransactionID);
+
+            if(Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item2);
         }
-
-
     } 
 }

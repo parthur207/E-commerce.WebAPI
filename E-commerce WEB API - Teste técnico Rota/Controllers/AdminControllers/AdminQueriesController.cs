@@ -1,8 +1,10 @@
 ﻿
 using Ecommerce.Application.Interfaces.AdminInterfaces;
+using Ecommerce.Domain.Models.AdminModels;
 using Ecommerce.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
@@ -27,95 +29,200 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("users")]
-        public IActionResult GetAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
-            
+            var Response = await _adminUserInterface.GetAllUsers();
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
 
-            return Ok();
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("user/{idUser}")]
-        public IActionResult GetUserById([FromRoute]int idUser)
+        public async Task<IActionResult> GetUserByEmail([FromBody] string Email)
         {
-            return Ok();
+            var Response = await _adminUserInterface.GetUserByEmail(Email);
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("transactions")]
-        public IActionResult GetAllTransactions()
+        [HttpGet("Alltransactions")]
+        public async Task<IActionResult> GetAllTransactions()
         {
-            return Ok();
-        }
+            var Response = await _adminTransactionInterface.GetAllTransactionsAdmin();
 
-        [Authorize(Roles =UsersRoles.Admin)]
-        [HttpGet("products")]
-        public IActionResult GetAllProducts()
-        {
-            return Ok();
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("product/{IdProduct}")]
-        public IActionResult GetProductById([FromRoute]int IdProduct)
+        [HttpGet("Allproducts")]
+        public async Task<IActionResult> GetAllProducts()
         {
-            return Ok();
+            var Response = await _adminProductInterface.GetAllProductsAdmin();
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
+        }
+
+        [Authorize(Roles = UsersRoles.Admin)]
+        [HttpGet("product/{NameProduct}")]
+        public async Task<IActionResult> GetProductByName([FromRoute] string ProductName)
+        {
+
+            var Response = await _adminProductInterface.GetProductByNameAdmin(ProductName);
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("products/category/{category}")]
-        public IActionResult GetProductsByCategory([FromRoute]string category)
+        public async Task<IActionResult> GetProductsByCategory([FromRoute] AdminUpdateProductCategoryModel category)
         {
-            return Ok();
+
+            var CategoryQuery = category.NewCategory;
+
+            var Response = await _adminProductInterface.GetProductsByCategoryAdmin(CategoryQuery);
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("products/price/{value}")]
-        public IActionResult GetProductsByPrice([FromRoute] decimal price)//produtos de 0 até value
+        public async Task<IActionResult> GetProductsByPrice([FromRoute] decimal price)//produtos de 0 até value
         {
-            return Ok();
+            var Response = await _adminProductInterface.GetProductsByPriceAdmin(price);
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("products/NoStock")]
-        public IActionResult GetProductsNoStock()
+        public async Task<IActionResult> GetProductsNoStock()
         {
-            return Ok();
+            var Response = await _adminProductInterface.GetProductsNoStockAdmin();
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("products/inactive")]
-        public IActionResult GetProductsInactive()
+        public async Task<IActionResult> GetProductsInactive()
         {
-            return Ok();
+            var Response = await _adminProductInterface.GetProductsInactiveAdmin();
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("transactions/sales")]
-        public IActionResult GetSales()
+        public async Task<IActionResult> GetSales()
         {
-            return Ok();
+            var Response = await _adminProductInterface.GetSalesAdmin();
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("transactions/sales/{productId}")]
-        public IActionResult GetSalesById([FromRoute] int productId)
+        public async Task<IActionResult> GetSalesById([FromRoute] int productId)
         {
-            return Ok();
+            var Response = await _adminProductInterface.GetSaleByIdAdmin(productId);
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("transactions/sales/period")]
-        public IActionResult GetSalesByPeriod([FromQuery] DateOnly from, [FromQuery] DateOnly to)
+        public async Task<IActionResult> GetSalesByPeriod([FromQuery] DateTime from, [FromQuery] DateTime to)
         {
-            return Ok();
+            var Response = await _adminProductInterface.GetSalesByPeriodAdmin(from, to);
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
+
+        }
+
+        [Authorize(Roles = UsersRoles.Admin)]
+        [HttpGet("transactions/sales/period")]
+        public async Task<IActionResult> GetSalesByCategory([FromBody] AdminUpdateProductCategoryModel model)
+        {
+            var CategoryExtrait = model.NewCategory;
+            var Response = await _adminProductInterface.GetSalesByCategoryAdmin(CategoryExtrait);
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
+
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("product/biggestSale")]
-        public IActionResult GetBiggestSale()
+        public async Task<IActionResult> GetTopFiveBiggestSale([FromBody] AdminUpdateProductCategoryModel model)
         {
-            return Ok();
+            var CategoryExtrait = model.NewCategory;
+            var Response = await _adminProductInterface.GetSalesByCategoryAdmin(CategoryExtrait);
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
+        }
+
+        [Authorize(Roles = UsersRoles.Admin)]
+        [HttpGet("product/biggestSale")]
+        public async Task<IActionResult> GetBiggestSale()
+        {
+
+            var Response = await _adminProductInterface.GetBiggestSaleAdmin();
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
     }
 }

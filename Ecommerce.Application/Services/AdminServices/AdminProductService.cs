@@ -77,6 +77,45 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message, pDTO);
         }
 
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetSalesByCategoryAdmin(ProductCategoryEnum category)
+        {
+            List<AdminProductDTO> ListSales = new List<AdminProductDTO>();
+            string message = string.Empty;
+
+            var Response = await _IProductRepository.GetSalesByCategoryAsync(category);
+
+            if (Response.Item1 is false)
+            {
+                return (false, Response.Item2, null);
+            }
+
+            foreach (var p in Response.Item3)
+            {
+                var pDTO = ProductMapper.ToProductAdminDTO(p);
+                ListSales.Add(pDTO);
+            }
+            return (true,message, ListSales);
+        }
+
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetSalesByPeriodAdmin(DateTime from, DateTime to)
+        {
+            List <AdminProductDTO> ListSales = new List<AdminProductDTO>();
+
+            string message = string.Empty;
+            var Response = await _IProductRepository.GetTopFiveSalesByPeriodAsync(from, to);
+            if (Response.Item3 is null)
+            {
+                message = Response.Item2;
+                return (false, message, null);
+            }
+            foreach (var p in Response.Item3)
+            {
+                var pDTO = ProductMapper.ToProductAdminDTO(p);
+                ListSales.Add(pDTO);
+            }
+            return (true, message, ListSales);
+        }
+
         public async Task<(bool, string, AdminProductDTO?)> GetProductByNameAdmin(string productName)
         {
             List<AdminProductDTO> ListProducts = new List<AdminProductDTO>();
@@ -110,6 +149,24 @@ namespace Ecommerce.Application.Services.AdminServices
                 ListProducts.Add(pDTO);
             }
             return (true, message, ListProducts);
+        }
+
+        public async Task<(bool, string, List<AdminProductDTO>?)> GetTopFiveSlaesByPeriodAdmin(DateTime from, DateTime to)
+        {
+            List<AdminProductDTO> ListSales = new List<AdminProductDTO>();
+            var message = string.Empty;
+            var Response = await _IProductRepository.GetTopFiveSalesByPeriodAsync(from, to);
+            if (Response.Item3 is null)
+            {
+                message = Response.Item2;
+                return (false, message, null);
+            }
+            foreach (var p in Response.Item3)
+            {
+                var pDTO = ProductMapper.ToProductAdminDTO(p);
+                ListSales.Add(pDTO);
+            }
+            return (true, message, ListSales);
         }
 
         public async Task<(bool, string, List<AdminProductDTO>?)> GetProductsByPriceAdmin(decimal price)

@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.Interfaces.UserInterfaces;
+using Ecommerce.Domain.Models.AdminModels;
 using Ecommerce.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,44 +21,57 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 
         [Authorize(Roles = UsersRoles.User)]
         [HttpGet("all")]
-        public IActionResult GetAllProducts()
+        public async Task<IActionResult> GetAllProducts()
         {
-            //chama o service de get que retorna com a lista de todos os produtos
-            return Ok("Lista de produtos");
+            var Response= await _productService.GetAllProducts();
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.User)]
         [HttpGet("search")]
-        public IActionResult GetProductById(string search)
+        public async Task<IActionResult> GetProductById(string search)
         {
-           
-            return Ok("Produto específico");
+            var Response= await _productService.GetProductByName(search);
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.User)]
         [HttpGet("{category}")]
-        public IActionResult GetProductsByCategory(string category)
+        public async Task<IActionResult> GetProductsByCategory([FromBody] AdminUpdateProductCategoryModel Category)
         {
+            var categoryExtrait = Category.NewCategory;
+            var Response= await _productService.GetProductsByCategory(categoryExtrait);
 
-            return Ok();
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
         }
 
         [Authorize(Roles = UsersRoles.User)]
         [HttpGet("price")]
-        public IActionResult GetProductsByPrice(decimal price)//Pegar todos os produtos de 0 a {price}
+        public async Task<IActionResult> GetProductsByPrice(decimal price)//Pegar todos os produtos de 0 a {price}
         {
-          //chama o service
-            /*if(productentity is null)
-             {
-                return NotFound("Produto não encontrado");
-             }
-             */
-            //chamar o mappeamento do produto para model e retorna-lo
-            return Ok("Produto específico");
+          var Response = await _productService.GetProductsByPrice(price);
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+
+            return Ok(Response.Item3);
         }
-
-
-
-
     }
 }

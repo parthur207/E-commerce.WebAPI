@@ -28,8 +28,12 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         [HttpPost("register")]
         public IActionResult PostRegister(CreateUserModel model)
         {
-            //chama o service de login que retorna com o usuário específico
-            //chamar o mappeamento do produto para model e retorna-lo
+            var Response = _userInterface.AddUser(model);
+            if (Response.Result.Item1 is false)
+            {
+                return BadRequest(Response.Result.Item2);
+            }
+
             return Created();
         }
 

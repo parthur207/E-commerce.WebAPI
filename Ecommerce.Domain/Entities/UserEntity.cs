@@ -41,7 +41,7 @@ namespace Ecommerce.Domain.Entities
         public int? Phone { get; private set; }
         public string Address { get; private set; }
 
-        public List<TransactionEntity> TransactionsList { get; private set; }
+        public List<TransactionEntity>? TransactionsList { get; private set; }
 
         public UserStatusEnum UserStatus { get; private set; }
         public string Role { get; private set; }
