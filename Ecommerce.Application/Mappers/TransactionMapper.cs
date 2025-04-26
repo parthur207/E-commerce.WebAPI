@@ -12,10 +12,10 @@ namespace Ecommerce.Application.Mappers
 
         //Model => entity
 
-        public static TransactionEntity ToTransactionEntity(CreateTransactionModel model)
+        public static TransactionEntity ToTransactionEntity(CreateTransactionModel model, int IdUser)
         {
             return new TransactionEntity(
-                model.UserId,
+                IdUser,
                 model.ShoppingList
             );
         }

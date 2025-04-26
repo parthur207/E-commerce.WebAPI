@@ -47,7 +47,7 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string)> UpdatePasswordUserAsync(UserEntity user, int userId)
+        public async Task<(bool, string)> UpdatePasswordUserAsync(UserEntity user)
         {
             string message = string.Empty;
             try

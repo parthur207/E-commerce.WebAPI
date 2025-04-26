@@ -247,10 +247,10 @@ namespace Ecommerce.Application.Services.AdminServices
             return (true, message);
         }
 
-        public async Task<(bool, string)> PutProductStatusAdmin(int idProduct, ProductStatusEnum status)
+        public async Task<(bool, string)> PutProductStatusToAtiveAdmin(int idProduct)
         {
             string message = string.Empty;
-            var Response = await _IProductRepository.UpdateProductStatusAsync(idProduct, status);
+            var Response = await _IProductRepository.UpdateProductStatusToInativeAsync(idProduct);
 
             if (Response.Item1 is false)
             {
@@ -260,6 +260,21 @@ namespace Ecommerce.Application.Services.AdminServices
             message = "Produto atualizado com sucesso.";
             return (true, message);
         }
+
+        public async Task<(bool, string)> PutProductStatusToInativeAdmin(int idProduct)
+        {
+            string message = string.Empty;
+            var Response = await _IProductRepository.UpdateProductStatusToAtiveAsync(idProduct);
+
+            if (Response.Item1 is false)
+            {
+                message = Response.Item2;
+                return (false, message);
+            }
+            message = "Produto atualizado com sucesso.";
+            return (true, message);
+        }
+
         public async Task<(bool, string)> PutProductCategoryAdmin(int idProduct, ProductCategoryEnum category)
         {
             string message = string.Empty;

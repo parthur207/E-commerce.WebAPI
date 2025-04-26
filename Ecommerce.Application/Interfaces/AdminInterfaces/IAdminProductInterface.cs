@@ -23,7 +23,8 @@ namespace Ecommerce.Application.Interfaces.AdminInterfaces
         //Commands
         Task<(bool,  string)> PostProductAdmin(AdminCreateProductModel product);
         Task<(bool,string)> PutProductAdmin(int ProductId, AdminUpdateProductModel model);
-        Task<(bool, string)> PutProductStatusAdmin(int ProductId, ProductStatusEnum status);
+        Task<(bool, string)> PutProductStatusToAtiveAdmin(int ProductId);
+        Task<(bool, string)> PutProductStatusToInativeAdmin(int ProductId);
         Task<(bool, string)> PutProductCategoryAdmin(int ProductId, ProductCategoryEnum category);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Ecommerce.Domain.Models;
+﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Domain.Models;
 
 namespace Ecommerce.Application.Interfaces.UserInterfaces
 {
@@ -10,5 +11,7 @@ namespace Ecommerce.Application.Interfaces.UserInterfaces
         Task<(bool, string)> LoginUser(UserLoginModel model);
 
         Task<(bool, string)> PutUserData(UpdateUserDataModel model, int UserId);
+
+        Task<(bool, UserDataTokenDTO?)> GetDataUserByEmail(string email);
     }
 }

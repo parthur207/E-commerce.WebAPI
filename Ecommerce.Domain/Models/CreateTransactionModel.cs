@@ -5,8 +5,6 @@ namespace Ecommerce.Domain.Models
 {
     public class CreateTransactionModel
     {
-        [Required]
-        public int UserId { get; set; }
 
         [Required]
         public List<TransactionProductEntity> ShoppingList { get; set; }

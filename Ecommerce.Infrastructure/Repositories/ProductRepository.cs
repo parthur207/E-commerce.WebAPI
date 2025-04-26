@@ -267,9 +267,9 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-                var BiggestProductSold=await _dbContextInMemory.Product.OrderByDescending(x => x.Sales).FirstOrDefaultAsync();
+                var BiggestProductSold = await _dbContextInMemory.Product.OrderByDescending(x => x.Sales).FirstOrDefaultAsync();
 
-                if(BiggestProductSold is null)
+                if (BiggestProductSold is null)
                 {
                     message = "Nenhum produto encontrado.";
                     return (false, message, null);
@@ -341,7 +341,7 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string)> UpdateProductStatusAsync(int productId, ProductStatusEnum status)
+        public async Task<(bool, string)> UpdateProductStatusToInativeAsync(int productId)
         {
             string message = string.Empty;
             try
@@ -352,7 +352,30 @@ namespace Ecommerce.Infrastructure.Repositories
                     message = "Produto não encontrado.";
                     return (false, message);
                 }
-                product.SetProductStatus(status);
+                product.SetStatusProductToInative();
+                _dbContextInMemory.Product.Update(product);
+                await _dbContextInMemory.SaveChangesAsync();
+
+                return (true, message);
+            }
+            catch (Exception ex)
+            {
+                message = "Erro ao atualizar o status do produto.";
+                return (false, message);
+            }
+        }
+        public async Task<(bool, string)> UpdateProductStatusToAtiveAsync(int productId)
+        {
+            string message = string.Empty;
+            try
+            {
+                var product = await _dbContextInMemory.Product.FindAsync(productId);
+                if (product is null)
+                {
+                    message = "Produto não encontrado.";
+                    return (false, message);
+                }
+                product.SetStatusProductToActive();
                 _dbContextInMemory.Product.Update(product);
                 await _dbContextInMemory.SaveChangesAsync();
 
@@ -384,30 +407,6 @@ namespace Ecommerce.Infrastructure.Repositories
             catch (Exception ex)
             {
                 throw new Exception("Erro ao atualizar a categoria do produto.", ex);
-            }
-        }
-
-        public async Task<(bool, string)> DeleteProductAsync(int productId)
-        {
-            string message = string.Empty;
-            try
-            {
-                var product = await _dbContextInMemory.Product.FindAsync(productId);
-
-                if (product is null)
-                {
-                    message = "Produto não encontrado.";
-                    return (false, message);
-                }
-                product.SetAsDeleted();
-                _dbContextInMemory.Product.Update(product);
-                await _dbContextInMemory.SaveChangesAsync();
-                return (true, message);
-            }
-            catch (Exception ex)
-            {
-                message = $"Erro ao deletar o produto: {ex.Message}";
-                return (false, message);
             }
         }
     }

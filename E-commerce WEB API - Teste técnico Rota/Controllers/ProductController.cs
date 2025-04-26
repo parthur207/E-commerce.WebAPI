@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/product")]
     public class ProductController : ControllerBase

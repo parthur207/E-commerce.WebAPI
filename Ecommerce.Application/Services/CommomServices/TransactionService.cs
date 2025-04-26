@@ -46,16 +46,16 @@ namespace Ecommerce.Application.Services.CommomServices
 
 
         //Commands
-        public async Task<(bool, string)> PostTransaction(CreateTransactionModel transaction, int UserId)
+        public async Task<(bool, string)> PostTransaction(CreateTransactionModel transaction, int IdUser)
         {
 
-            var transactionEntity = TransactionMapper.ToTransactionEntity(transaction);
+            var transactionEntity = TransactionMapper.ToTransactionEntity(transaction, IdUser);
 
             if (transactionEntity is null)
             {
                 return (false, "Erro ao criar a transação e falha no mapeamento.");
             }
-            var Response = await _ItransactionRepository.PostTransactionAsync(transactionEntity, UserId);
+            var Response = await _ItransactionRepository.PostTransactionAsync(transactionEntity);
 
             if (Response.Item1 is false)
             {

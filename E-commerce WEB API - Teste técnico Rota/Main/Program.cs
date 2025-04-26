@@ -41,46 +41,86 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
                         Email = "parthur207@gmail.com"
                     }
                 });
+
+                // 🔥 Configuração de segurança JWT no Swagger
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Description = "Informe o token JWT: Bearer {seu token}",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                };
+
+                c.AddSecurityDefinition("Bearer", securityScheme);
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             });
 
-            builder.Services.AddDbContext<DbContextInMemory>(options => options.UseInMemoryDatabase("DbContextInMemory"));
+            // Configuração do banco de dados InMemory
+            builder.Services.AddDbContext<DbContextInMemory>(options =>
+                options.UseInMemoryDatabase("DbContextInMemory"));
 
+            // Injeção de dependências - Serviços
             builder.Services.AddScoped<IAdminProductInterface, AdminProductService>();
             builder.Services.AddScoped<IAdminTransactionInterface, AdminTransactionService>();
             builder.Services.AddScoped<IAdminUserInterface, AdminUserService>();
-
             builder.Services.AddScoped<IProductInterface, ProductService>();
             builder.Services.AddScoped<ITransactionInterface, TransactionService>();
             builder.Services.AddScoped<IUserInterface, UserService>();
 
+            // Injeção de dependências - Repositórios
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-            builder.Services.AddScoped<IJwtInterface,JwtService>();
+            // Injeção de dependência - JWT
+            builder.Services.AddScoped<IJwtInterface, JwtService>();
 
+            // Injeção de dependência - Notificação
             builder.Services.AddTransient<INotificationInterface, NotificationService>();
 
-
-
+            // Configuração de Autenticação JWT
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+                .AddJwtBearer(options =>
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-                };
-            });
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    };
+                });
+
+            // Autorização
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
-            // Configura o pipeline de requisições
+            // Configuração do pipeline HTTP
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -92,7 +132,9 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
 
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.MapControllers();
+
             app.Run();
         }
     }

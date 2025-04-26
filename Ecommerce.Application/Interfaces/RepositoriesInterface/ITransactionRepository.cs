@@ -26,7 +26,7 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
         
         //user
         //Commands
-        Task<(bool, string)> PostTransactionAsync(TransactionEntity transaction, int UserId);
+        Task<(bool, string)> PostTransactionAsync(TransactionEntity transaction);
 
         Task<(bool, string)> PutTransactionStatusToPaidAsync(int transactionId, int UserId);
 

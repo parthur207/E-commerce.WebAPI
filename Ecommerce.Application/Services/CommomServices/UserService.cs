@@ -1,6 +1,8 @@
-﻿using Ecommerce.Application.Interfaces.RepositoriesInterface;
+﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Application.Interfaces.RepositoriesInterface;
 using Ecommerce.Application.Interfaces.UserInterfaces;
 using Ecommerce.Application.Mappers;
+using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Models;
 using System.Runtime.CompilerServices;
 
@@ -42,6 +44,20 @@ namespace Ecommerce.Application.Services.CommomServices
         public Task<(bool, string)> PutUserData(UpdateUserDataModel model, int UserId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task <(bool, UserDataTokenDTO?)> GetDataUserByEmail(string email)
+        {
+            var Response= await _userRepository.GetUserByEmailAsync(email);
+
+            if (Response.Item1 is false)
+            {
+                return (false, null);
+            }
+
+            var UserDataMappedDTO = UserMapper.ToUserTokenDTO(Response.Item3);
+
+            return (true, UserDataMappedDTO);
         }
 
         public async Task<(bool, string)> LoginUser(UserLoginModel model) 

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Application.DTOs
 {
-    internal class UserDataTokenDTO
+    public class UserDataTokenDTO
     {
-
         public int Id { get; set; }
         public string Role { get; set; }
     }

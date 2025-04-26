@@ -1,5 +1,6 @@
 ﻿
 using Ecommerce.Application.Interfaces.AdminInterfaces;
+using Ecommerce.Domain.Enuns;
 using Ecommerce.Domain.Models.AdminModels;
 using Ecommerce.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -72,11 +73,17 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         {
 
             var productStatus= statusProduct.ProductStatus;
-            var (status, message)= await _adminProductInterface.PutProductStatusAdmin(idproduct, productStatus);
-
-            if (status == false)
+            if (productStatus == ProductStatusEnum.Active)
             {
-                return BadRequest(message);
+                var (status, message) = await _adminProductInterface.PutProductStatusToAtiveAdmin(idproduct);
+            }
+            else if (productStatus == ProductStatusEnum.Inactive)
+            {
+                var (status, message) = await _adminProductInterface.PutProductStatusToInativeAdmin(idproduct);
+            }
+            else
+            {
+                return BadRequest("Status inválido.");
             }
 
             return Ok();
@@ -98,7 +105,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpPut("product/newStock/{idproduct}}")]
+        [HttpPut("product/newStock/{idproduct}")]
         public async Task<IActionResult> PutProductStockTotal([FromRoute]int idproduct, [FromBody] int newStock)
         {
             return Ok();
