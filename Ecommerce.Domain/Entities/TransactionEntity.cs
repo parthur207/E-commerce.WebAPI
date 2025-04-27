@@ -29,7 +29,9 @@ namespace Ecommerce.Domain.Entities
         
         public void CalculateTotalValue()
         {
-            TotalValue = TransactionProductsList.Sum(x => (decimal)x.Quantity * x.Product.Price);
+            TotalValue = TransactionProductsList
+            .Where(x => x.Product != null)
+            .Sum(x => (decimal)x.Quantity * (decimal)x.Product.Price);
         }
 
         public void SetTransactionStatusToPaid()
