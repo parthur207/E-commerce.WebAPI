@@ -35,10 +35,19 @@ namespace Ecommerce.Application.Services.CommomServices
         }
 
 
-        /*public Task<(bool, string)> PutPassword(UpdateUserPasswordModel model, int UserId)
+        public  async Task<(bool, string)> UpdatePasswordUser(UpdateUserPasswordModel model, int UserId)
         {
-            throw new NotImplementedException();
-        }*/
+
+            var UserEntityMapped = UserMapper.ToUserNewPasswordEntity(model);
+
+            var Response = await _userRepository.UpdatePasswordUserAsync(UserEntityMapped, model.NewPassword, UserId);
+
+            if (Response.Item1 is false)
+            {
+                return (false, Response.Item2);
+            }
+            return (true, Response.Item2);
+        }
 
 
         public Task<(bool, string)> PutUserData(UpdateUserDataModel model, int UserId)

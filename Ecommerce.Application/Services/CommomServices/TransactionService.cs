@@ -86,7 +86,7 @@ namespace Ecommerce.Application.Services.CommomServices
             var Response = await _ItransactionRepository.PutTransactionStatusToCanceledAsync(transactionId);
             if (Response.Item1 == false)
             {
-                message = "Falha na confirmação do cancelamento.";
+                message = "Falha na confirmação do cancelamento da transação.";
                 return (false, message);
             }
             return (true, message);

@@ -46,11 +46,25 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
-        public async Task<(bool, string)> UpdatePasswordUserAsync(UserEntity user)
+        public async Task<(bool, string)> UpdatePasswordUserAsync(UserEntity user, string NewPassword, int UserId)
         {
             string message = string.Empty;
             try
             {
+                var UserExist = await _dbContextInMemory.User.AnyAsync(x=>x.Email==user.Email && x.Password==user.Password);
+
+                if (UserExist is false)
+                {
+                    message = "Credenciais inválidas.";
+                    return (false, message);
+                }
+
+                var UserEntity = await _dbContextInMemory.User.FirstOrDefaultAsync(x=>x.Email==user.Email && x.Password==user.Password);
+
+                UserEntity.ChangePassword(NewPassword);
+                _dbContextInMemory.Update(UserEntity);
+                await _dbContextInMemory.SaveChangesAsync();
+                message = "Senha atualizada com sucesso.";
                 return (true, message);
             }
             catch (Exception ex)
@@ -196,10 +210,11 @@ namespace Ecommerce.Infrastructure.Repositories
             {
                 var userToLogin = await _dbContextInMemory.User
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.Password);
-                if (userToLogin == null)
+                    .AnyAsync(u => u.Email == user.Email && u.Password == user.Password);
+
+                if (userToLogin is false)
                 {
-                    message = "Email ou senha incorretos.";
+                    message = "Credenciais inválidas";
                     return (false, message);
                 }
                 message = "Login realizado com sucesso.";
@@ -212,9 +227,26 @@ namespace Ecommerce.Infrastructure.Repositories
         }
             
 
-        /*public Task<(bool, string)> UpdatePasswordUser(UserEntity user, int IdUser)
+        public async Task<(bool, string)> UpdatePasswordUser(UserEntity user, int IdUser)
         {
-            
-        }*/
+            string message = string.Empty;
+            try
+            {
+
+                var UserEntity = await _dbContextInMemory.User.FirstOrDefaultAsync(x=>x.Id==IdUser);
+                UserEntity.ChangePassword(user.Password);
+                _dbContextInMemory.Update(UserEntity);
+                await _dbContextInMemory.SaveChangesAsync();
+                message = "Senha atualizada com sucesso.";
+
+                return (true, message);
+
+            }
+            catch (Exception ex)
+            {
+                message = "Ocorreu um erro inesperado.";
+                return (false, message);
+            }
+        }
     }
 }

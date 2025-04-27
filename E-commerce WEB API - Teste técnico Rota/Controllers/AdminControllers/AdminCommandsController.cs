@@ -27,7 +27,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpPut("user/InactivateStatus/{idUser}")]
+        [HttpPut("user/InactivateStatus")]
         public async Task<IActionResult> PutUserStatusInactive([FromBody]string Usermail)
         {
             var (status, message) = await _adminUserInterface.PutUserStatusToInactive(Usermail);
@@ -36,7 +36,20 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
             {
                 return BadRequest(message);
             }
-            return Ok();
+            return Ok(message);
+        }
+
+        [Authorize(Roles = UsersRoles.Admin)]
+        [HttpPut("user/ActivateStatus")]
+        public async Task<IActionResult> PutUserStatusActive([FromBody] string Usermail)
+        {
+            var (status, message) = await _adminUserInterface.PutUserStatusToActive(Usermail);
+
+            if (status == false)
+            {
+                return BadRequest(message);
+            }
+            return Ok(message);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]

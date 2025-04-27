@@ -35,7 +35,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .Where(x => x.ProductName == productName)
                     .FirstOrDefaultAsync();
 
-                if (Product is null)
+                if (Product is null )
                 {
                     message = "Nenhum produto encontrado.";
                     return (false, message, null);
@@ -56,7 +56,7 @@ namespace Ecommerce.Infrastructure.Repositories
             try
             {
                 var products = await _dbContextInMemory.Product.ToListAsync();
-                if (products is null)
+                if (products is null || !products.Any())
                 {
                     message = "Não foram encontrados produtos.";
                     return (false, message, null);

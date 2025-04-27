@@ -23,10 +23,9 @@ namespace Ecommerce.Application.Interfaces.RepositoriesInterface
 
         Task<(bool, string)> UpdateDataUserAsync(UserEntity user, int idUser);
 
+       Task<(bool, string)> UpdatePasswordUserAsync(UserEntity user, string newPassword, int idUser);
+        
         //admin
-
-       //Task<(bool, string)> UpdatePasswordUserAsync(UserEntity user, int idUser);
-
         Task<(bool, string)> InativeUserByEmailAsync(string email);
 
         Task<(bool, string)> ActiveUserByEmailAsync(string email);

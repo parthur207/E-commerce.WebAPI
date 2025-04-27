@@ -142,6 +142,13 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
+              
+                if (await _dbContextinInMemory.User.AnyAsync(x=>x.TransactionsList.Any(x=>x.Id==idTransaction)) is false)
+                {
+                    message = $"O usuário informado não possui a transação n° {idTransaction}.";
+                    return (false, message);
+                }
+
                 var transactionById = await _dbContextinInMemory.Transaction.Where(x => x.Id == idTransaction).FirstOrDefaultAsync();
                 
                 if (transactionById is null)

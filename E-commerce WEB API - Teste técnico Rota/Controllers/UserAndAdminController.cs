@@ -6,6 +6,8 @@ using Ecommerce.Infrastructure.Auth.JwtInterface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 {
@@ -76,23 +78,33 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 
         [Authorize(Roles = UsersRoles.User)]
         [HttpPut("changePassword/{id}")]
-        public IActionResult PutChangePassword(UpdateUserPasswordModel model)//Pensar como estruturar esse 'put', tendo os 3 parametros email/senhaAtual e senhaNova, ou um model so pra update da senha
+        public async Task<IActionResult> PutChangePassword(UpdateUserPasswordModel model)//Pensar como estruturar esse 'put', tendo os 3 parametros email/senhaAtual e senhaNova, ou um model so pra update da senha
         {
-            return Ok();
+
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var Response = await _userInterface.UpdatePasswordUser(model, userId);
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item2);
         }
 
         [Authorize(Roles = UsersRoles.User)]
         [HttpPut("changeData")]
         public IActionResult PutChangeData(UpdateUserDataModel model)
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
             return Ok();
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpPut("inativeAccount/{id}")]
-        public IActionResult PutInativeAccount(int id)
+        public async Task<IActionResult> PutInativeAccount(string email)
         {
-            
+            var Response = await _userInterface.Put(email);
             return Ok();
         }
 

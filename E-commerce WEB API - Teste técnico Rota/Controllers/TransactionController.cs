@@ -56,8 +56,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         }
 
         [Authorize(Roles = UsersRoles.User)]
-        [HttpPut("chanseStatus/{id}")]
-        public async Task <IActionResult> PutTransactionToCanceled(int idTransaction)
+        [HttpPut("changeStatus/Canceled")]
+        public async Task <IActionResult> PutTransactionToCanceled([FromBody] int idTransaction)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var Response = await _transactionInterface.PutTransactionStatusToCanceled(idTransaction, userId);

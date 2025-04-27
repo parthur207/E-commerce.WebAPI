@@ -13,5 +13,7 @@ namespace Ecommerce.Application.Interfaces.UserInterfaces
         Task<(bool, string)> PutUserData(UpdateUserDataModel model, int UserId);
 
         Task<(bool, UserDataTokenDTO?)> GetDataUserByEmail(string email);
+
+        Task<(bool, string)> UpdatePasswordUser(UpdateUserPasswordModel model, int UserId);
     }
 }

@@ -10,7 +10,7 @@ namespace Ecommerce.Domain.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "É obrigatório o informe da senha atual.")]
-        public string OldPassword { get; set; }
+        public string CurrentPassword { get; set; }
 
         [Required(ErrorMessage ="É obrigatório o informe da nova senha.")]
         public string NewPassword { get; set; }

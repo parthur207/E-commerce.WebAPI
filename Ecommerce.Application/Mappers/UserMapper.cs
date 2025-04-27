@@ -11,6 +11,15 @@ namespace Ecommerce.Application.Mappers
         //Entity => DTO
 
         //User
+
+        public static UserEntity ToUserNewPasswordEntity(UpdateUserPasswordModel model)
+        {
+            return new UserEntity
+            (
+                model.Email,
+                model.CurrentPassword
+            );
+        }
         public static UserEntity ToCreateUserEntity(CreateUserModel Model)
         {
             return new UserEntity

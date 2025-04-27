@@ -41,7 +41,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("QueryUser/{idUser}")]
+        [HttpGet("QueryUser/email")]
         public async Task<IActionResult> GetUserByEmail([FromBody] string Email)
         {
             var Response = await _adminUserInterface.GetUserByEmail(Email);
