@@ -9,7 +9,6 @@ namespace Ecommerce.Domain.Models.AdminModels
 {
     public class TransactionProductModel
     {
-        public int TransactionId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
     }
