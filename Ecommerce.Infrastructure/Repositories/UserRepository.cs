@@ -36,7 +36,7 @@ namespace Ecommerce.Infrastructure.Repositories
                 }
                 await _dbContextInMemory.User.AddAsync(user);
                 await _dbContextInMemory.SaveChangesAsync();
-                message = "Cadastrado realizado com sucesso.";
+                message = "Cadastro realizado com sucesso.";
                 return (true, message);
             }
             catch (Exception ex)
