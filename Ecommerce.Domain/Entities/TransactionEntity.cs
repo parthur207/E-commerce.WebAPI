@@ -11,6 +11,7 @@ namespace Ecommerce.Domain.Entities
         {
 
         }
+
         public TransactionEntity(int userId, List<TransactionProductEntity> transactionProductsList)
         {
             UserId = userId;

@@ -51,13 +51,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
             if (model.Email == "admin@teste.com" && model.Password == "12345")
             {
                 
-                var tokenAdmin =_jwtInterface.GenerateToken(1, UsersRoles.Admin);
-                return Ok(new { Token = tokenAdmin });
+                var tokenAdmin =_jwtInterface.GenerateToken(100, UsersRoles.Admin);
+                return Ok(new {Resposta="Login efetuado com sucesso", Token = tokenAdmin });
             }
 
             if(model.Email=="user@teste.com" && model.Password == "12345")
             {
-                var tokenUser = _jwtInterface.GenerateToken(2, UsersRoles.User);
+                var tokenUser = _jwtInterface.GenerateToken(101, UsersRoles.User);
                 return Ok(new { Resposta="Login efetuado com sucesso.", Token = tokenUser });
             }
 
@@ -74,13 +74,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 
             var token =  _jwtInterface.GenerateToken(userDatas.Item2.Id, userDatas.Item2.Role);
 
-            return Ok( new { Resposta="Login efetuado com sucesso.\n", Token = token });
+            return Ok( new { Resposta="Login efetuado com sucesso.", 
+                Token = token });
       
         }
 
         [Authorize(Roles = UsersRoles.User)]
-        [HttpPut("changePassword/{id}")]
-        public async Task<IActionResult> PutChangePassword(UpdateUserPasswordModel model)//Pensar como estruturar esse 'put', tendo os 3 parametros email/senhaAtual e senhaNova, ou um model so pra update da senha
+        [HttpPut("changePassword")]
+        public async Task<IActionResult> PutChangePassword([FromBody]UpdateUserPasswordModel model)//Pensar como estruturar esse 'put', tendo os 3 parametros email/senhaAtual e senhaNova, ou um model so pra update da senha
         {
 
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);

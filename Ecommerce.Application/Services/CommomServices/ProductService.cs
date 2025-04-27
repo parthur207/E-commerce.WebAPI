@@ -95,7 +95,7 @@ namespace Ecommerce.Application.Services.CommomServices
 
             var Response = await _IproductRepository.GetProductsByPriceAsync(price);
 
-            if (Response.Item1 is false)
+            if (Response.Item3 is null || !Response.Item3.Any())
             {
                 message = $"Nenhum produto dentro do valor estipulado (R$ 0.00 a R$ {price}).";
                 return (false, message, null);

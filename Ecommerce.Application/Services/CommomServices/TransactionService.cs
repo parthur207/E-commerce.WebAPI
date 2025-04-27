@@ -24,9 +24,9 @@ namespace Ecommerce.Application.Services.CommomServices
             List<TransactionDTO> ListTransaction=new List<TransactionDTO>();
             string message = string.Empty;
 
-            int iduser=0;
+
             
-            var Response = await _ItransactionRepository.GetAllTransactionsUserAsync(iduser);
+            var Response = await _ItransactionRepository.GetAllTransactionsUserAsync(IdUser);
 
             if (Response.Item1 is false || Response.Item3 is null || !Response.Item3.Any())
             {

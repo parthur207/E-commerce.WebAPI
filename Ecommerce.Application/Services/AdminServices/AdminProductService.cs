@@ -307,7 +307,7 @@ namespace Ecommerce.Application.Services.AdminServices
         public async Task<(bool, string)> PutProductStatusToAtiveAdmin(int idProduct)
         {
             string message = string.Empty;
-            var Response = await _IProductRepository.UpdateProductStatusToInativeAsync(idProduct);
+            var Response = await _IProductRepository.UpdateProductStatusToAtiveAsync(idProduct);
 
             if (Response.Item1 is false)
             {
@@ -321,7 +321,7 @@ namespace Ecommerce.Application.Services.AdminServices
         public async Task<(bool, string)> PutProductStatusToInativeAdmin(int idProduct)
         {
             string message = string.Empty;
-            var Response = await _IProductRepository.UpdateProductStatusToAtiveAsync(idProduct);
+            var Response = await _IProductRepository.UpdateProductStatusToInativeAsync(idProduct);
 
             if (Response.Item1 is false)
             {

@@ -49,8 +49,7 @@ public static class ProductMapper
             model.Description,
             model.Price,
             model.Stock,
-            model.Category,
-            model.ImageUrl
+            model.Category
         );
     }
 }

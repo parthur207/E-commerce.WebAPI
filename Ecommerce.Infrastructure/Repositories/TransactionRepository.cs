@@ -32,20 +32,26 @@ namespace Ecommerce.Infrastructure.Repositories
             try
             {
                 var TransactionsEntity = await _dbContextinInMemory.Transaction.ToListAsync();
-
+                foreach (var t in TransactionsEntity) {
+                    Console.WriteLine($"Transação: {t}");
+                }
                 if (TransactionsEntity is null || !TransactionsEntity.Any())
                 {
                     message = "Nenhuma transação foi encontrada.";
 
                     return (false, message, null);
                 }
+
+                Console.WriteLine($"GettAlltransationsAdmin: {TransactionsEntity}");
                 return (true, message, TransactionsEntity);
+               
             }
             catch (Exception ex)
             {
                 message = $"Erro ao carregar transações: {ex.Message}";
                 return (false, message, null);
             }
+            
         }
 
         //USER E ADMIN
@@ -99,34 +105,50 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-
-                if (transaction is null || await _dbContextinInMemory.Product
-                    .AnyAsync() is false)
+                if (transaction is null || await _dbContextinInMemory.Product.AnyAsync() is false)
                 {
-                    message = "Falha ao efetuar compra. Tenta novamente.";
+                    message = "Falha ao efetuar compra. Tente novamente.";
                     return (false, message);
                 }
+
+                foreach (var item in transaction.TransactionProductsList)
+                {
+                    var product = await _dbContextinInMemory.Product
+                        .Where(x => x.Id == item.ProductId)
+                        .FirstOrDefaultAsync();
+
+                    if (product == null)
+                    {
+                        return (false, $"Produto com ID {item.ProductId} não encontrado.");
+                    }
+
+                    item.Product = product;
+                }
+
                 transaction.CalculateTotalValue();
 
-                var ProductsShopping= transaction.TransactionProductsList;
+                var ProductsShopping = transaction.TransactionProductsList;
                 foreach (var p in ProductsShopping)
                 {
                     p.Product.SetSalesProduct(p.Quantity);
                     p.Product.SetStockProduct(-p.Quantity);
                     _dbContextinInMemory.Product.Update(p.Product);
                 }
+
                 await _dbContextinInMemory.SaveChangesAsync();
 
                 await _dbContextinInMemory.Transaction.AddAsync(transaction);
                 await _dbContextinInMemory.SaveChangesAsync();
 
-                var UserEmail=await _dbContextinInMemory.User.Where(x => x.Id == transaction.UserId)
+                var UserEmail = await _dbContextinInMemory.User.Where(x => x.Id == transaction.UserId)
                     .Select(x => x.Email)
                     .FirstOrDefaultAsync();
 
-                var TransactionMapped=TransactionMapper.ToTransactionEmailDTO(transaction);
-                
-                _InotificationInterface.SendConfirmationEmail(TransactionMapped.UserEmail, TransactionMapped, TransactionMapped.UserName);
+                Console.WriteLine($"Trasação Id:{transaction.Id} | User Id: {transaction.UserId} | Data da transação: {transaction.TransactionDate} | Lista de compras: {transaction.TransactionProductsList}");
+
+                var TransactionMapped = TransactionMapper.ToTransactionEmailDTO(transaction);
+
+                //_InotificationInterface.SendConfirmationEmail(TransactionMapped.UserEmail, TransactionMapped, TransactionMapped.UserName);
 
                 return (true, message);
             }
@@ -136,6 +158,7 @@ namespace Ecommerce.Infrastructure.Repositories
                 return (false, message);
             }
         }
+
 
         public async Task<(bool, string)> PutTransactionStatusToCanceledAsync(int idTransaction)
         {

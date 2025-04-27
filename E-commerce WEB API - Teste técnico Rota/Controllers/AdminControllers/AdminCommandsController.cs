@@ -62,7 +62,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
             {
                 return BadRequest(message);
             }
-            return Created();
+            return Ok(message);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
@@ -82,15 +82,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpPut("product/status/{idproduct}")]
-        public async Task<IActionResult> PutProductStatus([FromRoute]int idproduct, [FromBody] AdminUpdateProductStatusModel statusProduct)
+        public async Task<IActionResult> PutProductStatus([FromRoute]int idproduct, [FromBody] ProductStatusEnum newStatus)
         {
 
-            var productStatus= statusProduct.ProductStatus;
-            if (productStatus == ProductStatusEnum.Active)
+            if (newStatus == ProductStatusEnum.Active)
             {
                 var (status, message) = await _adminProductInterface.PutProductStatusToAtiveAdmin(idproduct);
             }
-            else if (productStatus == ProductStatusEnum.Inactive)
+            else if (newStatus == ProductStatusEnum.Inactive)
             {
                 var (status, message) = await _adminProductInterface.PutProductStatusToInativeAdmin(idproduct);
             }
@@ -114,7 +113,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
                 return BadRequest(Response.Item2);
             }
 
-            return Ok();
+            return Ok(Response.Item2);
         }
 
         [Authorize(Roles = UsersRoles.Admin)]

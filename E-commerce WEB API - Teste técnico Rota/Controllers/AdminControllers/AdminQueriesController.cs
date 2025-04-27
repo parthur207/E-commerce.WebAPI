@@ -68,6 +68,34 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
+        [HttpGet("transaction/{IdTransaction}")]
+        public async Task<IActionResult> GetTransactionById([FromRoute] int IdTransaction)
+        {
+            var Response = await _adminTransactionInterface.GetTransactionByIdAdmin(IdTransaction);
+
+            if (Response.Item1 is false) 
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
+        }
+
+        [Authorize(Roles = UsersRoles.Admin)]
+        [HttpGet("AllTransactions/user/{IdUser}")]
+        public async Task<IActionResult> GetTransactionsByIdUser([FromRoute] int IdUser)
+        {
+            var Response = await _adminTransactionInterface.GetTransactionsByUserIdAdmin(IdUser);
+
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item3);
+        }
+
+
+
+        [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("AllProducts")]
         public async Task<IActionResult> GetAllProducts()
         {

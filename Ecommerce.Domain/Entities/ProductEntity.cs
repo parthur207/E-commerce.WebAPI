@@ -7,6 +7,25 @@ namespace Ecommerce.Domain.Entities
 {
     public class ProductEntity
     {
+        public ProductEntity(string productName, string description, decimal price, int stock, ProductCategoryEnum category)
+        {
+            ProductName = productName;
+            Description = description;
+            Price = price;
+            Stock = stock;
+            Category = category;
+            if (stock > 0)
+            {
+                ProductStatus = ProductStatusEnum.Active;
+            }
+            else
+            {
+                ProductStatus = ProductStatusEnum.OutOfStock;
+            }
+            TransactionProductsList = new List<TransactionProductEntity>();
+            UpdateAt = DateTime.Now;
+        }
+
         public ProductEntity(string productName, string description, decimal price, int stock, ProductCategoryEnum category, string? imageUrl)
         {
             ProductName = productName;
@@ -16,7 +35,13 @@ namespace Ecommerce.Domain.Entities
             Sales = 0;
             Category = category;
             ImageUrl = imageUrl;
-            ProductStatus = ProductStatusEnum.Active;
+            if (stock>0) {
+                ProductStatus = ProductStatusEnum.Active;
+            }
+            else
+            {
+                ProductStatus = ProductStatusEnum.OutOfStock;
+            }
             TransactionProductsList = new List<TransactionProductEntity>();
             CreatedAt = DateTime.Now;
         }
@@ -32,6 +57,16 @@ namespace Ecommerce.Domain.Entities
         public ProductStatusEnum ProductStatus { get; private set; }
         public List<TransactionProductEntity> TransactionProductsList { get; private set; }
         public DateTime CreatedAt { get; private set; } = DateTime.Now;
+        public DateTime UpdateAt { get; private set; } = DateTime.Now;
+
+
+        public void SetProductDate(ProductEntity newProduct)
+        {
+            ProductName = newProduct.ProductName;
+            Description = newProduct.Description;
+            Price = newProduct.Price;
+            
+        }
 
         public void SetSalesProduct(int n)
         {

@@ -50,6 +50,30 @@ namespace Ecommerce.Infrastructure.Repositories
             }
         }
 
+        public async Task<(bool, string, ProductEntity?)> GetProductByIdAsync(int ProductId)
+        {
+            string message = string.Empty;
+            try
+            {
+                var Product = await _dbContextInMemory.Product
+                    .Where(x => x.Id==ProductId)
+                    .FirstOrDefaultAsync();
+
+                if (Product is null)
+                {
+                    message = "Nenhum produto encontrado.";
+                    return (false, message, null);
+                }
+
+                return (true, message, Product);
+            }
+            catch (Exception ex)
+            {
+                message = $"Erro ao buscar produto: {ex.Message}";
+                return (false, message, null);
+            }
+        }
+
         public async Task<(bool, string, List<ProductEntity>?)> GetAllProductsAsync()
         {
             string message = string.Empty;
@@ -123,6 +147,8 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
+                Console.WriteLine($"Filtrando por preço <= {price}");
+
                 var ProductsPrice = await _dbContextInMemory.Product
                     .Where(x => x.Price <= price)
                     .ToListAsync();
@@ -131,6 +157,12 @@ namespace Ecommerce.Infrastructure.Repositories
                 {
                     message = $"$\"Nenhum produto dentro do valor estipulado (R$ 0.00 à R$ {price}).";
                     return (false, message, null);
+                }
+
+                Console.WriteLine($"Todos os produtos e preços:");
+                foreach (var p in ProductsPrice)
+                {
+                    Console.WriteLine($"{p.Id} - {p.ProductName} - {p.Price}");
                 }
 
                 return (true, message, ProductsPrice);
@@ -369,14 +401,17 @@ namespace Ecommerce.Infrastructure.Repositories
                     return (false, "Produto não encontrado.");
                 }
 
-                await _dbContextInMemory.Product
-                    .Where(x => x.Id == ProductId)
-                    .ExecuteUpdateAsync(x => x
-                        .SetProperty(x => x.ProductName, product.ProductName)
-                        .SetProperty(x => x.Description, product.Description)
-                        .SetProperty(x => x.Price, product.Price)
-                        .SetProperty(x => x.Stock, product.Stock)
-                        .SetProperty(x => x.ImageUrl, product.ImageUrl));
+                if (product.Stock > 0)
+                {
+                    produtoEntity.SetStatusProductToActive();
+                }
+                else
+                {
+                    produtoEntity.SetStatusProductToNoStock();
+                }
+
+                produtoEntity.SetProductDate(product);
+                _dbContextInMemory.Update(produtoEntity);
                 await _dbContextInMemory.SaveChangesAsync();
 
                 return (true, string.Empty);
@@ -416,7 +451,7 @@ namespace Ecommerce.Infrastructure.Repositories
             try
             {
                 var product = await _dbContextInMemory.Product.FindAsync(productId);
-                if (product is null)
+                if (product is null )
                 {
                     message = "Produto não encontrado.";
                     return (false, message);
@@ -447,6 +482,12 @@ namespace Ecommerce.Infrastructure.Repositories
                     return (false, message);
                 }
                 ProductEntity.SetStockProduct(newStock);
+
+                if (newStock>0) 
+                {
+                    ProductEntity.SetStatusProductToActive();
+                }
+
                 _dbContextInMemory.Product.Update(ProductEntity);
                 await _dbContextInMemory.SaveChangesAsync();
 

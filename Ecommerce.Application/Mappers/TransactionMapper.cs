@@ -32,12 +32,15 @@ namespace Ecommerce.Application.Mappers
                 TransactionDate = entity.TransactionDate,
                 TotalValue = entity.TotalValue,
                 TransactionStatus = entity.TransactionStatus,
-                ShoppingList = entity.TransactionProductsList
-                    .Select(tp => new TransactionProductSimpleDTO
-                    {
-                        ProductName = tp.Product.ProductName,
-                        Quantity = tp.Quantity
-                    }).ToList()
+                ShoppingList = entity.TransactionProductsList != null
+                    ? entity.TransactionProductsList
+                        .Select(tp => new TransactionProductSimpleDTO
+                        {
+                            ProductName = tp.Product?.ProductName ?? "Produto desconhecido",
+                            Quantity = tp.Quantity
+                        }).ToList()
+                    : new List<TransactionProductSimpleDTO>()
+
             };
         }
 
@@ -68,12 +71,15 @@ namespace Ecommerce.Application.Mappers
                 TransactionDate = entity.TransactionDate,
                 TotalValue = entity.TotalValue,
                 TransactionStatus = entity.TransactionStatus,
-                ShoppingList = entity.TransactionProductsList
+                ShoppingList = entity.TransactionProductsList != null
+                ? entity.TransactionProductsList
                     .Select(tp => new TransactionProductSimpleDTO
                     {
-                        ProductName = tp.Product.ProductName,
+                        ProductName = tp.Product?.ProductName ?? "Produto desconhecido",
                         Quantity = tp.Quantity
                     }).ToList()
+                : new List<TransactionProductSimpleDTO>()
+
             };
         }
     }
