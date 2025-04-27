@@ -114,7 +114,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
                     };
                 });
 
-            // Autorização
+            //Autorização
             builder.Services.AddAuthorization();
 
             var app = builder.Build();

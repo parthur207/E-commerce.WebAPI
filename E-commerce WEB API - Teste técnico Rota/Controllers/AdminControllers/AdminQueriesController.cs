@@ -28,11 +28,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("users")]
+        [HttpGet("AllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
             var Response = await _adminUserInterface.GetAllUsers();
-            if (Response.Item1 is false)
+            if (Response.Item1 is false )
             {
                 return BadRequest(Response.Item2);
             }
@@ -41,7 +41,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("user/{idUser}")]
+        [HttpGet("QueryUser/{idUser}")]
         public async Task<IActionResult> GetUserByEmail([FromBody] string Email)
         {
             var Response = await _adminUserInterface.GetUserByEmail(Email);
@@ -54,7 +54,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("Alltransactions")]
+        [HttpGet("AllTransactions")]
         public async Task<IActionResult> GetAllTransactions()
         {
             var Response = await _adminTransactionInterface.GetAllTransactionsAdmin();
@@ -67,7 +67,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("Allproducts")]
+        [HttpGet("AllProducts")]
         public async Task<IActionResult> GetAllProducts()
         {
             var Response = await _adminProductInterface.GetAllProductsAdmin();
@@ -80,7 +80,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("product/{NameProduct}")]
+        [HttpGet("QueryProduct/{NameProduct}")]
         public async Task<IActionResult> GetProductByName([FromRoute] string ProductName)
         {
 
@@ -98,7 +98,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         public async Task<IActionResult> GetProductsByCategory([FromRoute] AdminUpdateProductCategoryModel category)
         {
 
-            var CategoryQuery = category.NewCategory;
+            var CategoryQuery = category.Category;
 
             var Response = await _adminProductInterface.GetProductsByCategoryAdmin(CategoryQuery);
 
@@ -136,7 +136,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("products/inactive")]
+        [HttpGet("products/Inactive")]
         public async Task<IActionResult> GetProductsInactive()
         {
             var Response = await _adminProductInterface.GetProductsInactiveAdmin();
@@ -149,7 +149,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("transactions/Allsales")]
+        [HttpGet("products/AllSales")]
         public async Task<IActionResult> GetSales()
         {
             var Response = await _adminProductInterface.GetSalesAdmin();
@@ -161,7 +161,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("transactions/sales/{productId}")]
+        [HttpGet("products/sales/{productId}")]
         public async Task<IActionResult> GetSalesById([FromRoute] int productId)
         {
             var Response = await _adminProductInterface.GetSaleByIdAdmin(productId);
@@ -173,7 +173,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("transactions/sales/period")]
+        [HttpGet("products/sales/period")]
         public async Task<IActionResult> GetSalesByPeriod([FromQuery] DateTime from, [FromQuery] DateTime to)
         {
             var Response = await _adminProductInterface.GetSalesByPeriodAdmin(from, to);
@@ -186,10 +186,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("transactions/sales/category")]
+        [HttpGet("category/sales")]
         public async Task<IActionResult> GetSalesByCategory([FromBody] AdminUpdateProductCategoryModel model)
         {
-            var CategoryExtrait = model.NewCategory;
+            var CategoryExtrait = model.Category;
             var Response = await _adminProductInterface.GetSalesByCategoryAdmin(CategoryExtrait);
             if (Response.Item1 is false)
             {
@@ -203,7 +203,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         [HttpGet("product/sales/topfive")]
         public async Task<IActionResult> GetTopFiveBiggestSale([FromBody] AdminUpdateProductCategoryModel model)
         {
-            var CategoryExtrait = model.NewCategory;
+            var CategoryExtrait = model.Category;
             var Response = await _adminProductInterface.GetSalesByCategoryAdmin(CategoryExtrait);
             if (Response.Item1 is false)
             {

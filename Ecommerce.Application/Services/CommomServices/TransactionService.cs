@@ -28,7 +28,7 @@ namespace Ecommerce.Application.Services.CommomServices
             
             var Response = await _ItransactionRepository.GetAllTransactionsUserAsync(iduser);
 
-            if (Response.Item1 is false)
+            if (Response.Item1 is false || Response.Item3 is null || !Response.Item3.Any())
             {
                 message = "Nenhuma transação encontrada.";
                 return (false, message, null);

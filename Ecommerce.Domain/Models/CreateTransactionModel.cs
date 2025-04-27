@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Domain.Entities;
+using Ecommerce.Domain.Models.AdminModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Domain.Models
@@ -7,7 +8,7 @@ namespace Ecommerce.Domain.Models
     {
 
         [Required]
-        public List<TransactionProductEntity> ShoppingList { get; set; }
+        public List<TransactionProductModel> ShoppingList { get; set; }
 
         /*public string PaymentMethod { get; set; } = string.Empty;
         public string DeliveryAddress { get; set; } = string.Empty;

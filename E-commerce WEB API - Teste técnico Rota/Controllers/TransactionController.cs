@@ -6,6 +6,7 @@ using Ecommerce.Infrastructure.ExternalService.InterfaceNotification;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 {
@@ -28,7 +29,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         [HttpPost("newTransaction")]
         public async Task<IActionResult> PostTransaction( [FromBody] CreateTransactionModel model)
         {
-            var userId = int.Parse(User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
             var Response = await _transactionInterface.PostTransaction(model, userId);
 
@@ -44,7 +45,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         [HttpGet("user/all")]
         public async Task<IActionResult> GettAllTransaction()
         {
-            var userId = int.Parse(User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var Response = await _transactionInterface.GetAllTransactions(userId);
 
             if(Response.Item1 is false)
@@ -58,8 +59,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         [HttpPut("chanseStatus/{id}")]
         public async Task <IActionResult> PutTransactionToCanceled(int idTransaction)
         {
-            var userId = int.Parse(User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value);
-            var Response= await _transactionInterface.PutTransactionStatusToCanceled(idTransaction, userId);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var Response = await _transactionInterface.PutTransactionStatusToCanceled(idTransaction, userId);
 
             if(Response.Item1 is false)
             {

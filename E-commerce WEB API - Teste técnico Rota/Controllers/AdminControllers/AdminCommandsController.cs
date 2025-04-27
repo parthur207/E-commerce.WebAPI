@@ -27,8 +27,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpPut("user/status/{idUser}")]
-        public async Task<IActionResult> PutUserStatusInactive([FromRoute] [FromBody]string Usermail)
+        [HttpPut("user/InactivateStatus/{idUser}")]
+        public async Task<IActionResult> PutUserStatusInactive([FromBody]string Usermail)
         {
             var (status, message) = await _adminUserInterface.PutUserStatusToInactive(Usermail);
 
@@ -40,7 +40,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpPost("product")]
+        [HttpPost("NewProduct")]
         public async Task<IActionResult> CreateProduct([FromBody] AdminCreateProductModel model)
         {
             var (status, message) =await _adminProductInterface.PostProductAdmin(model);
@@ -53,7 +53,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpPut("product/Change/{idproduct}")]
+        [HttpPut("product/ChangeData/{idproduct}")]
         public async Task<IActionResult> PutProduct([FromRoute] int idproduct, [FromBody] AdminUpdateProductModel model)//Valor, nome, descrição e quantidade no estoque
         {
 
@@ -93,7 +93,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         [HttpPut("product/category/{idproduct}")]
         public async Task<IActionResult> PutProductCategory([FromRoute]int idproduct, [FromBody] AdminUpdateProductCategoryModel category)
         {
-            var CategoryExtracted=category.NewCategory; 
+            var CategoryExtracted=category.Category; 
             var Response= await _adminProductInterface.PutProductCategoryAdmin(idproduct, CategoryExtracted);
 
             if (Response.Item1 == false)
@@ -120,7 +120,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
 
         //quando a transação for cancelada
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpPut("transaction/Canceled")]
+        [HttpPut("transaction/Canceled/{TransactionID}")]
         public async Task<IActionResult> PutTransactionStatusToCanceled([FromBody] int TransactionID)
         {
             var Response = await _adminTransactionInterface.PutTransactionStatusToCanceledAdmin(TransactionID);

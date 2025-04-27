@@ -38,7 +38,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         {
             var Response= await _productService.GetProductByName(search);
 
-            if (Response.Item1 is false)
+            if (Response.Item1 is false && Response.Item3 is null)
             {
                 return BadRequest(Response.Item2);
 
@@ -50,10 +50,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         [HttpGet("{category}")]
         public async Task<IActionResult> GetProductsByCategory([FromBody] AdminUpdateProductCategoryModel Category)
         {
-            var categoryExtrait = Category.NewCategory;
+            var categoryExtrait = Category.Category;
             var Response= await _productService.GetProductsByCategory(categoryExtrait);
 
-            if (Response.Item1 is false)
+            if (Response.Item1 is false && !Response.Item3.Any())
             {
                 return BadRequest(Response.Item2);
             }
@@ -66,10 +66,11 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         {
           var Response = await _productService.GetProductsByPrice(price);
 
-            if (Response.Item1 is false)
+            if (Response.Item1 is false && !Response.Item3.Any())
             {
                 return BadRequest(Response.Item2);
             }
+
 
             return Ok(Response.Item3);
         }

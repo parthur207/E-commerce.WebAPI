@@ -28,7 +28,6 @@ namespace Ecommerce.Infrastructure.Repositories
             try
             {
                 var userExists = await _dbContextInMemory.User
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(u => u.Email == user.Email);
                 if (userExists != null)
                 {

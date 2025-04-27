@@ -26,15 +26,19 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult PostRegister(CreateUserModel model)
+        public async Task <IActionResult> PostRegister(CreateUserModel model)
         {
-            var Response = _userInterface.AddUser(model);
-            if (Response.Result.Item1 is false)
+            if (model is null)
             {
-                return BadRequest(Response.Result.Item2);
+                return BadRequest("Falha no cadastro. Dados ausentes.");
+            }
+            var Response = await _userInterface.AddUser(model);
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
             }
 
-            return Created();
+            return Ok(Response.Item2);
         }
 
         [AllowAnonymous]

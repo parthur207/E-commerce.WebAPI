@@ -2,6 +2,12 @@
 {
     public class TransactionProductEntity
     {
+        public TransactionProductEntity(int transactionId, int productId, int quantiy)
+        {
+            TransactionId = transactionId;
+            ProductId = productId;
+            Quantity = quantiy;
+        }
         public int TransactionId { get; set; }
         public TransactionEntity Transaction { get; set; }
 

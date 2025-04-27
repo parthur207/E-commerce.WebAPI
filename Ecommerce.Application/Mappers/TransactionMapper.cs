@@ -16,7 +16,11 @@ namespace Ecommerce.Application.Mappers
         {
             return new TransactionEntity(
                 IdUser,
-                model.ShoppingList
+               model.ShoppingList.Select(item => new TransactionProductEntity
+               {
+                   ProductId = item.ProductId,
+                   Quantity = item.Quantity
+               }).ToList()
             );
         }
 

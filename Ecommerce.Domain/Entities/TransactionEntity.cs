@@ -7,6 +7,10 @@ namespace Ecommerce.Domain.Entities
 {
     public class TransactionEntity 
     {
+        protected TransactionEntity()
+        {
+
+        }
         public TransactionEntity(int userId, List<TransactionProductEntity> transactionProductsList)
         {
             UserId = userId;
