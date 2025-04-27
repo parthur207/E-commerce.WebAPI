@@ -47,8 +47,8 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         }
 
         [Authorize(Roles = UsersRoles.User)]
-        [HttpGet("{category}")]
-        public async Task<IActionResult> GetProductsByCategory([FromBody] AdminUpdateProductCategoryModel Category)
+        [HttpGet("searchByCategory")]
+        public async Task<IActionResult> GetProductsByCategory([FromQuery] AdminUpdateProductCategoryModel Category)
         {
             var categoryExtrait = Category.Category;
             var Response= await _productService.GetProductsByCategory(categoryExtrait);

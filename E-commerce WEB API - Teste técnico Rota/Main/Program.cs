@@ -79,6 +79,12 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
             builder.Services.AddDbContext<DbContextInMemory>(options =>
                 options.UseInMemoryDatabase("DbContextInMemory"));
 
+            //Banco de dados SQL
+            /*var cnn = builder.Configuration.GetConnectionString("DefaultConnection");
+            Console.WriteLine($"Conexão: {cnn}");
+
+            builder.Services.AddDbContext<DbContextInMemory>(options => options.UseSqlServer(cnn));*/
+
 
             builder.Services.AddScoped<IAdminProductInterface, AdminProductService>();
             builder.Services.AddScoped<IAdminTransactionInterface, AdminTransactionService>();

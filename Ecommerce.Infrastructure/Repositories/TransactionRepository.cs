@@ -33,7 +33,7 @@ namespace Ecommerce.Infrastructure.Repositories
             {
                 var TransactionsEntity = await _dbContextinInMemory.Transaction.ToListAsync();
 
-                if (TransactionsEntity is null)
+                if (TransactionsEntity is null || !TransactionsEntity.Any())
                 {
                     message = "Nenhuma transação foi encontrada.";
 
@@ -56,7 +56,7 @@ namespace Ecommerce.Infrastructure.Repositories
             {
                 var TransactionsUserEntity = await _dbContextinInMemory.Transaction.Where(x => x.UserId == idUser).ToListAsync();
 
-                if (TransactionsUserEntity is null)
+                if (TransactionsUserEntity is null || !TransactionsUserEntity.Any())
                 {
                     message = "Nenhuma transação encontrada.";
                     return (false, message, null);

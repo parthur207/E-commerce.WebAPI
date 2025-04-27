@@ -42,7 +42,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("QueryUser/email")]
-        public async Task<IActionResult> GetUserByEmail([FromBody] string Email)
+        public async Task<IActionResult> GetUserByEmail([FromQuery] string Email)
         {
             var Response = await _adminUserInterface.GetUserByEmail(Email);
 
@@ -187,7 +187,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("category/sales")]
-        public async Task<IActionResult> GetSalesByCategory([FromBody] AdminUpdateProductCategoryModel model)
+        public async Task<IActionResult> GetSalesByCategory([FromQuery] AdminUpdateProductCategoryModel model)
         {
             var CategoryExtrait = model.Category;
             var Response = await _adminProductInterface.GetSalesByCategoryAdmin(CategoryExtrait);
@@ -201,7 +201,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("product/sales/topfive")]
-        public async Task<IActionResult> GetTopFiveBiggestSale([FromBody] AdminUpdateProductCategoryModel model)
+        public async Task<IActionResult> GetTopFiveBiggestSale([FromQuery] AdminUpdateProductCategoryModel model)
         {
             var CategoryExtrait = model.Category;
             var Response = await _adminProductInterface.GetSalesByCategoryAdmin(CategoryExtrait);

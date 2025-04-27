@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Application.Interfaces.RepositoriesInterface;
 using Ecommerce.Domain.Entities;
+using Ecommerce.Domain.Enuns;
 using Ecommerce.Domain.Models;
 using Ecommerce.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .FirstOrDefaultAsync(u => u.Email == user.Email);
                 if (userExists != null)
                 {
-                    message = "Email já cadastrado";
+                    message = "Email já cadastrado.";
                     return (false, message);
                 }
                 await _dbContextInMemory.User.AddAsync(user);
@@ -208,6 +209,13 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
+
+                if (await _dbContextInMemory.User.AnyAsync(x => x.UserStatus ==UserStatusEnum.Inactive))
+                {
+                    message = "Acesso bloqueado.";
+                    return (false, message);
+                }
+
                 var userToLogin = await _dbContextInMemory.User
                     .AsNoTracking()
                     .AnyAsync(u => u.Email == user.Email && u.Password == user.Password);
@@ -217,6 +225,9 @@ namespace Ecommerce.Infrastructure.Repositories
                     message = "Credenciais inválidas";
                     return (false, message);
                 }
+
+
+
                 message = "Login realizado com sucesso.";
                 return (true, message);
             }

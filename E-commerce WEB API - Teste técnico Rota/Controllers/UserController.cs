@@ -58,21 +58,23 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
             if(model.Email=="user@teste.com" && model.Password == "12345")
             {
                 var tokenUser = _jwtInterface.GenerateToken(2, UsersRoles.User);
-                return Ok(new { Token = tokenUser });
+                return Ok(new { Resposta="Login efetuado com sucesso.", Token = tokenUser });
             }
+
+           
 
                 var Response = await  _userInterface.LoginUser(model);
 
             if(Response.Item1 is false)
             {
-                return BadRequest();
+                return BadRequest(Response.Item2);
             }
             var userDatas = await _userInterface.GetDataUserByEmail(model.Email);
 
 
             var token =  _jwtInterface.GenerateToken(userDatas.Item2.Id, userDatas.Item2.Role);
 
-            return Ok(new { Token = token });
+            return Ok( new { Resposta="Login efetuado com sucesso.\n", Token = token });
       
         }
 

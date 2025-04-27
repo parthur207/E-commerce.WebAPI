@@ -80,7 +80,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .Where(x => x.Category == category)
                     .ToListAsync();
 
-                if (ProductsCategory is null)
+                if (ProductsCategory is null || !ProductsCategory.Any())
                 {
                     message = $"Não foram encontrados produtos da categoria '{category}'.";
                     return (false, message, null);
@@ -103,7 +103,7 @@ namespace Ecommerce.Infrastructure.Repositories
                 var productsStatus = await _dbContextInMemory.Product
                     .Where(x => x.ProductStatus == status)
                     .ToListAsync();
-                if (productsStatus is null)
+                if (productsStatus is null || !productsStatus.Any())
                 {
                     message = "Nenhum produto encontrado.";
                     return (false, message, null);
@@ -127,7 +127,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .Where(x => x.Price <= price)
                     .ToListAsync();
 
-                if (ProductsPrice is null)
+                if (ProductsPrice is null || !ProductsPrice.Any())
                 {
                     message = $"Não foram encontrados produtos com preço menor ou igual a '{price}'.";
                     return (false, message, null);
@@ -151,7 +151,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .Where(x => x.Stock == 0)
                     .ToListAsync();
 
-                if (ProductsNoStock is null)
+                if (ProductsNoStock is null || !ProductsNoStock.Any())
                 {
                     message = $"Não foram encontrados produtos sem estoque.";
                     return (false, message, null);
@@ -176,7 +176,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .Where(x => x.ProductStatus == ProductStatusEnum.Inactive)
                     .ToListAsync();
 
-                if (ProductsInactive is null)
+                if (ProductsInactive is null || !ProductsInactive.Any())
                 {
                     message = $"Não foram encontrados produtos inativos.";
                     return (false, message, null);
@@ -201,7 +201,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .Where(x => x.Sales > 0)
                     .ToListAsync();
 
-                if (ProductSales is null)
+                if (ProductSales is null || !ProductSales.Any())
                 {
                     message = $"Não foram encontrados produtos com vendas.";
                     return (false, message, null);
@@ -246,7 +246,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .Where(x => x.Sales > 0 && x.CreatedAt >= from && x.CreatedAt <= to)
                     .ToListAsync();
 
-                if (ProductsSales is null)
+                if (ProductsSales is null || !ProductsSales.Any())
                 {
                     message = $"Não foram encontrados produtos com vendas no período especificado.";
                     return (false, message, null);
@@ -271,7 +271,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .Take(5)
                     .ToListAsync();
 
-                if (biggestSale is null)
+                if (biggestSale is null || !biggestSale.Any())
                 {
                     message = "Nenhuma venda encontrada.";
                     return (false, message, null);
@@ -316,7 +316,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .Where(x => x.Category == category)
                     .OrderByDescending(x => x.Sales)
                     .ToListAsync();
-                if (biggestSale is null)
+                if (biggestSale is null || !biggestSale.Any())
                 {
                     message = "Nenhuma venda encontrada.";
                     return (false, message, null);
