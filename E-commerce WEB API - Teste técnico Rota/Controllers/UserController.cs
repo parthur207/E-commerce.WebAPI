@@ -13,14 +13,14 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 {
     [ApiController]
     [Route("api/user")]
-    public class UserAndAdminController : ControllerBase
+    public class UserController : ControllerBase
     {
 
         private readonly IUserInterface _userInterface;
 
         private readonly IJwtInterface  _jwtInterface;
 
-        public UserAndAdminController(IUserInterface userInterface, IJwtInterface jwtInterface)
+        public UserController(IUserInterface userInterface, IJwtInterface jwtInterface)
         {
             _userInterface = userInterface;
             _jwtInterface = jwtInterface;
