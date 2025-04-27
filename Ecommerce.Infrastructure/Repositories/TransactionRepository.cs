@@ -99,7 +99,9 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-                if (transaction is null)
+
+                if (transaction is null || await _dbContextinInMemory.Product
+                    .AnyAsync() is false)
                 {
                     message = "Falha ao efetuar compra. Tenta novamente.";
                     return (false, message);
