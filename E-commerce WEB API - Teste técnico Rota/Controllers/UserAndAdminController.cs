@@ -93,20 +93,16 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
 
         [Authorize(Roles = UsersRoles.User)]
         [HttpPut("changeData")]
-        public IActionResult PutChangeData(UpdateUserDataModel model)
+        public async Task<IActionResult> PutChangeData(UpdateUserDataModel model)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var Response = await _userInterface.PutUserData(model, userId);
 
-            return Ok();
+            if (Response.Item1 is false)
+            {
+                return BadRequest(Response.Item2);
+            }
+            return Ok(Response.Item2);
         }
-
-        [Authorize(Roles = UsersRoles.Admin)]
-        [HttpPut("inativeAccount/{id}")]
-        public async Task<IActionResult> PutInativeAccount(string email)
-        {
-            var Response = await _userInterface.Put(email);
-            return Ok();
-        }
-
     }
 }
