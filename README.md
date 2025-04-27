@@ -1,12 +1,12 @@
 # Credenciais para testes:
 
-Administrador único:
+## Administrador único:
 
 Email: 'admin@teste.com' | Senha: '12345' | Id fixo: 1
 
 __________________________
 
-Usuário comum:
+## Usuário comum:
 
 (Recomendado a interação com o endpoint de registro para criar um novo usuário. O usuário por padrão terá a role 'user').
 
