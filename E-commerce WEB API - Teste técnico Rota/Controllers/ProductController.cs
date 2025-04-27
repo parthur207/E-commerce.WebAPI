@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.Interfaces.UserInterfaces;
+using Ecommerce.Domain.Enuns;
 using Ecommerce.Domain.Models.AdminModels;
 using Ecommerce.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -47,13 +48,13 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         }
 
         [Authorize(Roles = UsersRoles.User)]
-        [HttpGet("searchByCategory")]
-        public async Task<IActionResult> GetProductsByCategory([FromQuery] AdminUpdateProductCategoryModel Category)
+        [HttpGet("searchByCategory/{Category}")]
+        public async Task<IActionResult> GetProductsByCategory([FromRoute] ProductCategoryEnum Category)
         {
-            var categoryExtrait = Category.Category;
-            var Response= await _productService.GetProductsByCategory(categoryExtrait);
+      
+            var Response= await _productService.GetProductsByCategory(Category);
 
-            if (Response.Item1 is false && !Response.Item3.Any())
+            if (Response.Item1 is false)
             {
                 return BadRequest(Response.Item2);
             }
@@ -61,12 +62,12 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
         }
 
         [Authorize(Roles = UsersRoles.User)]
-        [HttpGet("price")]
-        public async Task<IActionResult> GetProductsByPrice(decimal price)//Pegar todos os produtos de 0 a {price}
+        [HttpGet("price/{price}")]
+        public async Task<IActionResult> GetProductsByPrice([FromRoute] decimal price)//Pegar todos os produtos de 0 a {price}
         {
           var Response = await _productService.GetProductsByPrice(price);
 
-            if (Response.Item1 is false && !Response.Item3.Any())
+            if (Response.Item1 is false)
             {
                 return BadRequest(Response.Item2);
             }

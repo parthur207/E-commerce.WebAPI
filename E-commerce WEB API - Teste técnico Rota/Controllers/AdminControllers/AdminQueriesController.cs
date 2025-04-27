@@ -1,5 +1,6 @@
 ﻿
 using Ecommerce.Application.Interfaces.AdminInterfaces;
+using Ecommerce.Domain.Enuns;
 using Ecommerce.Domain.Models.AdminModels;
 using Ecommerce.Domain.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -80,7 +81,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         }
 
         [Authorize(Roles = UsersRoles.Admin)]
-        [HttpGet("QueryProduct/{NameProduct}")]
+        [HttpGet("QueryProduct/{ProductName}")]
         public async Task<IActionResult> GetProductByName([FromRoute] string ProductName)
         {
 
@@ -95,12 +96,10 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
 
         [Authorize(Roles = UsersRoles.Admin)]
         [HttpGet("products/category/{category}")]
-        public async Task<IActionResult> GetProductsByCategory([FromRoute] AdminUpdateProductCategoryModel category)
+        public async Task<IActionResult> GetProductsByCategory([FromRoute] ProductCategoryEnum category)
         {
 
-            var CategoryQuery = category.Category;
-
-            var Response = await _adminProductInterface.GetProductsByCategoryAdmin(CategoryQuery);
+            var Response = await _adminProductInterface.GetProductsByCategoryAdmin(category);
 
             if (Response.Item1 is false)
             {
@@ -176,6 +175,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers.AdminControllers
         [HttpGet("products/sales/period")]
         public async Task<IActionResult> GetSalesByPeriod([FromQuery] DateTime from, [FromQuery] DateTime to)
         {
+            //Formatação: yyyy - MM - dd HH: mm: ss
             var Response = await _adminProductInterface.GetSalesByPeriodAdmin(from, to);
             if (Response.Item1 is false)
             {

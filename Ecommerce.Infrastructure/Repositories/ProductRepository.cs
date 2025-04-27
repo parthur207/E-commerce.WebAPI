@@ -129,7 +129,7 @@ namespace Ecommerce.Infrastructure.Repositories
 
                 if (ProductsPrice is null || !ProductsPrice.Any())
                 {
-                    message = $"Não foram encontrados produtos com preço menor ou igual a '{price}'.";
+                    message = $"$\"Nenhum produto dentro do valor estipulado (R$ 0.00 à R$ {price}).";
                     return (false, message, null);
                 }
 
@@ -203,7 +203,7 @@ namespace Ecommerce.Infrastructure.Repositories
 
                 if (ProductSales is null || !ProductSales.Any())
                 {
-                    message = $"Não foram encontrados produtos com vendas.";
+                    message = $"Nenhuma venda foi encontrada.";
                     return (false, message, null);
                 }
 
@@ -318,7 +318,7 @@ namespace Ecommerce.Infrastructure.Repositories
                     .ToListAsync();
                 if (biggestSale is null || !biggestSale.Any())
                 {
-                    message = "Nenhuma venda encontrada.";
+                    message = $"Nenhuma venda encontrada com a categoria '{category}'.";
                     return (false, message, null);
                 }
                 return (true, message, biggestSale);

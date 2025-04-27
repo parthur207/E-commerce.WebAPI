@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Application.DTOs.AdminDTOs;
 using Ecommerce.Application.Interfaces.Repositories;
 using Ecommerce.Application.Interfaces.UserInterfaces;
 using Ecommerce.Domain.Enuns;
@@ -53,7 +54,7 @@ namespace Ecommerce.Application.Services.CommomServices
 
                 if (Response.Item1 is false)
                 {
-                    message = "Nenhum produto foi encontrado.";
+                    message = $"Nenhum produto com o nome '{productName}' foi encontrado.";
                     return (false, message, null);
                 }
 
@@ -69,29 +70,25 @@ namespace Ecommerce.Application.Services.CommomServices
 
         public async Task<(bool, string, List<ProductDTO>?)> GetProductsByCategory(ProductCategoryEnum category)
         {
-            string message = string.Empty;
-            List<ProductDTO> ProductsList = new List<ProductDTO>();
-
+            List<ProductDTO> ListProducts = new List<ProductDTO>();
+            var message = string.Empty;
             var Response = await _IproductRepository.GetByProductsCategoryAsync(category);
-
-            if (Response.Item1 is false)
+            if (Response.Item3 is null)
             {
-                message = "Nenhum produto encontrado.";
+                message = Response.Item2;
                 return (false, message, null);
             }
-
             foreach (var p in Response.Item3)
             {
-                var productMapppedDTO = ProductMapper.ToProductDTO(p);
-                ProductsList.Add(productMapppedDTO);
+                var pDTO = ProductMapper.ToProductDTO(p);
+                ListProducts.Add(pDTO);
             }
-
-            return (true, message, ProductsList);
+            return (true, message, ListProducts);
         }
             
         
 
-        public async Task<(bool,string, List<ProductDTO>?)> GetProductsByPrice(decimal price)
+        public async Task<(bool, string, List<ProductDTO>?)> GetProductsByPrice(decimal price)
         {
             string message = string.Empty;
             List<ProductDTO> productsList = new List<ProductDTO>();
