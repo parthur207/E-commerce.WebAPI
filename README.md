@@ -2,14 +2,12 @@
 
 ## Administrador único:
 
-Email: 'admin@teste.com' | Senha: '12345' | Id fixo: 1
+Email: 'admin@teste.com' | Senha: '12345' | Id fixo: 100
 
 __________________________
 
 ## Usuário comum:
 
-(Recomendado a interação com o endpoint de registro para criar um novo usuário. O usuário por padrão terá a role 'user').
+(Recomendado a interação com o endpoint de registro para criar um novo usuário. O usuário por padrão será a role 'user').
 
-Email: 'user@teste.com' | Senha: '12345' | Id fixo: 2
 
-Observação: Efetuar login com as credenciais acima, irá gerar um token de liberação normalmente, porém os dados pessoais deste usuário estão nulos.
