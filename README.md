@@ -2,7 +2,7 @@
 
 ## Administrador único:
 
-Email: 'admin@teste.com' | Senha: '12345' | Id fixo: 100
+Email: 'admin@teste.com' | Senha: '12345' | Id fixo: 100 (para evitar inconsistência)
 
 __________________________
 
