@@ -136,7 +136,8 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-                var ListUsers = await _dbContextInMemory.User.ToListAsync();
+                var ListUsers = await _dbContextInMemory.User.Include(x => x.TransactionsList)
+                    .ToListAsync();
 
                 if (ListUsers == null || ListUsers.Count == 0)
                 {
@@ -161,6 +162,7 @@ namespace Ecommerce.Infrastructure.Repositories
             {
                 var user = await _dbContextInMemory.User
                     .AsNoTracking()
+                    .Include(x=>x.TransactionsList)
                     .FirstOrDefaultAsync(u => u.Email == Email);
 
                 if (user == null)

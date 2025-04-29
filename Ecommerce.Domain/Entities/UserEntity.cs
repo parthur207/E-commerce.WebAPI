@@ -18,6 +18,7 @@ namespace Ecommerce.Domain.Entities
             Name = name;
             Phone = phone;
             Address = address;
+            CreatedAt = DateTime.Now;
         }
         
         public UserEntity(string name, DateTime birthDate, string email, string password, int? phone, string address)
@@ -31,6 +32,7 @@ namespace Ecommerce.Domain.Entities
             TransactionsList = new List<TransactionEntity>();
             UserStatus = UserStatusEnum.Active;
             Role = UsersRoles.User;
+            CreatedAt = DateTime.Now;
         }
 
         public int Id { get; private set; } 
@@ -40,7 +42,7 @@ namespace Ecommerce.Domain.Entities
         public string Password { get; private set; }
         public int? Phone { get; private set; }
         public string Address { get; private set; }
-
+        public DateTime CreatedAt { get; private set; }
         public List<TransactionEntity>? TransactionsList { get; private set; }
 
         public UserStatusEnum UserStatus { get; private set; }

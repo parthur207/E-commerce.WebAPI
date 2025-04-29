@@ -54,13 +54,6 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Controllers
                 var tokenAdmin =_jwtInterface.GenerateToken(100, UsersRoles.Admin);
                 return Ok(new {Resposta="Login efetuado com sucesso", Token = tokenAdmin });
             }
-
-            if(model.Email=="user@teste.com" && model.Password == "12345")
-            {
-                var tokenUser = _jwtInterface.GenerateToken(101, UsersRoles.User);
-                return Ok(new { Resposta="Login efetuado com sucesso.", Token = tokenUser });
-            }
-
            
 
                 var Response = await  _userInterface.LoginUser(model);

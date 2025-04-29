@@ -31,7 +31,11 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-                var TransactionsEntity = await _dbContextinInMemory.Transaction.ToListAsync();
+                var TransactionsEntity = await _dbContextinInMemory.Transaction.Include(t => t.TransactionProductsList)
+                .ThenInclude(tp => tp.Product).ToListAsync();
+
+
+
                 foreach (var t in TransactionsEntity) {
                     Console.WriteLine($"Transação: {t}");
                 }
@@ -60,7 +64,8 @@ namespace Ecommerce.Infrastructure.Repositories
             string message = string.Empty;
             try
             {
-                var TransactionsUserEntity = await _dbContextinInMemory.Transaction.Where(x => x.UserId == idUser).ToListAsync();
+                var TransactionsUserEntity = await _dbContextinInMemory.Transaction.Include(t => t.TransactionProductsList)
+                .ThenInclude(tp => tp.Product).Where(x => x.UserId == idUser).ToListAsync();
 
                 if (TransactionsUserEntity is null || !TransactionsUserEntity.Any())
                 {
