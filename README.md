@@ -1,6 +1,6 @@
 # Credenciais para testes:
 
-##Banco de dados em memoria (para testes)
+## Banco de dados em memória para testes (Dados não são persistentes)
 
 ## Administrador único:
 
