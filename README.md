@@ -8,6 +8,6 @@ __________________________
 
 ## Usuário comum:
 
-(Recomendado a interação com o endpoint de registro para criar um novo usuário. O usuário por padrão será a role 'user').
+(Recomendado a interação com o endpoint de registro para criar um novo usuário. O usuário por padrão terá a role 'user').
 
 
