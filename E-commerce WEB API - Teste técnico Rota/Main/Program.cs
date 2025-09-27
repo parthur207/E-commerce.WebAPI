@@ -20,7 +20,7 @@ using System.Text;
 namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
 {
     public class Program
-    {
+    {//
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +34,7 @@ namespace E_commerce_WEB_API___Teste_técnico_Rota.Main
                 {
                     Title = "E-Commerce API",
                     Version = "v1",
-                    Description = "API - teste técnico Rota",
+                    Description = "WEB API de E-Commerce desenvolvida em ASP.NET Core 7.0",
                     Contact = new OpenApiContact
                     {
                         Name = "Paulo Andrade",
