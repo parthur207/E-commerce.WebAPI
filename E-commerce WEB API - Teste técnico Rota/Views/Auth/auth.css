@@ -1,12 +1,173 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
 
-.welcome-setion-col_1 {
-  background: #fff; /* você troca pela cor que quiser */
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-  text-align: center;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: "Ubuntu";
+}
+
+body {
+    display: grid;
+    place-items: center;
+    padding: 0 32px;
+
+    background-image: url(Images/background-login-syshotel.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Card */
+.card-login {
+    width: 400px;
+    padding:30px 25px;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.5) 0%,
+        rgba(0, 0, 0, 0.2)100%
+    ); /* Degradê translúcido */
+    backdrop-filter: blur(10px); 
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    text-align: center;
+    color: #fff;
+
+    /* Animação suave */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Títulos */
+.card-login h2 {
+    margin-bottom: 10px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: cursive;
+}
+
+.card-login img{
+  margin-top: 5%;
+  margin-bottom: 5%;
+  height: 100px;
+  width: 100px;
+}
+
+.card-login h3 {
+    margin-bottom: 25px;
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Inputs */
+.input-box {
+    position: relative;
+    margin: 15px 0;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 12px 40px 12px 15px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    outline: none;
+    background: rgba(255,255,255,0.85);
+    color: #333;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.input-box input::placeholder {
+    color: rgba(0,0,0,0.5);
+}
+
+.input-box input:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 8px rgba(255, 107, 107, 0.6);
+}
+
+/* Ícones */
+.input-box i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+/* Opções */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+}
+
+.options label {
+    cursor: pointer;
+}
+
+.options a {
+    color: #f7b733;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+/* Botão */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(90deg, #ff6b6b, #f7b733);
+    box-shadow: 0 4px 15px rgba(247,183,51,0.4);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.3s;
+}
+
+button:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+}
+
+/* Registro */
+.register {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+}
+
+.register a {
+    color: #f7b733;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.register a:hover {
+    text-decoration: underline;
 }
